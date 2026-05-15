@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Gerai Kompas, ecommerce pilihan produk harian, fashion, elektronik, kecantikan, dan kebutuhan rumah.">
     <title>Gerai Kompas</title>
-    <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
@@ -20,8 +19,11 @@
         </a>
 
         <label class="search" for="searchInput">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 4.38 12.46l3.58 3.58 1.08-1.08-3.58-3.58A7 7 0 0 0 11 4Zm0 1.6a5.4 5.4 0 1 1 0 10.8 5.4 5.4 0 0 1 0-10.8Z"/></svg>
-          <input id="searchInput" type="search" placeholder="Cari produk atau brand" autocomplete="off">
+          <span class="sparkle" aria-hidden="true">✦</span>
+          <input id="searchInput" type="search" placeholder="Search for any product or brand" autocomplete="off">
+          <span class="search-submit" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 4.38 12.46l3.58 3.58 1.08-1.08-3.58-3.58A7 7 0 0 0 11 4Zm0 1.6a5.4 5.4 0 1 1 0 10.8 5.4 5.4 0 0 1 0-10.8Z"/></svg>
+          </span>
           <button id="clearSearch" class="icon-button hidden" type="button" aria-label="Bersihkan pencarian">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m7.05 5.64 11.31 11.31-1.41 1.41L5.64 7.05l1.41-1.41Z"/><path d="M16.95 5.64 18.36 7.05 7.05 18.36l-1.41-1.41L16.95 5.64Z"/></svg>
           </button>
@@ -54,16 +56,7 @@
     </header>
 
     <main>
-      <section class="hero shell" aria-labelledby="heroTitle">
-        <div class="hero-media">
-          <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=1800&q=80" alt="Paket belanja online dan produk lifestyle">
-        </div>
-        <div class="hero-content">
-          <p>Belanja pilihan Kompas</p>
-          <h1 id="heroTitle">Produk favorit harian, fashion, dan teknologi dalam satu gerai.</h1>
-          <a class="btn primary large" href="#deals">Belanja sekarang</a>
-        </div>
-      </section>
+      <section class="hero shell" aria-label="Area promosi utama"></section>
 
       <section class="section shell" aria-labelledby="popularTitle">
         <div class="section-heading">
@@ -76,15 +69,7 @@
       <section class="section shell" id="deals" aria-labelledby="dealsTitle">
         <div class="section-heading controls-heading">
           <h2 id="dealsTitle">Todays Best Deals For You!</h2>
-          <div class="product-controls">
-            <select id="sortSelect" aria-label="Urutkan produk">
-              <option value="featured">Featured</option>
-              <option value="price-low">Harga terendah</option>
-              <option value="price-high">Harga tertinggi</option>
-              <option value="rating">Rating terbaik</option>
-            </select>
-            <button class="link-button" data-scroll-target="productGrid" type="button">View All</button>
-          </div>
+          <button class="link-button" data-scroll-target="productGrid" type="button">View All</button>
         </div>
         <div id="activeFilter" class="active-filter hidden"></div>
         <div id="productGrid" class="product-grid" aria-live="polite"></div>

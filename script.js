@@ -1,140 +1,141 @@
-const rupiah = new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-  maximumFractionDigits: 0,
-});
+function money(value) {
+  return `${value.toLocaleString("en-US", {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+  })} AED`;
+}
 
 const categories = [
   {
     name: "Electronics",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80",
+    image: "./assets/category-electronics.svg",
   },
   {
     name: "Fashion",
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=500&q=80",
+    image: "./assets/category-fashion.svg",
   },
   {
     name: "Luxury",
-    image: "https://images.unsplash.com/photo-1590739225289-bd31519780c3?auto=format&fit=crop&w=500&q=80",
+    image: "./assets/category-luxury.svg",
   },
   {
     name: "Home Decor",
-    image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=500&q=80",
+    image: "./assets/category-home.svg",
   },
   {
     name: "Beauty",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=500&q=80",
+    image: "./assets/category-beauty.svg",
   },
   {
     name: "Groceries",
-    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=500&q=80",
+    image: "./assets/category-groceries.svg",
   },
   {
     name: "Sneakers",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80",
+    image: "./assets/category-sneakers.svg",
   },
 ];
 
 const products = [
   {
     id: 1,
-    title: "Samsung Galaxy S24 Ultra 12GB Titanium Gray",
+    title: "Samsung Galaxy S24 Ultra 12+GB Titanium Gray...",
     category: "Electronics",
-    price: 15999000,
-    oldPrice: 17999000,
+    price: 999.99,
+    oldPrice: null,
     rating: 4.8,
     reviews: 1200,
-    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/product-phone.svg",
   },
   {
     id: 2,
-    title: "Nike Jordan Brooklyn Fleece Hoodie Blue",
+    title: "Nike Jordan Brooklyn Fleece Men's Pullover Hoodie...",
     category: "Fashion",
-    price: 699000,
-    oldPrice: 899000,
+    price: 45,
+    oldPrice: null,
     rating: 4.5,
     reviews: 589,
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/product-hoodie.svg",
   },
   {
     id: 3,
     title: "Beanless Bag Inflatable Lounge Chair Grey",
     category: "Home Decor",
-    price: 479000,
-    oldPrice: 699000,
+    price: 32,
+    oldPrice: 48,
     rating: 4.7,
     reviews: 100,
-    image: "https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/product-beanbag.svg",
   },
   {
     id: 4,
-    title: "Diamond Stud Earrings 14K White Gold",
+    title: "Diamond Stud Earrings (1/3 ct. t.w.) in 14K White, Yellow or Rose Gold",
     category: "Luxury",
-    price: 4299000,
-    oldPrice: 4999000,
+    price: 299,
+    oldPrice: null,
     rating: 4.9,
     reviews: 1100,
-    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/product-earrings.svg",
   },
   {
     id: 5,
-    title: "Nike Invincible 3 Premium Running Shoes",
+    title: "Nike Invincible 3 Premium",
     category: "Sneakers",
-    price: 2499000,
+    price: 190,
     oldPrice: null,
     rating: 4.6,
     reviews: 157,
-    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/product-shoe.svg",
   },
   {
     id: 6,
     title: "Fresh Organic Vegetable Box 5kg",
     category: "Groceries",
-    price: 189000,
-    oldPrice: 229000,
+    price: 189,
+    oldPrice: 229,
     rating: 4.4,
     reviews: 310,
-    image: "https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/category-groceries.svg",
   },
   {
     id: 7,
     title: "Serum Vitamin C Brightening Set",
     category: "Beauty",
-    price: 329000,
-    oldPrice: 399000,
+    price: 329,
+    oldPrice: 399,
     rating: 4.8,
     reviews: 864,
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/category-beauty.svg",
   },
   {
     id: 8,
     title: "Kids Denim Jacket and Sneakers Bundle",
     category: "Kids Fashion",
-    price: 359000,
-    oldPrice: 449000,
+    price: 359,
+    oldPrice: 449,
     rating: 4.3,
     reviews: 74,
-    image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/category-fashion.svg",
   },
   {
     id: 9,
     title: "Women's Linen Summer Dress",
     category: "Women's",
-    price: 449000,
+    price: 449,
     oldPrice: null,
     rating: 4.6,
     reviews: 220,
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/category-fashion.svg",
   },
   {
     id: 10,
     title: "Wireless Noise Cancelling Headphones",
     category: "Electronics",
-    price: 1299000,
-    oldPrice: 1599000,
+    price: 129,
+    oldPrice: 159,
     rating: 4.7,
     reviews: 430,
-    image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=700&q=80",
+    image: "./assets/category-electronics.svg",
   },
 ];
 
@@ -237,8 +238,8 @@ function renderProducts() {
               <span>(${compactNumber(product.reviews)})</span>
             </div>
             <div class="price-row">
-              <strong class="price">${rupiah.format(product.price)}</strong>
-              ${product.oldPrice ? `<span class="old-price">${rupiah.format(product.oldPrice)}</span>` : ""}
+              <strong class="price">${money(product.price)}</strong>
+              ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
             </div>
             <button class="btn primary" data-add-cart="${product.id}" type="button">Tambah</button>
           </div>
@@ -268,7 +269,7 @@ function renderCart() {
   const entries = [...state.cart.values()];
   if (!entries.length) {
     els.cartItems.innerHTML = `<p class="empty-state">Keranjang masih kosong.</p>`;
-    els.cartTotal.textContent = rupiah.format(0);
+    els.cartTotal.textContent = money(0);
     updateBadges();
     return;
   }
@@ -286,14 +287,14 @@ function renderCart() {
               <button data-inc="${product.id}" type="button" aria-label="Tambah">+</button>
             </div>
           </div>
-          <strong class="cart-price">${rupiah.format(product.price * qty)}</strong>
+          <strong class="cart-price">${money(product.price * qty)}</strong>
         </div>
       `,
     )
     .join("");
 
   const total = entries.reduce((sum, item) => sum + item.product.price * item.qty, 0);
-  els.cartTotal.textContent = rupiah.format(total);
+  els.cartTotal.textContent = money(total);
   updateBadges();
 }
 
@@ -366,10 +367,12 @@ els.clearSearch.addEventListener("click", () => {
   els.searchInput.focus();
 });
 
-els.sortSelect.addEventListener("change", (event) => {
-  state.sort = event.target.value;
-  renderProducts();
-});
+if (els.sortSelect) {
+  els.sortSelect.addEventListener("change", (event) => {
+    state.sort = event.target.value;
+    renderProducts();
+  });
+}
 
 document.querySelectorAll("[data-scroll-target]").forEach((button) => {
   button.addEventListener("click", () => {
