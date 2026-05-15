@@ -19,7 +19,6 @@
         </a>
 
         <label class="search" for="searchInput">
-          <span class="sparkle" aria-hidden="true">✦</span>
           <input id="searchInput" type="search" placeholder="Search for any product or brand" autocomplete="off">
           <span class="search-submit" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 4.38 12.46l3.58 3.58 1.08-1.08-3.58-3.58A7 7 0 0 0 11 4Zm0 1.6a5.4 5.4 0 1 1 0 10.8 5.4 5.4 0 0 1 0-10.8Z"/></svg>
@@ -43,15 +42,22 @@
         </nav>
       </div>
 
-      <div class="category-bar shell" aria-label="Kategori produk">
-        <button class="category-tab active" data-category="all" type="button">All Categories</button>
-        <button class="category-tab" data-category="Electronics" type="button">Electronics</button>
-        <button class="category-tab" data-category="Fashion" type="button">Fashion</button>
-        <button class="category-tab" data-category="Women's" type="button">Women's</button>
-        <button class="category-tab" data-category="Kids Fashion" type="button">Kids Fashion</button>
-        <button class="category-tab" data-category="Beauty" type="button">Healthy & Beauty</button>
-        <button class="category-tab" data-category="Groceries" type="button">Groceries</button>
-        <button class="category-tab" data-category="Luxury" type="button">Luxury Item</button>
+      <div class="category-row">
+        <div class="category-bar shell" aria-label="Kategori produk">
+          <button class="category-tab all-category active" data-category="all" type="button">
+            <span class="category-grid-icon" aria-hidden="true"></span>
+            <span>All Categories</span>
+            <span class="category-caret" aria-hidden="true"></span>
+          </button>
+          <span class="category-divider" aria-hidden="true"></span>
+          <button class="category-tab" data-category="Electronics" type="button">Electronics</button>
+          <button class="category-tab" data-category="Fashion" type="button">Fashion</button>
+          <button class="category-tab" data-category="Women's" type="button">Women's</button>
+          <button class="category-tab" data-category="Kids Fashion" type="button">Kids Fashion</button>
+          <button class="category-tab" data-category="Beauty" type="button">Healthy & Beauty</button>
+          <button class="category-tab" data-category="Groceries" type="button">Groceries</button>
+          <button class="category-tab" data-category="Luxury" type="button">Luxury Item</button>
+        </div>
       </div>
     </header>
 
