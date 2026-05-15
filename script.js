@@ -1,0 +1,393 @@
+const rupiah = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0,
+});
+
+const categories = [
+  {
+    name: "Electronics",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Fashion",
+    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Luxury",
+    image: "https://images.unsplash.com/photo-1590739225289-bd31519780c3?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Home Decor",
+    image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Beauty",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Groceries",
+    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Sneakers",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80",
+  },
+];
+
+const products = [
+  {
+    id: 1,
+    title: "Samsung Galaxy S24 Ultra 12GB Titanium Gray",
+    category: "Electronics",
+    price: 15999000,
+    oldPrice: 17999000,
+    rating: 4.8,
+    reviews: 1200,
+    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 2,
+    title: "Nike Jordan Brooklyn Fleece Hoodie Blue",
+    category: "Fashion",
+    price: 699000,
+    oldPrice: 899000,
+    rating: 4.5,
+    reviews: 589,
+    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 3,
+    title: "Beanless Bag Inflatable Lounge Chair Grey",
+    category: "Home Decor",
+    price: 479000,
+    oldPrice: 699000,
+    rating: 4.7,
+    reviews: 100,
+    image: "https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 4,
+    title: "Diamond Stud Earrings 14K White Gold",
+    category: "Luxury",
+    price: 4299000,
+    oldPrice: 4999000,
+    rating: 4.9,
+    reviews: 1100,
+    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 5,
+    title: "Nike Invincible 3 Premium Running Shoes",
+    category: "Sneakers",
+    price: 2499000,
+    oldPrice: null,
+    rating: 4.6,
+    reviews: 157,
+    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 6,
+    title: "Fresh Organic Vegetable Box 5kg",
+    category: "Groceries",
+    price: 189000,
+    oldPrice: 229000,
+    rating: 4.4,
+    reviews: 310,
+    image: "https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 7,
+    title: "Serum Vitamin C Brightening Set",
+    category: "Beauty",
+    price: 329000,
+    oldPrice: 399000,
+    rating: 4.8,
+    reviews: 864,
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 8,
+    title: "Kids Denim Jacket and Sneakers Bundle",
+    category: "Kids Fashion",
+    price: 359000,
+    oldPrice: 449000,
+    rating: 4.3,
+    reviews: 74,
+    image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 9,
+    title: "Women's Linen Summer Dress",
+    category: "Women's",
+    price: 449000,
+    oldPrice: null,
+    rating: 4.6,
+    reviews: 220,
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80",
+  },
+  {
+    id: 10,
+    title: "Wireless Noise Cancelling Headphones",
+    category: "Electronics",
+    price: 1299000,
+    oldPrice: 1599000,
+    rating: 4.7,
+    reviews: 430,
+    image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=700&q=80",
+  },
+];
+
+const state = {
+  category: "all",
+  query: "",
+  sort: "featured",
+  wishlist: new Set(),
+  cart: new Map(),
+};
+
+const els = {
+  popularCategories: document.querySelector("#popularCategories"),
+  productGrid: document.querySelector("#productGrid"),
+  searchInput: document.querySelector("#searchInput"),
+  clearSearch: document.querySelector("#clearSearch"),
+  sortSelect: document.querySelector("#sortSelect"),
+  emptyState: document.querySelector("#emptyState"),
+  activeFilter: document.querySelector("#activeFilter"),
+  cartToggle: document.querySelector("#cartToggle"),
+  closeCart: document.querySelector("#closeCart"),
+  cartDrawer: document.querySelector("#cartDrawer"),
+  cartItems: document.querySelector("#cartItems"),
+  cartTotal: document.querySelector("#cartTotal"),
+  cartCount: document.querySelector("#cartCount"),
+  wishlistCount: document.querySelector("#wishlistCount"),
+};
+
+function stars(value) {
+  const rounded = Math.round(value);
+  return "★★★★★".slice(0, rounded) + "☆☆☆☆☆".slice(0, 5 - rounded);
+}
+
+function compactNumber(value) {
+  if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
+  return String(value);
+}
+
+function renderCategories() {
+  els.popularCategories.innerHTML = categories
+    .map(
+      (category) => `
+        <button class="category-card" data-category="${category.name}" type="button">
+          <figure>
+            <span class="image-wrap"><img src="${category.image}" alt="${category.name}"></span>
+            <figcaption>${category.name}</figcaption>
+          </figure>
+        </button>
+      `,
+    )
+    .join("");
+}
+
+function getFilteredProducts() {
+  const query = state.query.trim().toLowerCase();
+  const filtered = products.filter((product) => {
+    const matchesCategory = state.category === "all" || product.category === state.category;
+    const matchesQuery =
+      !query ||
+      product.title.toLowerCase().includes(query) ||
+      product.category.toLowerCase().includes(query);
+    return matchesCategory && matchesQuery;
+  });
+
+  return filtered.sort((a, b) => {
+    if (state.sort === "price-low") return a.price - b.price;
+    if (state.sort === "price-high") return b.price - a.price;
+    if (state.sort === "rating") return b.rating - a.rating;
+    return a.id - b.id;
+  });
+}
+
+function renderProducts() {
+  const visibleProducts = getFilteredProducts();
+  els.emptyState.classList.toggle("hidden", visibleProducts.length > 0);
+
+  if (state.category !== "all" || state.query) {
+    const categoryLabel = state.category === "all" ? "Semua kategori" : state.category;
+    els.activeFilter.textContent = `${categoryLabel}${state.query ? ` - "${state.query}"` : ""}`;
+    els.activeFilter.classList.remove("hidden");
+  } else {
+    els.activeFilter.classList.add("hidden");
+  }
+
+  els.productGrid.innerHTML = visibleProducts
+    .map((product) => {
+      const wished = state.wishlist.has(product.id);
+      return `
+        <article class="product-card">
+          <div class="product-media">
+            <img src="${product.image}" alt="${product.title}" loading="lazy">
+            <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20.35 10.55 19C5.4 14.2 2 11.04 2 7.15 2 4 4.42 1.55 7.5 1.55c1.74 0 3.41.81 4.5 2.09a5.93 5.93 0 0 1 4.5-2.09C19.58 1.55 22 4 22 7.15c0 3.89-3.4 7.05-8.55 11.86L12 20.35Z"/></svg>
+            </button>
+          </div>
+          <div class="product-body">
+            <p class="product-title">${product.title}</p>
+            <div class="rating" aria-label="Rating ${product.rating} dari 5">
+              ${stars(product.rating)}
+              <span>(${compactNumber(product.reviews)})</span>
+            </div>
+            <div class="price-row">
+              <strong class="price">${rupiah.format(product.price)}</strong>
+              ${product.oldPrice ? `<span class="old-price">${rupiah.format(product.oldPrice)}</span>` : ""}
+            </div>
+            <button class="btn primary" data-add-cart="${product.id}" type="button">Tambah</button>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function setCategory(category) {
+  state.category = category;
+  document.querySelectorAll(".category-tab").forEach((tab) => {
+    tab.classList.toggle("active", tab.dataset.category === category);
+  });
+  renderProducts();
+}
+
+function updateBadges() {
+  const itemCount = [...state.cart.values()].reduce((sum, item) => sum + item.qty, 0);
+  els.cartCount.textContent = itemCount;
+  els.cartCount.classList.toggle("hidden", itemCount === 0);
+  els.wishlistCount.textContent = state.wishlist.size;
+  els.wishlistCount.classList.toggle("hidden", state.wishlist.size === 0);
+}
+
+function renderCart() {
+  const entries = [...state.cart.values()];
+  if (!entries.length) {
+    els.cartItems.innerHTML = `<p class="empty-state">Keranjang masih kosong.</p>`;
+    els.cartTotal.textContent = rupiah.format(0);
+    updateBadges();
+    return;
+  }
+
+  els.cartItems.innerHTML = entries
+    .map(
+      ({ product, qty }) => `
+        <div class="cart-item">
+          <img src="${product.image}" alt="${product.title}">
+          <div>
+            <h3>${product.title}</h3>
+            <div class="qty" aria-label="Jumlah ${product.title}">
+              <button data-dec="${product.id}" type="button" aria-label="Kurangi">-</button>
+              <span>${qty}</span>
+              <button data-inc="${product.id}" type="button" aria-label="Tambah">+</button>
+            </div>
+          </div>
+          <strong class="cart-price">${rupiah.format(product.price * qty)}</strong>
+        </div>
+      `,
+    )
+    .join("");
+
+  const total = entries.reduce((sum, item) => sum + item.product.price * item.qty, 0);
+  els.cartTotal.textContent = rupiah.format(total);
+  updateBadges();
+}
+
+function addToCart(id) {
+  const product = products.find((item) => item.id === Number(id));
+  if (!product) return;
+
+  const existing = state.cart.get(product.id);
+  state.cart.set(product.id, { product, qty: existing ? existing.qty + 1 : 1 });
+  renderCart();
+}
+
+function changeQty(id, delta) {
+  const key = Number(id);
+  const existing = state.cart.get(key);
+  if (!existing) return;
+
+  const qty = existing.qty + delta;
+  if (qty <= 0) state.cart.delete(key);
+  else state.cart.set(key, { ...existing, qty });
+  renderCart();
+}
+
+function toggleDrawer(open) {
+  els.cartDrawer.classList.toggle("open", open);
+  els.cartDrawer.setAttribute("aria-hidden", String(!open));
+}
+
+renderCategories();
+renderProducts();
+renderCart();
+
+document.querySelectorAll(".category-tab").forEach((tab) => {
+  tab.addEventListener("click", () => setCategory(tab.dataset.category));
+});
+
+els.popularCategories.addEventListener("click", (event) => {
+  const card = event.target.closest("[data-category]");
+  if (!card) return;
+  setCategory(card.dataset.category);
+  document.querySelector("#deals").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+els.productGrid.addEventListener("click", (event) => {
+  const wishlistButton = event.target.closest("[data-wishlist]");
+  const cartButton = event.target.closest("[data-add-cart]");
+
+  if (wishlistButton) {
+    const id = Number(wishlistButton.dataset.wishlist);
+    if (state.wishlist.has(id)) state.wishlist.delete(id);
+    else state.wishlist.add(id);
+    renderProducts();
+    updateBadges();
+  }
+
+  if (cartButton) addToCart(cartButton.dataset.addCart);
+});
+
+els.searchInput.addEventListener("input", (event) => {
+  state.query = event.target.value;
+  els.clearSearch.classList.toggle("hidden", !state.query);
+  renderProducts();
+});
+
+els.clearSearch.addEventListener("click", () => {
+  state.query = "";
+  els.searchInput.value = "";
+  els.clearSearch.classList.add("hidden");
+  renderProducts();
+  els.searchInput.focus();
+});
+
+els.sortSelect.addEventListener("change", (event) => {
+  state.sort = event.target.value;
+  renderProducts();
+});
+
+document.querySelectorAll("[data-scroll-target]").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelector(`#${button.dataset.scrollTarget}`).scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+els.cartToggle.addEventListener("click", () => toggleDrawer(true));
+els.closeCart.addEventListener("click", () => toggleDrawer(false));
+els.cartDrawer.addEventListener("click", (event) => {
+  if (event.target === els.cartDrawer) toggleDrawer(false);
+
+  const inc = event.target.closest("[data-inc]");
+  const dec = event.target.closest("[data-dec]");
+  if (inc) changeQty(inc.dataset.inc, 1);
+  if (dec) changeQty(dec.dataset.dec, -1);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") toggleDrawer(false);
+});
