@@ -224,7 +224,7 @@ function renderProducts() {
     .map((product) => {
       const wished = state.wishlist.has(product.id);
       return `
-        <article class="product-card">
+        <article class="product-card" data-product-detail="${product.id}" tabindex="0" aria-label="Lihat detail ${product.title}">
           <div class="product-media">
             <img src="${product.image}" alt="${product.title}" loading="lazy">
             <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist">
@@ -341,6 +341,7 @@ els.popularCategories.addEventListener("click", (event) => {
 els.productGrid.addEventListener("click", (event) => {
   const wishlistButton = event.target.closest("[data-wishlist]");
   const cartButton = event.target.closest("[data-add-cart]");
+  const productCard = event.target.closest("[data-product-detail]");
 
   if (wishlistButton) {
     const id = Number(wishlistButton.dataset.wishlist);
@@ -351,6 +352,13 @@ els.productGrid.addEventListener("click", (event) => {
   }
 
   if (cartButton) addToCart(cartButton.dataset.addCart);
+  if (productCard && !wishlistButton && !cartButton) window.location.href = "./detail.html";
+});
+
+els.productGrid.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  const productCard = event.target.closest("[data-product-detail]");
+  if (productCard) window.location.href = "./detail.html";
 });
 
 els.searchInput.addEventListener("input", (event) => {

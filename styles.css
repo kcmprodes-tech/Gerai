@@ -35,6 +35,11 @@ select {
   font: inherit;
 }
 
+strong,
+b {
+  font-weight: 600;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -83,7 +88,7 @@ img {
   display: grid;
   place-items: center;
   color: #075c9f;
-  font-weight: 900;
+  font-weight: 600;
   background: conic-gradient(from 30deg, #ffe08a, #f4b43f, #ffe08a, #dca023);
   border-radius: 50% 42% 50% 42%;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
@@ -203,7 +208,7 @@ img {
   border: 2px solid #ffffff;
   border-radius: 999px;
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .btn {
@@ -350,7 +355,7 @@ img {
   border: 0;
   background: transparent;
   color: var(--blue);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 12px;
   cursor: pointer;
 }
@@ -422,7 +427,7 @@ img {
 }
 
 .category-card figcaption {
-  font-weight: 800;
+  font-weight: 600;
   font-size: 14px;
 }
 
@@ -450,7 +455,7 @@ select {
   border-radius: 999px;
   color: #075c9f;
   background: #eaf5ff;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .product-grid {
@@ -461,6 +466,7 @@ select {
 
 .product-card {
   min-width: 0;
+  cursor: pointer;
 }
 
 .product-media {
@@ -523,12 +529,12 @@ select {
   gap: 7px;
   color: var(--blue);
   font-size: 15px;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .rating span {
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
 }
 
@@ -541,7 +547,7 @@ select {
 
 .price {
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .old-price {
@@ -643,11 +649,11 @@ select {
 .qty span {
   min-width: 34px;
   text-align: center;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .cart-price {
-  font-weight: 900;
+  font-weight: 600;
   white-space: nowrap;
 }
 
