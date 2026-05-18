@@ -83,14 +83,23 @@ function relatedCard(product) {
 }
 
 const product = getProduct();
+let quantity = 1;
+
+function unitPrice(product) {
+  return product.price || 0;
+}
+
+function updateTotalPrice() {
+  const total = unitPrice(product) * quantity;
+  document.querySelector("#detailTotalPrice").textContent = formatRupiah(total).replace(/^Rp/, "");
+}
+
 document.title = `${product.title} - Gerai Kompas`;
 document.querySelector("#detailProductTitle").textContent = product.title;
 document.querySelector("#detailProductImage").src = product.image;
 document.querySelector("#detailProductImage").alt = product.title;
 document.querySelector("#detailPriceBlock").innerHTML = priceMarkup(product);
-document.querySelector("#detailTotalPrice").textContent = product.priceText
-  ? product.priceText.replace(/^Rp/, "")
-  : formatRupiah(product.price).replace(/^Rp/, "");
+updateTotalPrice();
 document.querySelectorAll(".thumb img").forEach((image) => {
   image.src = product.image;
   image.alt = product.title;
@@ -98,3 +107,25 @@ document.querySelectorAll(".thumb img").forEach((image) => {
 
 const relatedProducts = detailProducts.filter((item) => item.id !== product.id).slice(0, 4);
 document.querySelector("#relatedProducts").innerHTML = relatedProducts.map(relatedCard).join("");
+
+document.querySelectorAll(".swatches, .sizes").forEach((group) => {
+  group.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+    if (!button || !group.contains(button)) return;
+    group.querySelectorAll("button").forEach((item) => item.classList.remove("selected"));
+    button.classList.add("selected");
+  });
+});
+
+const qtyButtons = document.querySelectorAll(".qty button");
+const qtyValue = document.querySelector(".qty span");
+qtyButtons[0].addEventListener("click", () => {
+  quantity = Math.max(1, quantity - 1);
+  qtyValue.textContent = quantity;
+  updateTotalPrice();
+});
+qtyButtons[1].addEventListener("click", () => {
+  quantity += 1;
+  qtyValue.textContent = quantity;
+  updateTotalPrice();
+});
