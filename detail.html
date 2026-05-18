@@ -57,7 +57,7 @@
       <section class="product-hero">
         <div class="gallery">
           <div class="main-image">
-            <img src="./assets/detail-shoe-main.svg" alt="Puma ACG Air Zoom shoes">
+            <img id="detailProductImage" src="./assets/detail-shoe-main.svg" alt="Puma ACG Air Zoom shoes">
             <button class="floating heart" type="button" aria-label="Add to wishlist">♡</button>
             <button class="floating zoom" type="button" aria-label="Zoom product">⌕</button>
           </div>
@@ -66,54 +66,42 @@
             <button class="thumb" type="button"><img src="./assets/detail-shoe-thumb-2.svg" alt=""></button>
             <button class="thumb" type="button"><img src="./assets/detail-shoe-thumb-3.svg" alt=""></button>
             <button class="thumb" type="button"><img src="./assets/detail-shoe-thumb-4.svg" alt=""></button>
+            <button class="thumb" type="button"><img src="./assets/detail-shoe-thumb-1.svg" alt=""></button>
+            <button class="thumb" type="button"><img src="./assets/detail-shoe-thumb-2.svg" alt=""></button>
           </div>
         </div>
 
         <article class="product-info">
-          <p class="sku">V01</p>
           <div class="title-row">
             <div>
-              <h1>Puma ACG Air Zoom</h1>
-              <p class="summary">A perfect balance of exhilarating high-fidelity audio and the effortless magic of AirPods.</p>
-            </div>
-            <div class="share">
-              <span>Share On :</span>
-              <button type="button">f</button>
-              <button type="button">◎</button>
-              <button type="button">✉</button>
-              <button type="button">↗</button>
+              <h1 id="detailProductTitle">Puma ACG Air Zoom</h1>
             </div>
           </div>
-          <div class="rating"><span>★ ★ ★ ★ ◐</span><em>(121)</em><a href="#">View More</a></div>
-          <div class="price-block">
+          <div class="rating detail-rating"><span>★</span><strong>4.8</strong><em>(91)</em></div>
+          <div class="price-block" id="detailPriceBlock">
             <strong>₹887</strong>
             <span>MRP ₹3699</span>
             <b>(76% Off)</b>
-            <small>inclusive of all taxes</small>
           </div>
 
           <div class="option-block">
-            <h2>Choose a Color</h2>
+            <h2>Pilih warna</h2>
             <div class="swatches">
-              <button class="selected red" type="button" aria-label="Red"></button>
-              <button class="black" type="button" aria-label="Black"></button>
-              <button class="sage" type="button" aria-label="Sage"></button>
-              <button class="light" type="button" aria-label="Light grey"></button>
-              <button class="navy" type="button" aria-label="Navy"></button>
+              <button class="selected" type="button">Biru</button>
+              <button type="button">Putih</button>
+              <button type="button">Hitam</button>
             </div>
           </div>
 
           <div class="option-block">
-            <h2>Select Size <a href="#">Size Chart</a></h2>
+            <h2>Pilih ukuran</h2>
             <div class="sizes">
-              <button class="selected" type="button">10</button>
-              <button type="button">11</button>
-              <button type="button">11.5</button>
-              <button type="button">12</button>
-              <button type="button">12.5</button>
-              <button type="button">13</button>
-              <button type="button">13.5</button>
-              <button type="button">14</button>
+              <button class="selected" type="button">XS</button>
+              <button type="button">S</button>
+              <button type="button">M</button>
+              <button type="button">L</button>
+              <button type="button">XL</button>
+              <button type="button">XXL</button>
             </div>
           </div>
 
@@ -123,26 +111,14 @@
               <span>1</span>
               <button type="button">+</button>
             </div>
-            <p>Only <strong>12 Items</strong> Left!<br><span>Don't miss it</span></p>
+            <p class="total-summary"><span>Total harga</span><strong id="detailTotalPrice">120.000</strong></p>
+            <p class="stock-summary"><strong>Stock</strong> <span>Sisa 3 barang</span></p>
           </div>
 
           <div class="cta-row">
-            <button class="buy" type="button">Buy Now</button>
-            <button class="cart" type="button">Add To Cart</button>
+            <button class="cart" type="button">Beli Sekarang</button>
+            <button class="buy" type="button">Tambah ke keranjang</button>
           </div>
-
-          <aside class="seller-card">
-            <div>
-              <h2>Seller Store</h2>
-              <div class="seller-line">
-                <span class="puma">⌁</span>
-                <p><strong>JMV Shoes</strong><br><small>10,000+ Products</small></p>
-                <p><strong>3.5</strong> Ratings</p>
-                <p><strong>30K</strong> Followers</p>
-              </div>
-            </div>
-            <button type="button">Shop Direction</button>
-          </aside>
         </article>
       </section>
 
@@ -181,16 +157,10 @@
       </section>
 
       <section class="similar">
-        <h2>Similar Items You Might Also Like</h2>
-        <div class="similar-grid">
-          <article><button>♡</button><img src="./assets/product-shoe.svg" alt=""><h3>TDX Sinkers</h3><strong>₹ 675.00</strong><p>5 types of shoes available</p><span>★★★★★ <em>(121)</em></span></article>
-          <article><button>♡</button><img src="./assets/detail-shoe-thumb-1.svg" alt=""><h3>TDX Sinkers</h3><strong>₹ 675.00</strong><p>5 types of shoes available</p><span>★★★★★ <em>(121)</em></span></article>
-          <article><button>♡</button><img src="./assets/detail-shoe-thumb-3.svg" alt=""><h3>TDX Sinkers</h3><strong>₹ 675.00</strong><p>5 types of shoes available</p><span>★★★★★ <em>(121)</em></span></article>
-          <article><button>♡</button><img src="./assets/product-shoe.svg" alt=""><h3>TDX Sinkers</h3><strong>₹ 675.00</strong><p>5 types of shoes available</p><span>★★★★★ <em>(121)</em></span></article>
-          <article><button>♡</button><img src="./assets/detail-shoe-thumb-4.svg" alt=""><h3>TDX Sinkers</h3><strong>₹ 675.00</strong><p>5 types of shoes available</p><span>★★★★★ <em>(121)</em></span></article>
-          <article><button>♡</button><img src="./assets/product-shoe.svg" alt=""><h3>TDX Sinkers</h3><strong>₹ 675.00</strong><p>5 types of shoes available</p><span>★★★★★ <em>(121)</em></span></article>
-        </div>
+        <h2>Produk terkait</h2>
+        <div class="similar-grid" id="relatedProducts"></div>
       </section>
     </main>
+    <script src="./detail.js"></script>
   </body>
 </html>

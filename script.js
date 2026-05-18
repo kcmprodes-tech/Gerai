@@ -381,13 +381,15 @@ els.productGrid.addEventListener("click", (event) => {
   }
 
   if (cartButton) addToCart(cartButton.dataset.addCart);
-  if (productCard && !wishlistButton && !cartButton) window.location.href = "./detail.html";
+  if (productCard && !wishlistButton && !cartButton) {
+    window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
+  }
 });
 
 els.productGrid.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
   const productCard = event.target.closest("[data-product-detail]");
-  if (productCard) window.location.href = "./detail.html";
+  if (productCard) window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
 });
 
 els.searchInput.addEventListener("input", (event) => {
