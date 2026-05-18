@@ -1,8 +1,7 @@
 function money(value) {
-  return `${value.toLocaleString("en-US", {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
-  })} AED`;
+  return `Rp${value.toLocaleString("id-ID", {
+    maximumFractionDigits: 0,
+  })}`;
 }
 
 const categories = [
@@ -39,103 +38,133 @@ const categories = [
 const products = [
   {
     id: 1,
-    title: "Samsung Galaxy S24 Ultra 12+GB Titanium Gray...",
-    category: "Electronics",
-    price: 999.99,
+    title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id",
+    category: "All",
+    price: 95000,
     oldPrice: null,
-    rating: 4.8,
-    reviews: 1200,
-    image: "./assets/product-phone.svg",
+    image: "./assets/product-demam-bola.jpg",
   },
   {
     id: 2,
-    title: "Nike Jordan Brooklyn Fleece Men's Pullover Hoodie...",
-    category: "Fashion",
-    price: 45,
-    oldPrice: null,
-    rating: 4.5,
-    reviews: 589,
-    image: "./assets/product-hoodie.svg",
+    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
+    category: "All",
+    price: 175000,
+    oldPrice: 229000,
+    image: "./assets/product-bobo-origin.jpg",
   },
   {
     id: 3,
-    title: "Beanless Bag Inflatable Lounge Chair Grey",
-    category: "Home Decor",
-    price: 32,
-    oldPrice: 48,
-    rating: 4.7,
-    reviews: 100,
-    image: "./assets/product-beanbag.svg",
+    title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
+    category: "All",
+    price: 99000,
+    oldPrice: 125000,
+    image: "./assets/product-pesta-bola.jpg",
   },
   {
     id: 4,
-    title: "Diamond Stud Earrings (1/3 ct. t.w.) in 14K White, Yellow or Rose Gold",
-    category: "Luxury",
-    price: 299,
-    oldPrice: null,
-    rating: 4.9,
-    reviews: 1100,
-    image: "./assets/product-earrings.svg",
+    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
+    category: "All",
+    price: 149000,
+    oldPrice: 229000,
+    image: "./assets/product-bobo-origin.jpg",
   },
   {
     id: 5,
-    title: "Nike Invincible 3 Premium",
-    category: "Sneakers",
-    price: 190,
+    title: "Harian Kompas Akhir Pekan + Kompas.id",
+    category: "All",
+    priceText: "Rp160.000 - Rp400.000",
+    price: 160000,
     oldPrice: null,
-    rating: 4.6,
-    reviews: 157,
-    image: "./assets/product-shoe.svg",
+    image: "./assets/product-harian-kompas.jpeg",
   },
   {
     id: 6,
-    title: "Fresh Organic Vegetable Box 5kg",
-    category: "Groceries",
-    price: 189,
-    oldPrice: 229,
-    rating: 4.4,
-    reviews: 310,
-    image: "./assets/category-groceries.svg",
+    title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026",
+    category: "All",
+    price: 50000,
+    oldPrice: null,
+    image: "./assets/product-pesta-bola.jpg",
   },
   {
     id: 7,
-    title: "Serum Vitamin C Brightening Set",
-    category: "Beauty",
-    price: 329,
-    oldPrice: 399,
-    rating: 4.8,
-    reviews: 864,
-    image: "./assets/category-beauty.svg",
+    title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
+    category: "All",
+    price: 199000,
+    oldPrice: null,
+    image: "./assets/product-kaus-kompas.png",
   },
   {
     id: 8,
-    title: "Kids Denim Jacket and Sneakers Bundle",
-    category: "Kids Fashion",
-    price: 359,
-    oldPrice: 449,
-    rating: 4.3,
-    reviews: 74,
-    image: "./assets/category-fashion.svg",
+    title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian",
+    category: "All",
+    price: 169000,
+    oldPrice: null,
+    image: "./assets/product-papa-francesco.jpeg",
   },
   {
     id: 9,
-    title: "Women's Linen Summer Dress",
-    category: "Women's",
-    price: 449,
+    title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id",
+    category: "All",
+    price: 95000,
     oldPrice: null,
-    rating: 4.6,
-    reviews: 220,
-    image: "./assets/category-fashion.svg",
+    image: "./assets/product-demam-bola.jpg",
   },
   {
     id: 10,
-    title: "Wireless Noise Cancelling Headphones",
-    category: "Electronics",
-    price: 129,
-    oldPrice: 159,
-    rating: 4.7,
-    reviews: 430,
-    image: "./assets/category-electronics.svg",
+    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
+    category: "All",
+    price: 175000,
+    oldPrice: 229000,
+    image: "./assets/product-bobo-origin.jpg",
+  },
+  {
+    id: 11,
+    title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
+    category: "All",
+    price: 99000,
+    oldPrice: 125000,
+    image: "./assets/product-pesta-bola.jpg",
+  },
+  {
+    id: 12,
+    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
+    category: "All",
+    price: 149000,
+    oldPrice: 229000,
+    image: "./assets/product-bobo-origin.jpg",
+  },
+  {
+    id: 13,
+    title: "Harian Kompas Akhir Pekan + Kompas.id",
+    category: "All",
+    priceText: "Rp160.000 - Rp400.000",
+    price: 160000,
+    oldPrice: null,
+    image: "./assets/product-harian-kompas.jpeg",
+  },
+  {
+    id: 14,
+    title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026",
+    category: "All",
+    price: 50000,
+    oldPrice: null,
+    image: "./assets/product-pesta-bola.jpg",
+  },
+  {
+    id: 15,
+    title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
+    category: "All",
+    price: 199000,
+    oldPrice: null,
+    image: "./assets/product-kaus-kompas.png",
+  },
+  {
+    id: 16,
+    title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian",
+    category: "All",
+    price: 169000,
+    oldPrice: null,
+    image: "./assets/product-papa-francesco.jpeg",
   },
 ];
 
@@ -233,13 +262,13 @@ function renderProducts() {
           </div>
           <div class="product-body">
             <p class="product-title">${product.title}</p>
-            <div class="rating" aria-label="Rating ${product.rating} dari 5">
-              ${stars(product.rating)}
-              <span>(${compactNumber(product.reviews)})</span>
+            <div class="rating" aria-label="Rating ${product.rating || 4.8} dari 5">
+              ${stars(product.rating || 4.8)}
+              <span>(${compactNumber(product.reviews || 121)})</span>
             </div>
             <div class="price-row">
-              <strong class="price">${money(product.price)}</strong>
               ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
+              <strong class="price">${product.priceText || money(product.price)}</strong>
             </div>
             <button class="btn primary" data-add-cart="${product.id}" type="button">Tambah</button>
           </div>
