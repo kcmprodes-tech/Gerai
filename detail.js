@@ -143,3 +143,32 @@ qtyButtons[1].addEventListener("click", () => {
   qtyValue.textContent = quantity;
   updateTotalPrice();
 });
+
+const loginModal = document.querySelector("#loginModal");
+const buyNowButton = document.querySelector(".cta-row .cart");
+const loginInput = document.querySelector("#loginIdentity");
+
+function openLoginModal() {
+  loginModal.hidden = false;
+  document.body.classList.add("modal-open");
+  loginInput.focus();
+}
+
+function closeLoginModal() {
+  loginModal.hidden = true;
+  document.body.classList.remove("modal-open");
+  buyNowButton.focus();
+}
+
+buyNowButton.addEventListener("click", openLoginModal);
+loginModal.addEventListener("click", (event) => {
+  if (event.target === loginModal) {
+    closeLoginModal();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !loginModal.hidden) {
+    closeLoginModal();
+  }
+});

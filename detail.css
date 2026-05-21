@@ -547,6 +547,204 @@ h1 {
   background: #ffffff;
 }
 
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.login-overlay[hidden] {
+  display: none;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.login-popup {
+  width: min(100%, 535px);
+  height: min(100%, 588px);
+  overflow: hidden;
+  border-radius: 24px;
+  padding: 28px;
+  background: #ffffff;
+}
+
+.login-popup h2 {
+  margin: 0;
+  color: #333333;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.12;
+  text-align: center;
+}
+
+.login-register {
+  margin: 14px 0 22px;
+  color: #333333;
+  font-size: 16px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.login-register a {
+  color: #005baa;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.login-panel {
+  padding: 22px 24px 26px;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+}
+
+.login-panel label {
+  display: block;
+  margin-bottom: 12px;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.login-panel input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d6d6d6;
+  border-radius: 3px;
+  padding: 0 12px;
+  color: #333333;
+  font-size: 16px;
+  outline: none;
+}
+
+.login-panel input:focus {
+  border-color: #9ca3af;
+}
+
+.login-panel p {
+  margin: 8px 0 12px;
+  color: #666666;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.continue-button {
+  width: 100%;
+  height: 40px;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #43ae17;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.login-separator {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 24px;
+  color: #666666;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.login-separator::before,
+.login-separator::after {
+  content: "";
+  height: 2px;
+  background: #d9d9d9;
+}
+
+.social-button {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 58px 1fr 58px;
+  align-items: center;
+  margin-top: 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.social-button.google {
+  border: 2px solid #333333;
+  color: #666666;
+}
+
+.social-button.apple {
+  border: 2px solid #000000;
+  color: #ffffff;
+  background: #000000;
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.16);
+}
+
+.social-button.privy {
+  border: 2px solid #d6d6d6;
+  color: #666666;
+}
+
+.google-mark {
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  color: #4285f4;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.apple-mark {
+  justify-self: center;
+  width: 24px;
+  height: 28px;
+  background: #ffffff;
+  clip-path: path("M24.8 20.3c-.1-4.4 3.6-6.5 3.8-6.6-2.1-3-5.2-3.4-6.3-3.5-2.7-.3-5.2 1.6-6.6 1.6-1.4 0-3.5-1.5-5.8-1.5-3 0-5.8 1.7-7.3 4.4-3.1 5.3-.8 13.2 2.2 17.6 1.5 2.1 3.2 4.5 5.5 4.4 2.2-.1 3-1.4 5.7-1.4s3.4 1.4 5.8 1.4c2.4 0 3.9-2.2 5.3-4.3 1.7-2.5 2.4-4.9 2.4-5-.1 0-4.6-1.8-4.7-7.1ZM20.5 7.4c1.2-1.4 2-3.4 1.8-5.4-1.7.1-3.8 1.1-5 2.6-1.1 1.3-2.1 3.3-1.8 5.3 1.9.1 3.8-1 5-2.5Z");
+}
+
+.privy-mark {
+  justify-self: center;
+  position: relative;
+  width: 30px;
+  height: 20px;
+}
+
+.privy-mark::before,
+.privy-mark::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  width: 19px;
+  height: 14px;
+  border-radius: 50% 50% 45% 45%;
+  background: #e52727;
+  transform: rotate(-28deg);
+}
+
+.privy-mark::before {
+  left: 2px;
+}
+
+.privy-mark::after {
+  right: 1px;
+  background: #d91f26;
+  transform: rotate(-34deg);
+}
+
 .seller-card {
   min-height: 110px;
   display: flex;
@@ -849,6 +1047,55 @@ h1 {
 
   .similar-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .login-overlay {
+    padding: 18px;
+  }
+
+  .login-popup {
+    padding: 28px 22px;
+  }
+
+  .login-popup h2 {
+    font-size: 24px;
+  }
+
+  .login-register {
+    margin: 14px 0 22px;
+    font-size: 16px;
+  }
+
+  .login-panel {
+    padding: 22px 20px 26px;
+  }
+
+  .login-panel label {
+    font-size: 16px;
+  }
+
+  .login-panel input,
+  .continue-button,
+  .social-button {
+    height: 40px;
+  }
+
+  .login-panel p {
+    font-size: 12px;
+  }
+
+  .login-separator {
+    font-size: 14px;
+  }
+
+  .continue-button,
+  .social-button {
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .social-button {
+    grid-template-columns: 54px 1fr 54px;
   }
 }
 
