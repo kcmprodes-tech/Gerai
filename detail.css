@@ -297,7 +297,7 @@ h1 {
   font-size: 11px;
 }
 
-.rating {
+.detail-rating {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -307,23 +307,23 @@ h1 {
   border-radius: 12px;
 }
 
-.rating span,
-.similar span {
+.detail-rating span,
+.similar article:not(.product-card) span {
   color: var(--star);
   font-weight: 600;
 }
 
-.rating strong {
+.detail-rating strong {
   color: #2d3748;
 }
 
-.rating em,
+.detail-rating em,
 .similar em {
   color: #6d7480;
   font-style: normal;
 }
 
-.rating a {
+.detail-rating a {
   margin-left: auto;
   color: #a96a4e;
   text-decoration: underline;
@@ -365,6 +365,30 @@ h1 {
   margin-top: 12px;
   color: var(--green);
   font-weight: 600;
+}
+
+.product-summary {
+  margin-top: 24px;
+  padding-bottom: 28px;
+}
+
+.product-summary p {
+  margin: 0;
+  color: #5f6875;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.product-summary p + p {
+  margin-top: 12px;
+}
+
+.product-summary a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #3c4653;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .option-block {
@@ -445,15 +469,16 @@ h1 {
   align-items: center;
   overflow: hidden;
   height: 40px;
+  border: 1px solid #aeb8c4;
   border-radius: 999px;
-  background: #f5f7fb;
+  background: #ffffff;
 }
 
 .qty button {
   width: 40px;
   height: 40px;
   border: 0;
-  color: #8b96a5;
+  color: var(--blue);
   background: transparent;
   font-weight: 600;
 }
@@ -675,11 +700,12 @@ h1 {
 .similar-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  column-gap: 24px;
+  row-gap: 40px;
   position: relative;
 }
 
-.similar article {
+.similar article:not(.product-card) {
   position: relative;
   overflow: hidden;
   border: 1px solid #f0f2f4;
@@ -687,7 +713,7 @@ h1 {
   background: #ffffff;
 }
 
-.similar article button {
+.similar article:not(.product-card) button {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -698,39 +724,39 @@ h1 {
   font-size: 20px;
 }
 
-.similar img {
+.similar article:not(.product-card) img {
   width: 100%;
   aspect-ratio: 1.08;
   object-fit: cover;
   background: var(--soft);
 }
 
-.similar h3 {
+.similar article:not(.product-card) h3 {
   margin: 16px 16px 8px;
   color: #6b7280;
   font-size: 15px;
   font-weight: 500;
 }
 
-.similar strong,
-.similar p,
-.similar span {
+.similar article:not(.product-card) strong,
+.similar article:not(.product-card) p,
+.similar article:not(.product-card) span {
   display: block;
   margin-inline: 16px;
 }
 
-.similar strong {
+.similar article:not(.product-card) strong {
   color: #2d3748;
   font-size: 16px;
 }
 
-.similar p {
+.similar article:not(.product-card) p {
   margin-block: 9px;
   color: #9aa3af;
   font-size: 13px;
 }
 
-.similar span {
+.similar article:not(.product-card) span {
   margin-bottom: 16px;
   font-size: 13px;
 }

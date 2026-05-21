@@ -70,14 +70,27 @@ function priceMarkup(product) {
 }
 
 function relatedCard(product) {
+  const oldPrice = product.oldPrice ? `<span class="old-price">${formatRupiah(product.oldPrice)}</span>` : "";
+  const price = product.priceText || formatRupiah(product.price);
   return `
-    <article>
-      <button type="button" aria-label="Tambah ke wishlist">♡</button>
-      <img src="${product.image}" alt="${product.title}">
-      <h3>${product.title}</h3>
-      <strong>${product.priceText || formatRupiah(product.price)}</strong>
-      <p>Produk pilihan Gerai Kompas</p>
-      <span>★★★★★ <em>(121)</em></span>
+    <article class="product-card" tabindex="0" aria-label="Lihat detail ${product.title}">
+      <div class="product-media">
+        <img src="${product.image}" alt="${product.title}" loading="lazy">
+        <button class="icon-button wishlist" type="button" aria-label="Tambahkan ke wishlist">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20.35 10.55 19C5.4 14.2 2 11.04 2 7.15 2 4 4.42 1.55 7.5 1.55c1.74 0 3.41.81 4.5 2.09a5.93 5.93 0 0 1 4.5-2.09C19.58 1.55 22 4 22 7.15c0 3.89-3.4 7.05-8.55 11.86L12 20.35Z"/></svg>
+        </button>
+      </div>
+      <div class="product-body">
+        <p class="product-title">${product.title}</p>
+        <div class="rating" aria-label="Rating 4.8 dari 5">
+          ★★★★★
+          <span>(121)</span>
+        </div>
+        <div class="price-row">
+          ${oldPrice}
+          <strong class="price">${price}</strong>
+        </div>
+      </div>
     </article>
   `;
 }
@@ -105,7 +118,8 @@ document.querySelectorAll(".thumb img").forEach((image) => {
   image.alt = product.title;
 });
 
-const relatedProducts = detailProducts.filter((item) => item.id !== product.id).slice(0, 4);
+const relatedSource = detailProducts.filter((item) => item.id !== product.id);
+const relatedProducts = Array.from({ length: 12 }, (_, index) => relatedSource[index % relatedSource.length]);
 document.querySelector("#relatedProducts").innerHTML = relatedProducts.map(relatedCard).join("");
 
 document.querySelectorAll(".swatches, .sizes").forEach((group) => {

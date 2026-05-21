@@ -84,25 +84,10 @@
             <b>(76% Off)</b>
           </div>
 
-          <div class="option-block">
-            <h2>Pilih warna</h2>
-            <div class="swatches">
-              <button class="selected" type="button">Biru</button>
-              <button type="button">Putih</button>
-              <button type="button">Hitam</button>
-            </div>
-          </div>
-
-          <div class="option-block">
-            <h2>Pilih ukuran</h2>
-            <div class="sizes">
-              <button class="selected" type="button">XS</button>
-              <button type="button">S</button>
-              <button type="button">M</button>
-              <button type="button">L</button>
-              <button type="button">XL</button>
-              <button type="button">XXL</button>
-            </div>
+          <div class="product-summary">
+            <p>Biar nobar ga nanya mulu, baca ulasannya di Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 dulu.</p>
+            <p>Dapetin sepaket Bundling Premium: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Jersei Erspo + Kompas.id cuma Rp 750.000 Rp 475.000.</p>
+            <a href="#description">Selengkapnya</a>
           </div>
 
           <div class="buy-row">
@@ -122,37 +107,40 @@
         </article>
       </section>
 
-      <section class="description">
+      <section class="description" id="description">
         <div class="tabs">
           <button class="active" type="button">Description</button>
           <button type="button">Reviews</button>
         </div>
-        <h2>Product Description</h2>
-        <p>When it's colder than the far side of the moon and spitting rain too, you've still got to look good. From water-repellent leather to a rugged outsole, the Lunar Force 1 adapts AF-1 style, so you can keep your flame burning when the weather hits.</p>
+        <h2>Deskripsi Produk</h2>
+        <p>Biar nobar tidak nanya mulu, baca dulu ulasan di Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026.</p>
+        <p>Dapatkan sepaket Bundling Premium: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + akses Kompas.id dengan harga spesial Rp99.000 dari harga normal Rp125.000.</p>
+        <p>Bundling ini menghadirkan Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 setebal 40 halaman. Isinya mencakup analisis dan prediksi pertandingan, info eksklusif tim dan pemain, hingga cerita historis yang tercatat oleh Kompas.</p>
+        <p>Selama periode turnamen, kamu juga bisa mengikuti update tepercaya dari Kompas.id dan koran Kompas. Koran akan dikirim langsung ke rumah supaya bisa langsung dibaca di pagi hari setelah nobar.</p>
 
-        <h3>Benefits</h3>
+        <h3>Isi Bundling</h3>
         <ul>
-          <li>Durable leather is easily cleanable so you can keep your look fresh.</li>
-          <li>Water-repellent finish and internal membrane help keep your feet dry.</li>
-          <li>Toe piece with star pattern adds durability.</li>
-          <li>Synthetic insulation helps keep you warm.</li>
-          <li>Originally designed for performance hoops, the Air unit delivers lightweight cushioning.</li>
-          <li>Plush tongue wraps over the ankle to help keep out the moisture and cold.</li>
-          <li>Rubber outsole with aggressive traction pattern adds durable grip.</li>
+          <li>Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026, edisi collectible yang diproduksi terbatas setebal 40 halaman.</li>
+          <li>Review tim dan pemain, analisis peluang juara, serta infografis menarik.</li>
+          <li>Match-Day Time Zone Architect untuk sinkronisasi jadwal pertandingan ke kalender.</li>
+          <li>Kartu Koleksi Legend 11, berisi 3 kartu random legenda sepak bola di tiap paket.</li>
+          <li>Akses Kompas.id untuk membaca berita Pesta Bola 2026 secara digital.</li>
+          <li>Fitur Match Event Prediction untuk mengisi waktu dan menguji prediksi sebelum pertandingan.</li>
         </ul>
 
-        <h3>Product Details</h3>
+        <h3>Detail Produk</h3>
         <ul>
-          <li>Not intended for use as Personal Protective Equipment (PPE)</li>
-          <li>Water-repellent finish and internal membrane help keep your feet dry.</li>
+          <li>Produk: Bundling Pesta Bola</li>
+          <li>Tabloid: Bola by Kompas Edisi Pesta Bola Amerika 2026</li>
+          <li>Jumlah halaman: 40 halaman</li>
+          <li>Termasuk akses Kompas Digital Premium</li>
         </ul>
 
-        <h3>More Details</h3>
+        <h3>Informasi Tambahan</h3>
         <ul>
-          <li>Lunarlon midsole delivers ultra-plush responsiveness</li>
-          <li>Encapsulated Air-Sole heel unit for lightweight cushioning</li>
-          <li>Colour Shown: Ale Brown/Black/Goldtone/Ale Brown</li>
-          <li>Style: 805899-202</li>
+          <li>Akses Kompas.id dan Time Zone Architect bisa langsung digunakan setelah pembelian.</li>
+          <li>Tabloid dan bonus fisik dikirim sesuai jadwal pengiriman produk.</li>
+          <li>Checkout sebelum stok bundling habis.</li>
         </ul>
       </section>
 
@@ -161,6 +149,35 @@
         <div class="similar-grid" id="relatedProducts"></div>
       </section>
     </main>
+
+    <div class="login-overlay" id="loginModal" hidden>
+      <div class="login-popup" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+        <h2 id="loginModalTitle">Masuk Akun</h2>
+        <p class="login-register">Belum punya akun? <a href="#register">Daftar sekarang.</a></p>
+
+        <div class="login-panel">
+          <label for="loginIdentity">Email atau Nomor Telepon</label>
+          <input id="loginIdentity" type="text" autocomplete="username">
+          <p>Contoh format nama@email.com atau 081234567890.</p>
+          <button class="continue-button" type="button">Lanjutkan</button>
+
+          <div class="login-separator"><span>Atau</span></div>
+
+          <button class="social-button google" type="button">
+            <span class="google-mark" aria-hidden="true">G</span>
+            <span>Lanjutkan dengan Google</span>
+          </button>
+          <button class="social-button apple" type="button">
+            <span class="apple-mark" aria-hidden="true"></span>
+            <span>Lanjutkan dengan Apple</span>
+          </button>
+          <button class="social-button privy" type="button">
+            <span class="privy-mark" aria-hidden="true"></span>
+            <span>Lanjutkan dengan Privy</span>
+          </button>
+        </div>
+      </div>
+    </div>
     <script src="./detail.js"></script>
   </body>
 </html>
