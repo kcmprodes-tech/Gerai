@@ -97,6 +97,10 @@ function relatedCard(product) {
 
 const product = getProduct();
 let quantity = 1;
+const stickyProductImage = document.querySelector("#stickyProductImage");
+const stickyProductTitle = document.querySelector("#stickyProductTitle");
+const stickyQtyValue = document.querySelector("#stickyQtyValue");
+const stickyTotalPrice = document.querySelector("#stickyTotalPrice");
 
 function unitPrice(product) {
   return product.price || 0;
@@ -105,6 +109,8 @@ function unitPrice(product) {
 function updateTotalPrice() {
   const total = unitPrice(product) * quantity;
   document.querySelector("#detailTotalPrice").textContent = formatRupiah(total).replace(/^Rp/, "");
+  stickyQtyValue.textContent = quantity;
+  stickyTotalPrice.textContent = formatRupiah(total);
 }
 
 document.title = `${product.title} - Gerai Kompas`;
@@ -112,6 +118,9 @@ document.querySelector("#detailProductTitle").textContent = product.title;
 document.querySelector("#detailProductImage").src = product.image;
 document.querySelector("#detailProductImage").alt = product.title;
 document.querySelector("#detailPriceBlock").innerHTML = priceMarkup(product);
+stickyProductImage.src = product.image;
+stickyProductImage.alt = product.title;
+stickyProductTitle.textContent = product.title;
 updateTotalPrice();
 document.querySelectorAll(".thumb img").forEach((image) => {
   image.src = product.image;
@@ -131,17 +140,19 @@ document.querySelectorAll(".swatches, .sizes").forEach((group) => {
   });
 });
 
-const qtyButtons = document.querySelectorAll(".qty button");
-const qtyValue = document.querySelector(".qty span");
-qtyButtons[0].addEventListener("click", () => {
-  quantity = Math.max(1, quantity - 1);
+const qtyButtons = document.querySelectorAll(".buy-row .qty button");
+const qtyValue = document.querySelector(".buy-row .qty span");
+function setDetailQuantity(nextQuantity) {
+  quantity = Math.max(1, nextQuantity);
   qtyValue.textContent = quantity;
   updateTotalPrice();
+}
+
+qtyButtons[0].addEventListener("click", () => {
+  setDetailQuantity(quantity - 1);
 });
 qtyButtons[1].addEventListener("click", () => {
-  quantity += 1;
-  qtyValue.textContent = quantity;
-  updateTotalPrice();
+  setDetailQuantity(quantity + 1);
 });
 
 const loginModal = document.querySelector("#loginModal");
@@ -153,8 +164,13 @@ const identityStep = document.querySelector('[data-login-step="identity"]');
 const passwordStep = document.querySelector('[data-login-step="password"]');
 const identityPreview = document.querySelector("#loginIdentityPreview");
 const continueIdentity = document.querySelector("#continueIdentity");
+const continuePassword = document.querySelector("#continuePassword");
 const changeIdentity = document.querySelector("#changeIdentity");
 const togglePassword = document.querySelector("#togglePassword");
+const stickyQtyMinus = document.querySelector("#stickyQtyMinus");
+const stickyQtyPlus = document.querySelector("#stickyQtyPlus");
+const stickyBuyNow = document.querySelector("#stickyBuyNow");
+const stickyAddBag = document.querySelector("#stickyAddBag");
 
 function openLoginModal() {
   loginModal.hidden = false;
@@ -183,8 +199,18 @@ function showPasswordStep() {
 }
 
 buyNowButton.addEventListener("click", openLoginModal);
+stickyBuyNow.addEventListener("click", openLoginModal);
 addCartButton.addEventListener("click", () => {
   window.location.href = "./cart.html";
+});
+stickyAddBag.addEventListener("click", () => {
+  window.location.href = "./cart.html";
+});
+stickyQtyMinus.addEventListener("click", () => {
+  setDetailQuantity(quantity - 1);
+});
+stickyQtyPlus.addEventListener("click", () => {
+  setDetailQuantity(quantity + 1);
 });
 continueIdentity.addEventListener("click", showPasswordStep);
 loginInput.addEventListener("keydown", (event) => {
@@ -200,6 +226,14 @@ togglePassword.addEventListener("click", () => {
   const shouldShow = loginPassword.type === "password";
   loginPassword.type = shouldShow ? "text" : "password";
   togglePassword.setAttribute("aria-label", shouldShow ? "Sembunyikan kata sandi" : "Tampilkan kata sandi");
+});
+continuePassword.addEventListener("click", () => {
+  window.location.href = "./checkout.html";
+});
+loginPassword.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    window.location.href = "./checkout.html";
+  }
 });
 loginModal.addEventListener("click", (event) => {
   if (event.target === loginModal) {
