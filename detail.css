@@ -392,6 +392,18 @@ h1 {
   text-decoration: none;
 }
 
+.product-variants[hidden] {
+  display: none;
+}
+
+.product-variants {
+  margin-top: 24px;
+}
+
+.product-variants .option-block:first-child {
+  margin-top: 0;
+}
+
 .option-block {
   margin-top: 26px;
 }

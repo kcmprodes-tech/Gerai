@@ -97,6 +97,7 @@ function relatedCard(product) {
 
 const product = getProduct();
 let quantity = 1;
+const productVariants = document.querySelector("#productVariants");
 const stickyProductImage = document.querySelector("#stickyProductImage");
 const stickyProductTitle = document.querySelector("#stickyProductTitle");
 const stickyQtyValue = document.querySelector("#stickyQtyValue");
@@ -121,6 +122,7 @@ document.querySelector("#detailPriceBlock").innerHTML = priceMarkup(product);
 stickyProductImage.src = product.image;
 stickyProductImage.alt = product.title;
 stickyProductTitle.textContent = product.title;
+productVariants.hidden = product.id !== 7;
 updateTotalPrice();
 document.querySelectorAll(".thumb img").forEach((image) => {
   image.src = product.image;
