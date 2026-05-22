@@ -146,11 +146,20 @@ qtyButtons[1].addEventListener("click", () => {
 
 const loginModal = document.querySelector("#loginModal");
 const buyNowButton = document.querySelector(".cta-row .cart");
+const addCartButton = document.querySelector(".cta-row .buy");
 const loginInput = document.querySelector("#loginIdentity");
+const loginPassword = document.querySelector("#loginPassword");
+const identityStep = document.querySelector('[data-login-step="identity"]');
+const passwordStep = document.querySelector('[data-login-step="password"]');
+const identityPreview = document.querySelector("#loginIdentityPreview");
+const continueIdentity = document.querySelector("#continueIdentity");
+const changeIdentity = document.querySelector("#changeIdentity");
+const togglePassword = document.querySelector("#togglePassword");
 
 function openLoginModal() {
   loginModal.hidden = false;
   document.body.classList.add("modal-open");
+  showIdentityStep();
   loginInput.focus();
 }
 
@@ -160,7 +169,38 @@ function closeLoginModal() {
   buyNowButton.focus();
 }
 
+function showIdentityStep() {
+  identityStep.hidden = false;
+  passwordStep.hidden = true;
+}
+
+function showPasswordStep() {
+  const identity = loginInput.value.trim() || "ikhwanardhi@gmail.com";
+  identityPreview.textContent = identity;
+  identityStep.hidden = true;
+  passwordStep.hidden = false;
+  loginPassword.focus();
+}
+
 buyNowButton.addEventListener("click", openLoginModal);
+addCartButton.addEventListener("click", () => {
+  window.location.href = "./cart.html";
+});
+continueIdentity.addEventListener("click", showPasswordStep);
+loginInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    showPasswordStep();
+  }
+});
+changeIdentity.addEventListener("click", () => {
+  showIdentityStep();
+  loginInput.focus();
+});
+togglePassword.addEventListener("click", () => {
+  const shouldShow = loginPassword.type === "password";
+  loginPassword.type = shouldShow ? "text" : "password";
+  togglePassword.setAttribute("aria-label", shouldShow ? "Sembunyikan kata sandi" : "Tampilkan kata sandi");
+});
 loginModal.addEventListener("click", (event) => {
   if (event.target === loginModal) {
     closeLoginModal();

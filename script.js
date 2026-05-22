@@ -419,7 +419,9 @@ document.querySelectorAll("[data-scroll-target]").forEach((button) => {
   });
 });
 
-els.cartToggle.addEventListener("click", () => toggleDrawer(true));
+els.cartToggle.addEventListener("click", () => {
+  window.location.href = "./cart.html";
+});
 els.closeCart.addEventListener("click", () => toggleDrawer(false));
 els.cartDrawer.addEventListener("click", (event) => {
   if (event.target === els.cartDrawer) toggleDrawer(false);

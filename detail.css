@@ -600,9 +600,13 @@ body.modal-open {
 }
 
 .login-panel {
-  padding: 22px 24px 26px;
-  border: 1px solid #d6d6d6;
+  padding: 32px;
+  border: 0;
   border-radius: 5px;
+}
+
+.login-panel[hidden] {
+  display: none;
 }
 
 .login-panel label {
@@ -623,6 +627,111 @@ body.modal-open {
   color: #333333;
   font-size: 16px;
   outline: none;
+}
+
+.password-panel {
+  padding-top: 18px;
+}
+
+.login-identity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.login-identity-row strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.login-identity-row p {
+  margin: 0;
+  color: #333333;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.login-identity-row button,
+.password-options a {
+  border: 0;
+  padding: 0;
+  color: #005baa;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 48px;
+}
+
+.password-field button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  color: #666666;
+  background: transparent;
+  transform: translateY(-50%);
+}
+
+.password-field svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.password-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 16px 0 18px;
+}
+
+.remember-check {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+  margin: 0 !important;
+  color: #333333 !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.remember-check input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.remember-check span {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #8a8a8a;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.remember-check input:checked + span {
+  border-color: var(--blue);
+  background: var(--blue);
+  box-shadow: inset 0 0 0 3px #ffffff;
 }
 
 .login-panel input:focus {
@@ -680,19 +789,19 @@ body.modal-open {
 }
 
 .social-button.google {
-  border: 2px solid #333333;
+  border: 1px solid #333333;
   color: #666666;
 }
 
 .social-button.apple {
-  border: 2px solid #000000;
+  border: 1px solid #000000;
   color: #ffffff;
   background: #000000;
   box-shadow: 0 8px 14px rgba(0, 0, 0, 0.16);
 }
 
 .social-button.privy {
-  border: 2px solid #d6d6d6;
+  border: 1px solid #d6d6d6;
   color: #666666;
 }
 
@@ -842,13 +951,18 @@ body.modal-open {
 .description h2 {
   margin: 46px 0 22px;
   font-size: 24px;
+  scroll-margin-top: 24px;
 }
 
 .description p {
   width: min(1065px, 100%);
-  margin: 0 0 38px;
+  margin: 0 0 14px;
   color: #687384;
-  line-height: 1.8;
+  line-height: 1.6;
+}
+
+.description p + h3 {
+  margin-top: 36px;
 }
 
 .description h3 {
@@ -959,6 +1073,235 @@ body.modal-open {
   font-size: 13px;
 }
 
+.kompas-footer {
+  color: #404040;
+  background: #eeeeee;
+  font-family: "Open Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.kompas-footer svg {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.footer-service {
+  background: #ffffff;
+}
+
+.footer-service-inner {
+  width: min(100% - 80px, 1130px);
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 170px 230px 215px 230px 185px;
+  align-items: center;
+  gap: 25px;
+  margin-inline: auto;
+}
+
+.footer-service p,
+.footer-service a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: #444444;
+  font-size: 16px;
+  line-height: 1.32;
+}
+
+.footer-service strong {
+  display: block;
+  color: #777777;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.footer-service > .footer-service-inner > p:first-child {
+  gap: 4px;
+  color: #777777;
+  white-space: nowrap;
+}
+
+.footer-service > .footer-service-inner > p:first-child strong {
+  display: inline;
+  color: #777777;
+}
+
+.footer-main {
+  background: #eeeeee;
+}
+
+.footer-main-inner {
+  width: min(100% - 80px, 1130px);
+  display: grid;
+  grid-template-columns: 240px 220px 150px 170px 230px;
+  gap: 30px;
+  margin-inline: auto;
+  min-height: 420px;
+}
+
+.footer-about {
+  padding-top: 32px;
+}
+
+.footer-about p {
+  margin: 0 0 22px;
+  color: #999999;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.footer-socials a {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.footer-socials span {
+  line-height: 1;
+}
+
+.footer-socials .facebook { background: #4464a4; }
+.footer-socials .twitter { background: #43a6ee; }
+.footer-socials .youtube { background: #ca3329; font-size: 14px; }
+.footer-socials .instagram { background: #222222; }
+
+.footer-office {
+  padding-top: 30px;
+}
+
+.footer-office h2,
+.footer-links h2,
+.footer-blue h2 {
+  margin: 0 0 22px;
+  font-family: Merriweather, Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.footer-office h2,
+.footer-links h2 {
+  color: #555555;
+}
+
+.footer-icon-line {
+  display: flex;
+  gap: 10px;
+  margin: 0 0 26px;
+  color: #8e8e8e;
+  font-size: 12px;
+  line-height: 1.52;
+}
+
+.footer-icon-line svg {
+  margin-top: 2px;
+  color: #7d7d7d;
+}
+
+.footer-icon-line a {
+  display: block;
+  margin-bottom: 10px;
+  color: #444444;
+}
+
+.footer-links {
+  padding-top: 30px;
+}
+
+.footer-links a,
+.footer-blue a {
+  display: block;
+  color: #3f3f3f;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.footer-links a + a {
+  margin-top: 24px;
+}
+
+.footer-blue {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 12px 84px;
+  background: #285f9c;
+}
+
+.footer-blue h2 {
+  color: #ffffff;
+}
+
+.footer-blue nav + nav {
+  margin-top: 38px;
+}
+
+.footer-blue a {
+  color: #e8edf4;
+}
+
+.footer-blue a + a {
+  margin-top: 24px;
+}
+
+.footer-blue img {
+  width: 205px;
+  margin: 42px 0 0;
+}
+
+.footer-bottom {
+  background: #050505;
+}
+
+.footer-bottom-inner {
+  width: min(100% - 80px, 1130px);
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-inline: auto;
+  color: #d7d7d7;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+.footer-bottom nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.footer-bottom a {
+  color: #d7d7d7;
+}
+
+.footer-bottom a + a::before {
+  content: "|";
+  margin: 0 6px;
+  color: #d7d7d7;
+}
+
 @media (max-width: 1100px) {
   :root {
     --shell: min(100% - 40px, 980px);
@@ -995,6 +1338,25 @@ body.modal-open {
 
   .similar-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer-service-inner,
+  .footer-main-inner,
+  .footer-bottom-inner {
+    width: min(100% - 40px, 980px);
+  }
+
+  .footer-service-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-block: 32px;
+  }
+
+  .footer-main-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-blue {
+    min-height: 420px;
   }
 }
 
@@ -1049,6 +1411,48 @@ body.modal-open {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .footer-service-inner,
+  .footer-main-inner,
+  .footer-bottom-inner {
+    width: min(100% - 24px, 640px);
+  }
+
+  .footer-service-inner,
+  .footer-main-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-service p,
+  .footer-service a {
+    font-size: 18px;
+  }
+
+  .footer-service strong {
+    font-size: 17px;
+  }
+
+  .footer-main-inner {
+    padding-bottom: 32px;
+  }
+
+  .footer-about,
+  .footer-office,
+  .footer-links {
+    padding-top: 28px;
+  }
+
+  .footer-blue {
+    min-height: auto;
+    padding: 32px 20px 40px;
+  }
+
+  .footer-bottom-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-block: 18px;
+  }
+
   .login-overlay {
     padding: 18px;
   }
@@ -1067,7 +1471,7 @@ body.modal-open {
   }
 
   .login-panel {
-    padding: 22px 20px 26px;
+    padding: 32px;
   }
 
   .login-panel label {
