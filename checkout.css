@@ -3,6 +3,12 @@
   background: #f4f6f9;
 }
 
+.logged-in-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .checkout-shell {
   width: min(100% - 48px, 1200px);
   margin: 0 auto;
@@ -634,6 +640,10 @@ body.modal-open {
 }
 
 @media (max-width: 1100px) {
+  .checkout-shell {
+    width: min(100% - 80px, 980px);
+  }
+
   .checkout-layout {
     grid-template-columns: 1fr;
   }
@@ -649,7 +659,7 @@ body.modal-open {
 
 @media (max-width: 720px) {
   .checkout-shell {
-    width: min(100% - 24px, 640px);
+    width: min(100% - 40px, 640px);
     padding-top: 24px;
   }
 

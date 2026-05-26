@@ -263,6 +263,10 @@
 }
 
 @media (max-width: 980px) {
+  .cart-shell {
+    width: min(100% - 80px, 980px);
+  }
+
   .cart-layout {
     grid-template-columns: 1fr;
   }
@@ -274,7 +278,7 @@
 
 @media (max-width: 720px) {
   .cart-shell {
-    width: min(100% - 24px, 640px);
+    width: min(100% - 40px, 640px);
     padding-top: 20px;
   }
 

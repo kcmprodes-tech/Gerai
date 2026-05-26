@@ -173,8 +173,53 @@ const stickyQtyMinus = document.querySelector("#stickyQtyMinus");
 const stickyQtyPlus = document.querySelector("#stickyQtyPlus");
 const stickyBuyNow = document.querySelector("#stickyBuyNow");
 const stickyAddBag = document.querySelector("#stickyAddBag");
+const detailHeaderLogin = document.querySelector("#detailHeaderLogin");
+const detailAuthActions = document.querySelector("#detailAuthActions");
+const detailAccountAvatar = document.querySelector("#detailAccountAvatar");
+let loginIntent = "checkout";
 
-function openLoginModal() {
+function getStoredValue(key) {
+  let localValue = null;
+  try {
+    localValue = localStorage.getItem(key);
+  } catch {
+    localValue = null;
+  }
+
+  if (localValue !== null) return localValue;
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    return tabState[key] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function setStoredValue(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Keep login interactions usable in file:// contexts that block storage.
+  }
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    tabState[key] = value;
+    window.name = JSON.stringify(tabState);
+  } catch {
+    window.name = JSON.stringify({ [key]: value });
+  }
+}
+
+function setLoggedIn(isLoggedIn) {
+  detailAuthActions.classList.toggle("hidden", isLoggedIn);
+  detailAccountAvatar.classList.toggle("hidden", !isLoggedIn);
+  setStoredValue("geraiLoggedIn", isLoggedIn ? "true" : "false");
+}
+
+function openLoginModal(intent = "checkout") {
+  loginIntent = intent;
   loginModal.hidden = false;
   document.body.classList.add("modal-open");
   showIdentityStep();
@@ -200,8 +245,31 @@ function showPasswordStep() {
   loginPassword.focus();
 }
 
-buyNowButton.addEventListener("click", openLoginModal);
-stickyBuyNow.addEventListener("click", openLoginModal);
+function finishLogin() {
+  setLoggedIn(true);
+  if (loginIntent === "checkout") {
+    window.location.href = "./checkout.html";
+    return;
+  }
+  closeLoginModal();
+}
+
+function continueToCheckout() {
+  if (getStoredValue("geraiLoggedIn") === "true") {
+    window.location.href = "./checkout.html";
+    return;
+  }
+  openLoginModal("checkout");
+}
+
+setLoggedIn(getStoredValue("geraiLoggedIn") === "true");
+
+buyNowButton.addEventListener("click", continueToCheckout);
+stickyBuyNow.addEventListener("click", continueToCheckout);
+detailHeaderLogin.addEventListener("click", () => openLoginModal("header"));
+if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "true") {
+  openLoginModal("header");
+}
 addCartButton.addEventListener("click", () => {
   window.location.href = "./cart.html";
 });
@@ -229,12 +297,10 @@ togglePassword.addEventListener("click", () => {
   loginPassword.type = shouldShow ? "text" : "password";
   togglePassword.setAttribute("aria-label", shouldShow ? "Sembunyikan kata sandi" : "Tampilkan kata sandi");
 });
-continuePassword.addEventListener("click", () => {
-  window.location.href = "./checkout.html";
-});
+continuePassword.addEventListener("click", finishLogin);
 loginPassword.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    window.location.href = "./checkout.html";
+    finishLogin();
   }
 });
 loginModal.addEventListener("click", (event) => {

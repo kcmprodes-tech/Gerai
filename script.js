@@ -191,7 +191,54 @@ const els = {
   cartTotal: document.querySelector("#cartTotal"),
   cartCount: document.querySelector("#cartCount"),
   wishlistCount: document.querySelector("#wishlistCount"),
+  openLoginModal: document.querySelector("#openLoginModal"),
+  homeLoginModal: document.querySelector("#homeLoginModal"),
+  homeLoginIdentity: document.querySelector("#homeLoginIdentity"),
+  homeLoginPassword: document.querySelector("#homeLoginPassword"),
+  homeIdentityStep: document.querySelector('[data-home-login-step="identity"]'),
+  homePasswordStep: document.querySelector('[data-home-login-step="password"]'),
+  homeLoginIdentityPreview: document.querySelector("#homeLoginIdentityPreview"),
+  homeContinueIdentity: document.querySelector("#homeContinueIdentity"),
+  homeContinuePassword: document.querySelector("#homeContinuePassword"),
+  homeChangeIdentity: document.querySelector("#homeChangeIdentity"),
+  homeTogglePassword: document.querySelector("#homeTogglePassword"),
+  authActions: document.querySelector("#authActions"),
+  accountAvatar: document.querySelector("#accountAvatar"),
 };
+
+function getStoredValue(key) {
+  let localValue = null;
+  try {
+    localValue = localStorage.getItem(key);
+  } catch {
+    localValue = null;
+  }
+
+  if (localValue !== null) return localValue;
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    return tabState[key] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function setStoredValue(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Some file:// browser contexts block storage; the UI should still keep working.
+  }
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    tabState[key] = value;
+    window.name = JSON.stringify(tabState);
+  } catch {
+    window.name = JSON.stringify({ [key]: value });
+  }
+}
 
 function stars(value) {
   const rounded = Math.round(value);
@@ -255,21 +302,25 @@ function renderProducts() {
       return `
         <article class="product-card" data-product-detail="${product.id}" tabindex="0" aria-label="Lihat detail ${product.title}">
           <div class="product-media">
-            <img src="${product.image}" alt="${product.title}" loading="lazy">
+            <a class="product-detail-link media-link" href="./detail.html?id=${product.id}" aria-label="Lihat detail ${product.title}">
+              <img src="${product.image}" alt="${product.title}" loading="lazy">
+            </a>
             <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist">
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20.35 10.55 19C5.4 14.2 2 11.04 2 7.15 2 4 4.42 1.55 7.5 1.55c1.74 0 3.41.81 4.5 2.09a5.93 5.93 0 0 1 4.5-2.09C19.58 1.55 22 4 22 7.15c0 3.89-3.4 7.05-8.55 11.86L12 20.35Z"/></svg>
             </button>
           </div>
           <div class="product-body">
-            <p class="product-title">${product.title}</p>
-            <div class="rating" aria-label="Rating ${product.rating || 4.8} dari 5">
-              ${stars(product.rating || 4.8)}
-              <span>(${compactNumber(product.reviews || 121)})</span>
-            </div>
-            <div class="price-row">
-              ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
-              <strong class="price">${product.priceText || money(product.price)}</strong>
-            </div>
+            <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+              <p class="product-title">${product.title}</p>
+              <div class="rating" aria-label="Rating ${product.rating || 4.8} dari 5">
+                ${stars(product.rating || 4.8)}
+                <span>(${compactNumber(product.reviews || 121)})</span>
+              </div>
+              <div class="price-row">
+                ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
+                <strong class="price">${product.priceText || money(product.price)}</strong>
+              </div>
+            </a>
             <button class="btn primary" data-add-cart="${product.id}" type="button">Tambah</button>
           </div>
         </article>
@@ -280,7 +331,7 @@ function renderProducts() {
 
 function setCategory(category) {
   state.category = category;
-  document.querySelectorAll(".category-tab").forEach((tab) => {
+  document.querySelectorAll(".category-tab[data-category]").forEach((tab) => {
     tab.classList.toggle("active", tab.dataset.category === category);
   });
   renderProducts();
@@ -352,11 +403,51 @@ function toggleDrawer(open) {
   els.cartDrawer.setAttribute("aria-hidden", String(!open));
 }
 
+function setLoggedIn(isLoggedIn) {
+  els.authActions.classList.toggle("hidden", isLoggedIn);
+  els.accountAvatar.classList.toggle("hidden", !isLoggedIn);
+  setStoredValue("geraiLoggedIn", isLoggedIn ? "true" : "false");
+}
+
+function openHomeLogin() {
+  els.homeLoginModal.hidden = false;
+  document.body.classList.add("modal-open");
+  showHomeIdentityStep();
+  requestAnimationFrame(() => els.homeLoginIdentity.focus());
+}
+
+function closeHomeLogin() {
+  els.homeLoginModal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
+function showHomeIdentityStep() {
+  els.homeIdentityStep.hidden = false;
+  els.homePasswordStep.hidden = true;
+}
+
+function showHomePasswordStep() {
+  const identity = els.homeLoginIdentity.value.trim() || "ikhwanardhi@gmail.com";
+  els.homeLoginIdentityPreview.textContent = identity;
+  els.homeIdentityStep.hidden = true;
+  els.homePasswordStep.hidden = false;
+  els.homeLoginPassword.focus();
+}
+
+function finishHomeLogin() {
+  closeHomeLogin();
+  setLoggedIn(true);
+}
+
 renderCategories();
 renderProducts();
 renderCart();
+setLoggedIn(getStoredValue("geraiLoggedIn") === "true");
+if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "true") {
+  openHomeLogin();
+}
 
-document.querySelectorAll(".category-tab").forEach((tab) => {
+document.querySelectorAll(".category-tab[data-category]").forEach((tab) => {
   tab.addEventListener("click", () => setCategory(tab.dataset.category));
 });
 
@@ -422,6 +513,29 @@ document.querySelectorAll("[data-scroll-target]").forEach((button) => {
 els.cartToggle.addEventListener("click", () => {
   window.location.href = "./cart.html";
 });
+
+els.openLoginModal.addEventListener("click", openHomeLogin);
+els.homeLoginModal.addEventListener("click", (event) => {
+  if (event.target === els.homeLoginModal) closeHomeLogin();
+});
+els.homeContinueIdentity.addEventListener("click", showHomePasswordStep);
+els.homeLoginIdentity.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") showHomePasswordStep();
+});
+els.homeChangeIdentity.addEventListener("click", () => {
+  showHomeIdentityStep();
+  els.homeLoginIdentity.focus();
+});
+els.homeTogglePassword.addEventListener("click", () => {
+  const shouldShow = els.homeLoginPassword.type === "password";
+  els.homeLoginPassword.type = shouldShow ? "text" : "password";
+  els.homeTogglePassword.setAttribute("aria-label", shouldShow ? "Sembunyikan kata sandi" : "Tampilkan kata sandi");
+});
+els.homeContinuePassword.addEventListener("click", finishHomeLogin);
+els.homeLoginPassword.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") finishHomeLogin();
+});
+
 els.closeCart.addEventListener("click", () => toggleDrawer(false));
 els.cartDrawer.addEventListener("click", (event) => {
   if (event.target === els.cartDrawer) toggleDrawer(false);
@@ -433,5 +547,7 @@ els.cartDrawer.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") toggleDrawer(false);
+  if (event.key !== "Escape") return;
+  toggleDrawer(false);
+  if (!els.homeLoginModal.hidden) closeHomeLogin();
 });
