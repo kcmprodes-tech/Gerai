@@ -184,6 +184,7 @@ const els = {
   sortSelect: document.querySelector("#sortSelect"),
   emptyState: document.querySelector("#emptyState"),
   activeFilter: document.querySelector("#activeFilter"),
+  bestSellerGrid: document.querySelector("#bestSellerGrid"),
   cartToggle: document.querySelector("#cartToggle"),
   closeCart: document.querySelector("#closeCart"),
   cartDrawer: document.querySelector("#cartDrawer"),
@@ -205,6 +206,36 @@ const els = {
   authActions: document.querySelector("#authActions"),
   accountAvatar: document.querySelector("#accountAvatar"),
 };
+
+function productCardTemplate(product) {
+  const wished = state.wishlist.has(product.id);
+  return `
+    <article class="product-card" data-product-detail="${product.id}" tabindex="0" aria-label="Lihat detail ${product.title}">
+      <div class="product-media">
+        <a class="product-detail-link media-link" href="./detail.html?id=${product.id}" aria-label="Lihat detail ${product.title}">
+          <img src="${product.image}" alt="${product.title}" loading="lazy">
+        </a>
+        <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20.35 10.55 19C5.4 14.2 2 11.04 2 7.15 2 4 4.42 1.55 7.5 1.55c1.74 0 3.41.81 4.5 2.09a5.93 5.93 0 0 1 4.5-2.09C19.58 1.55 22 4 22 7.15c0 3.89-3.4 7.05-8.55 11.86L12 20.35Z"/></svg>
+        </button>
+      </div>
+      <div class="product-body">
+        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+          <p class="product-title">${product.title}</p>
+          <div class="rating" aria-label="Rating ${product.rating || 4.8} dari 5">
+            ${stars(product.rating || 4.8)}
+            <span>(${compactNumber(product.reviews || 121)})</span>
+          </div>
+          <div class="price-row">
+            ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
+            <strong class="price">${product.priceText || money(product.price)}</strong>
+          </div>
+        </a>
+        <button class="btn primary" data-add-cart="${product.id}" type="button">Tambah</button>
+      </div>
+    </article>
+  `;
+}
 
 function getStoredValue(key) {
   let localValue = null;
@@ -297,36 +328,41 @@ function renderProducts() {
   }
 
   els.productGrid.innerHTML = visibleProducts
-    .map((product) => {
-      const wished = state.wishlist.has(product.id);
-      return `
-        <article class="product-card" data-product-detail="${product.id}" tabindex="0" aria-label="Lihat detail ${product.title}">
-          <div class="product-media">
-            <a class="product-detail-link media-link" href="./detail.html?id=${product.id}" aria-label="Lihat detail ${product.title}">
-              <img src="${product.image}" alt="${product.title}" loading="lazy">
-            </a>
-            <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20.35 10.55 19C5.4 14.2 2 11.04 2 7.15 2 4 4.42 1.55 7.5 1.55c1.74 0 3.41.81 4.5 2.09a5.93 5.93 0 0 1 4.5-2.09C19.58 1.55 22 4 22 7.15c0 3.89-3.4 7.05-8.55 11.86L12 20.35Z"/></svg>
-            </button>
-          </div>
-          <div class="product-body">
-            <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
-              <p class="product-title">${product.title}</p>
-              <div class="rating" aria-label="Rating ${product.rating || 4.8} dari 5">
-                ${stars(product.rating || 4.8)}
-                <span>(${compactNumber(product.reviews || 121)})</span>
-              </div>
-              <div class="price-row">
-                ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
-                <strong class="price">${product.priceText || money(product.price)}</strong>
-              </div>
-            </a>
-            <button class="btn primary" data-add-cart="${product.id}" type="button">Tambah</button>
-          </div>
-        </article>
-      `;
-    })
+    .map((product) => productCardTemplate(product))
     .join("");
+}
+
+function renderBestSellers() {
+  if (!els.bestSellerGrid) return;
+  els.bestSellerGrid.innerHTML = products
+    .slice(0, 4)
+    .map((product) => productCardTemplate(product))
+    .join("");
+}
+
+function handleProductGridClick(event) {
+  const wishlistButton = event.target.closest("[data-wishlist]");
+  const cartButton = event.target.closest("[data-add-cart]");
+  const productCard = event.target.closest("[data-product-detail]");
+
+  if (wishlistButton) {
+    const id = Number(wishlistButton.dataset.wishlist);
+    if (state.wishlist.has(id)) state.wishlist.delete(id);
+    else state.wishlist.add(id);
+    renderProducts();
+    updateBadges();
+  }
+
+  if (cartButton) addToCart(cartButton.dataset.addCart);
+  if (productCard && !wishlistButton && !cartButton) {
+    window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
+  }
+}
+
+function handleProductGridKeydown(event) {
+  if (event.key !== "Enter") return;
+  const productCard = event.target.closest("[data-product-detail]");
+  if (productCard) window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
 }
 
 function setCategory(category) {
@@ -343,6 +379,7 @@ function updateBadges() {
   els.cartCount.classList.toggle("hidden", itemCount === 0);
   els.wishlistCount.textContent = state.wishlist.size;
   els.wishlistCount.classList.toggle("hidden", state.wishlist.size === 0);
+  renderBestSellers();
 }
 
 function renderCart() {
@@ -409,6 +446,31 @@ function setLoggedIn(isLoggedIn) {
   setStoredValue("geraiLoggedIn", isLoggedIn ? "true" : "false");
 }
 
+function closeAvatarMenu() {
+  const menu = document.querySelector("[data-avatar-menu]");
+  const trigger = document.querySelector("[data-avatar-menu-trigger]");
+  if (!menu || !trigger) return;
+  menu.hidden = true;
+  trigger.setAttribute("aria-expanded", "false");
+}
+
+function setupAvatarMenu() {
+  const menu = document.querySelector("[data-avatar-menu]");
+  const trigger = document.querySelector("[data-avatar-menu-trigger]");
+  if (!menu || !trigger || trigger.dataset.avatarMenuReady === "true") return;
+  trigger.dataset.avatarMenuReady = "true";
+
+  trigger.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const willOpen = menu.hidden;
+    menu.hidden = !willOpen;
+    trigger.setAttribute("aria-expanded", String(willOpen));
+  });
+
+  menu.addEventListener("click", (event) => event.stopPropagation());
+  document.addEventListener("click", closeAvatarMenu);
+}
+
 function openHomeLogin() {
   els.homeLoginModal.hidden = false;
   document.body.classList.add("modal-open");
@@ -441,6 +503,7 @@ function finishHomeLogin() {
 
 renderCategories();
 renderProducts();
+renderBestSellers();
 renderCart();
 setLoggedIn(getStoredValue("geraiLoggedIn") === "true");
 if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "true") {
@@ -458,30 +521,10 @@ els.popularCategories.addEventListener("click", (event) => {
   document.querySelector("#deals").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-els.productGrid.addEventListener("click", (event) => {
-  const wishlistButton = event.target.closest("[data-wishlist]");
-  const cartButton = event.target.closest("[data-add-cart]");
-  const productCard = event.target.closest("[data-product-detail]");
-
-  if (wishlistButton) {
-    const id = Number(wishlistButton.dataset.wishlist);
-    if (state.wishlist.has(id)) state.wishlist.delete(id);
-    else state.wishlist.add(id);
-    renderProducts();
-    updateBadges();
-  }
-
-  if (cartButton) addToCart(cartButton.dataset.addCart);
-  if (productCard && !wishlistButton && !cartButton) {
-    window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
-  }
-});
-
-els.productGrid.addEventListener("keydown", (event) => {
-  if (event.key !== "Enter") return;
-  const productCard = event.target.closest("[data-product-detail]");
-  if (productCard) window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
-});
+els.productGrid.addEventListener("click", handleProductGridClick);
+els.productGrid.addEventListener("keydown", handleProductGridKeydown);
+els.bestSellerGrid?.addEventListener("click", handleProductGridClick);
+els.bestSellerGrid?.addEventListener("keydown", handleProductGridKeydown);
 
 els.searchInput.addEventListener("input", (event) => {
   state.query = event.target.value;
@@ -550,4 +593,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   toggleDrawer(false);
   if (!els.homeLoginModal.hidden) closeHomeLogin();
+  closeAvatarMenu();
 });
+
+setupAvatarMenu();

@@ -97,11 +97,12 @@ function updateCardFormState() {
 function openPaymentModal() {
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
   if (payButton.disabled || selectedPayment?.value !== "credit-card") return;
-  paymentModal.hidden = false;
-  document.body.classList.add("modal-open");
-  cardPaymentTotal.textContent = formatRupiah(currentGrandTotal);
-  updateCardFormState();
-  document.querySelector("#cardNumber").focus();
+  try {
+    sessionStorage.setItem("geraiPaymentTotal", String(currentGrandTotal));
+  } catch (error) {
+    window.name = JSON.stringify({ geraiPaymentTotal: String(currentGrandTotal) });
+  }
+  window.location.href = `./payment-cc.html?total=${currentGrandTotal}`;
 }
 
 function closePaymentModal() {

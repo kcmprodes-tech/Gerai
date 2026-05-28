@@ -544,7 +544,7 @@ h1 {
 .cta-row button {
   width: 200px;
   height: 44px;
-  border-radius: 999px;
+  border-radius: 12px;
   font-weight: 600;
 }
 
@@ -639,7 +639,7 @@ h1 {
 .sticky-add-bag {
   min-width: 164px;
   height: 44px;
-  border-radius: 999px;
+  border-radius: 12px;
   padding-inline: 24px;
   font-weight: 600;
 }

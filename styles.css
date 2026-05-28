@@ -168,6 +168,7 @@ img {
 }
 
 .account-actions {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: end;
@@ -198,6 +199,118 @@ img {
   cursor: pointer;
 }
 
+.avatar-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 14px);
+  z-index: 80;
+  width: 360px;
+  height: 304px;
+  padding: 32px 20px 24px;
+  border-radius: 24px;
+  color: #333333;
+  background: #f8f8f8;
+  box-shadow: 0 16px 40px rgba(16, 24, 32, 0.14);
+}
+
+.avatar-menu[hidden] {
+  display: none;
+}
+
+.avatar-menu-profile {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.avatar-menu-initials {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #f5b51b;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.avatar-menu-profile strong {
+  display: block;
+  margin: 0;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.avatar-menu-profile p {
+  margin: 2px 0 0;
+  color: #555555;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.avatar-profile-link {
+  min-width: 68px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 999px;
+  color: #333333;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.avatar-profile-link svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.avatar-menu-list {
+  margin-top: 34px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.avatar-menu-list a {
+  height: 56px;
+  display: grid;
+  grid-template-columns: 28px 1fr 18px;
+  gap: 12px;
+  align-items: center;
+  padding: 0 20px;
+  color: #333333;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.avatar-menu-list a + a {
+  border-top: 1px solid #e7e7e7;
+}
+
+.avatar-menu-list svg {
+  width: 22px;
+  height: 22px;
+  fill: #555555;
+}
+
+.avatar-menu-list a > svg:last-child {
+  width: 16px;
+  height: 16px;
+  justify-self: end;
+  fill: #555555;
+  stroke: none;
+}
+
 .icon-button {
   position: relative;
   width: 34px;
@@ -222,6 +335,10 @@ img {
   width: 22px;
   height: 22px;
   fill: currentColor;
+}
+
+.icon-button.mobile-search-toggle {
+  display: none;
 }
 
 .badge {
@@ -406,6 +523,9 @@ img {
 }
 
 .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
   border: 0;
   background: transparent;
   color: var(--blue);
@@ -414,8 +534,10 @@ img {
   cursor: pointer;
 }
 
-.link-button::after {
-  content: " >";
+.link-button svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
 }
 
 .popular-categories {
@@ -705,23 +827,29 @@ select {
 .qty {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--line);
+  height: 34px;
+  border: 1px solid #b8c7da;
   border-radius: 999px;
+  background: #ffffff;
   overflow: hidden;
 }
 
 .qty button {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border: 0;
-  background: var(--soft);
+  color: var(--blue);
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
   cursor: pointer;
 }
 
 .qty span {
-  min-width: 34px;
+  min-width: 30px;
+  color: var(--ink);
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .cart-price {
@@ -1114,6 +1242,10 @@ body.modal-open {
     display: inline-grid;
     width: 34px;
     height: 34px;
+  }
+
+  .icon-button.mobile-search-toggle {
+    display: inline-grid;
   }
 
   .mobile-search-toggle svg {

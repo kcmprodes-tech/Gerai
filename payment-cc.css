@@ -1,0 +1,395 @@
+.payment-cc-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f4;
+}
+
+.payment-shell {
+  flex: 1;
+  width: min(100% - 80px, 1200px);
+  margin: 0 auto;
+  padding: 54px 0 80px;
+}
+
+.payment-content {
+  width: min(100%, 594px);
+  margin: 0 auto;
+}
+
+.payment-content h1 {
+  margin: 0 0 20px;
+  color: #333333;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 26px;
+}
+
+.payment-total-card,
+.payment-card-form {
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.payment-total-card {
+  min-height: 84px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  margin-bottom: 18px;
+  padding: 14px 24px;
+}
+
+.payment-total-card span {
+  color: #333333;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.payment-total-card strong {
+  color: #4a4a4a;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: 2px;
+}
+
+.payment-card-form {
+  padding: 20px 18px 22px;
+}
+
+.payment-card-form h2,
+.payment-choice h2,
+.payment-rules h2 {
+  margin: 0;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.payment-divider {
+  height: 1px;
+  margin: 16px -8px;
+  background: #e5e7eb;
+}
+
+.card-brand-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-brand-row span {
+  min-width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid #d6dce5;
+  border-radius: 4px;
+  color: #1746bf;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.card-brand-row .mastercard-mark {
+  position: relative;
+  color: transparent;
+}
+
+.card-brand-row .mastercard-mark::before,
+.card-brand-row .mastercard-mark::after {
+  content: "";
+  position: absolute;
+  top: 9px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.card-brand-row .mastercard-mark::before {
+  left: 8px;
+  background: #eb001b;
+}
+
+.card-brand-row .mastercard-mark::after {
+  right: 8px;
+  background: #f79e1b;
+  mix-blend-mode: multiply;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+  color: #333333;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.form-field input,
+.expiry-grid input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #cfd6df;
+  border-radius: 4px;
+  padding: 0 12px;
+  color: #344054;
+  background: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.form-field input::placeholder,
+.expiry-grid input::placeholder {
+  color: #7b8794;
+}
+
+.form-field input:focus,
+.expiry-grid input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(5, 114, 189, 0.12);
+}
+
+.form-field input.is-filled,
+.expiry-grid input.is-filled {
+  border-color: #98a2b3;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 176px;
+  gap: 36px;
+  margin-top: 16px;
+}
+
+.form-grid fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.form-grid legend {
+  margin-bottom: 8px;
+  color: #333333;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.expiry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 8px;
+}
+
+.cvv-field {
+  position: relative;
+}
+
+.cvv-field::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  top: 27px;
+  width: 28px;
+  height: 18px;
+  border-radius: 3px;
+  background:
+    radial-gradient(circle at 90% 50%, #ffffff 0 2px, #de3a3a 2px 4px, transparent 4px),
+    linear-gradient(#9ba1a8 0 4px, #d8dce1 4px 100%);
+  pointer-events: none;
+}
+
+.check-row {
+  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  color: #667085;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.check-row + .check-row {
+  display: flex;
+  margin-top: 12px;
+}
+
+.check-row input {
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  accent-color: var(--blue);
+}
+
+.check-row small {
+  width: 16px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: var(--blue);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.payment-choice {
+  margin-top: 22px;
+}
+
+.pay-full-option {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  border: 1px solid #d6dce5;
+  border-radius: 4px;
+  padding: 0 16px;
+  color: #667085;
+  background: #f5f5f5;
+  text-align: left;
+}
+
+.pay-full-option strong {
+  color: #667085;
+  font-weight: 500;
+}
+
+.cc-submit {
+  width: 100%;
+  height: 40px;
+  margin-top: 18px;
+  border: 1px solid #a8afb7;
+  border-radius: 4px;
+  color: #ffffff;
+  background: #a8afb7;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: not-allowed;
+}
+
+.cc-submit.is-active {
+  border-color: var(--blue);
+  background: var(--blue);
+  cursor: pointer;
+}
+
+.payment-rules {
+  margin-top: 46px;
+}
+
+.payment-rules h2 {
+  font-weight: 600;
+}
+
+.payment-rules ul {
+  margin: 12px 0 0;
+  padding-left: 24px;
+  color: #333333;
+  font-size: 14px;
+  line-height: 26px;
+}
+
+.cc-success-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cc-success-overlay[hidden] {
+  display: none;
+}
+
+.cc-success-dialog {
+  width: min(100%, 420px);
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  border-radius: 16px;
+  padding: 32px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.cc-success-mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #12b76a;
+}
+
+.cc-success-mark svg {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+
+.cc-success-dialog h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.cc-success-dialog p {
+  margin: 0;
+  color: #667085;
+  line-height: 22px;
+}
+
+.payment-footer {
+  min-height: 280px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 24px 24px;
+  color: #1f2933;
+  background: #000000;
+  font-size: 12px;
+}
+
+@media (max-width: 980px) {
+  .payment-shell {
+    width: min(100% - 80px, 760px);
+  }
+}
+
+@media (max-width: 720px) {
+  .payment-shell {
+    width: min(100% - 40px, 594px);
+    padding: 32px 0 56px;
+  }
+
+  .payment-content h1 {
+    font-size: 17px;
+  }
+
+  .payment-total-card strong {
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .payment-footer {
+    min-height: 180px;
+  }
+}
