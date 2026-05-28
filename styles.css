@@ -296,11 +296,24 @@ img {
   display: flex;
   align-items: center;
   gap: 24px;
-  overflow-x: auto;
+  overflow: hidden;
   scrollbar-width: none;
 }
 
 .category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.category-scroll {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.category-scroll::-webkit-scrollbar {
   display: none;
 }
 
@@ -1119,6 +1132,24 @@ body.modal-open {
 
   .category-bar {
     min-height: 44px;
+    gap: 16px;
+    overflow: hidden;
+  }
+
+  .category-tab.all-category {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #ffffff;
+  }
+
+  .category-divider {
+    flex: 0 0 auto;
+  }
+
+  .category-scroll {
+    gap: 24px;
+    overflow-x: auto;
   }
 
   .hero {

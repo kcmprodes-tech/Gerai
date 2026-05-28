@@ -658,9 +658,30 @@ body.modal-open {
 }
 
 @media (max-width: 720px) {
+  .checkout-page {
+    padding-bottom: 172px;
+  }
+
   .checkout-shell {
     width: min(100% - 40px, 640px);
     padding-top: 24px;
+  }
+
+  .checkout-summary {
+    padding-bottom: 0;
+  }
+
+  .summary-total {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 60;
+    margin: 0;
+    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line);
+    background: #ffffff;
+    box-shadow: 0 -8px 24px rgba(16, 24, 32, 0.12);
   }
 
   .product-checkout-card {
