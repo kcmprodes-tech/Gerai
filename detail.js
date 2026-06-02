@@ -76,14 +76,17 @@ function relatedCard(product) {
     <article class="product-card" tabindex="0" aria-label="Lihat detail ${product.title}">
       <div class="product-media">
         <img src="${product.image}" alt="${product.title}" loading="lazy">
-        <button class="icon-button wishlist" type="button" aria-label="Tambahkan ke wishlist">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20.35 10.55 19C5.4 14.2 2 11.04 2 7.15 2 4 4.42 1.55 7.5 1.55c1.74 0 3.41.81 4.5 2.09a5.93 5.93 0 0 1 4.5-2.09C19.58 1.55 22 4 22 7.15c0 3.89-3.4 7.05-8.55 11.86L12 20.35Z"/></svg>
+        <button class="icon-button wishlist" type="button" aria-label="Tambahkan ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i>
         </button>
       </div>
       <div class="product-body">
         <p class="product-title">${product.title}</p>
         <div class="rating" aria-label="Rating 4.8 dari 5">
-          ★★★★★
+          <i class="ph-fill ph-star" aria-hidden="true"></i>
+          <i class="ph-fill ph-star" aria-hidden="true"></i>
+          <i class="ph-fill ph-star" aria-hidden="true"></i>
+          <i class="ph-fill ph-star" aria-hidden="true"></i>
+          <i class="ph-fill ph-star" aria-hidden="true"></i>
           <span>(121)</span>
         </div>
         <div class="price-row">
@@ -130,7 +133,7 @@ document.querySelectorAll(".thumb img").forEach((image) => {
 });
 
 const relatedSource = detailProducts.filter((item) => item.id !== product.id);
-const relatedProducts = Array.from({ length: 12 }, (_, index) => relatedSource[index % relatedSource.length]);
+const relatedProducts = Array.from({ length: 8 }, (_, index) => relatedSource[index % relatedSource.length]);
 document.querySelector("#relatedProducts").innerHTML = relatedProducts.map(relatedCard).join("");
 
 document.querySelectorAll(".swatches, .sizes").forEach((group) => {
@@ -174,6 +177,7 @@ const stickyQtyPlus = document.querySelector("#stickyQtyPlus");
 const stickyBuyNow = document.querySelector("#stickyBuyNow");
 const stickyAddBag = document.querySelector("#stickyAddBag");
 const detailHeaderLogin = document.querySelector("#detailHeaderLogin");
+const detailMobileHeaderLogin = document.querySelector("#detailMobileHeaderLogin");
 const detailAuthActions = document.querySelector("#detailAuthActions");
 const detailAccountAvatar = document.querySelector("#detailAccountAvatar");
 let loginIntent = "checkout";
@@ -267,6 +271,7 @@ setLoggedIn(getStoredValue("geraiLoggedIn") === "true");
 buyNowButton.addEventListener("click", continueToCheckout);
 stickyBuyNow.addEventListener("click", continueToCheckout);
 detailHeaderLogin.addEventListener("click", () => openLoginModal("header"));
+detailMobileHeaderLogin?.addEventListener("click", () => openLoginModal("header"));
 if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "true") {
   openLoginModal("header");
 }

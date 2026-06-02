@@ -42,10 +42,10 @@
   background: var(--blue);
 }
 
-.success-mark-large svg {
+.success-mark-large .ph {
   width: 54px;
   height: 54px;
-  fill: currentColor;
+  font-size: 54px;
 }
 
 .success-hero h1 {
@@ -97,10 +97,10 @@
   background: #eef6fc;
 }
 
-.success-meta-icon svg {
+.success-meta-icon .ph {
   width: 24px;
   height: 24px;
-  fill: currentColor;
+  font-size: 24px;
 }
 
 .success-meta span,
@@ -188,7 +188,7 @@
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #ffffff;
-  box-shadow: 0 4px 12px rgba(16, 24, 32, 0.04);
+  box-shadow: none;
 }
 
 .history-sidebar {

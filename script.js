@@ -185,6 +185,8 @@ const els = {
   emptyState: document.querySelector("#emptyState"),
   activeFilter: document.querySelector("#activeFilter"),
   bestSellerGrid: document.querySelector("#bestSellerGrid"),
+  bundlingGrid: document.querySelector("#bundlingGrid"),
+  subscriptionGrid: document.querySelector("#subscriptionGrid"),
   cartToggle: document.querySelector("#cartToggle"),
   closeCart: document.querySelector("#closeCart"),
   cartDrawer: document.querySelector("#cartDrawer"),
@@ -193,6 +195,7 @@ const els = {
   cartCount: document.querySelector("#cartCount"),
   wishlistCount: document.querySelector("#wishlistCount"),
   openLoginModal: document.querySelector("#openLoginModal"),
+  openMobileLoginModal: document.querySelector("#openMobileLoginModal"),
   homeLoginModal: document.querySelector("#homeLoginModal"),
   homeLoginIdentity: document.querySelector("#homeLoginIdentity"),
   homeLoginPassword: document.querySelector("#homeLoginPassword"),
@@ -215,8 +218,7 @@ function productCardTemplate(product) {
         <a class="product-detail-link media-link" href="./detail.html?id=${product.id}" aria-label="Lihat detail ${product.title}">
           <img src="${product.image}" alt="${product.title}" loading="lazy">
         </a>
-        <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20.35 10.55 19C5.4 14.2 2 11.04 2 7.15 2 4 4.42 1.55 7.5 1.55c1.74 0 3.41.81 4.5 2.09a5.93 5.93 0 0 1 4.5-2.09C19.58 1.55 22 4 22 7.15c0 3.89-3.4 7.05-8.55 11.86L12 20.35Z"/></svg>
+        <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i>
         </button>
       </div>
       <div class="product-body">
@@ -273,7 +275,10 @@ function setStoredValue(key, value) {
 
 function stars(value) {
   const rounded = Math.round(value);
-  return "★★★★★".slice(0, rounded) + "☆☆☆☆☆".slice(0, 5 - rounded);
+  return Array.from({ length: 5 }, (_, index) => {
+    const starClass = index < rounded ? "ph-fill ph-star" : "ph ph-star";
+    return `<i class="${starClass}" aria-hidden="true"></i>`;
+  }).join("");
 }
 
 function compactNumber(value) {
@@ -340,6 +345,38 @@ function renderBestSellers() {
     .join("");
 }
 
+function renderProductSection(grid, productIds) {
+  if (!grid) return;
+  grid.innerHTML = productIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter(Boolean)
+    .map((product) => productCardTemplate(product))
+    .join("");
+}
+
+function renderCuratedSections() {
+  renderProductSection(els.bundlingGrid, [2, 3, 4, 6]);
+  renderProductSection(els.subscriptionGrid, [5, 13, 1, 11]);
+}
+
+function showWishlistToast() {
+  let toast = document.querySelector("[data-wishlist-toast]");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.className = "wishlist-toast";
+    toast.dataset.wishlistToast = "";
+    toast.setAttribute("role", "status");
+    toast.textContent = "Berhasil menyimpan di wishlist";
+    document.body.appendChild(toast);
+  }
+
+  clearTimeout(showWishlistToast.timer);
+  toast.classList.add("show");
+  showWishlistToast.timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2200);
+}
+
 function handleProductGridClick(event) {
   const wishlistButton = event.target.closest("[data-wishlist]");
   const cartButton = event.target.closest("[data-add-cart]");
@@ -347,8 +384,12 @@ function handleProductGridClick(event) {
 
   if (wishlistButton) {
     const id = Number(wishlistButton.dataset.wishlist);
-    if (state.wishlist.has(id)) state.wishlist.delete(id);
-    else state.wishlist.add(id);
+    const wasSaved = state.wishlist.has(id);
+    if (wasSaved) state.wishlist.delete(id);
+    else {
+      state.wishlist.add(id);
+      showWishlistToast();
+    }
     renderProducts();
     updateBadges();
   }
@@ -380,6 +421,7 @@ function updateBadges() {
   els.wishlistCount.textContent = state.wishlist.size;
   els.wishlistCount.classList.toggle("hidden", state.wishlist.size === 0);
   renderBestSellers();
+  renderCuratedSections();
 }
 
 function renderCart() {
@@ -504,6 +546,7 @@ function finishHomeLogin() {
 renderCategories();
 renderProducts();
 renderBestSellers();
+renderCuratedSections();
 renderCart();
 setLoggedIn(getStoredValue("geraiLoggedIn") === "true");
 if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "true") {
@@ -525,6 +568,10 @@ els.productGrid.addEventListener("click", handleProductGridClick);
 els.productGrid.addEventListener("keydown", handleProductGridKeydown);
 els.bestSellerGrid?.addEventListener("click", handleProductGridClick);
 els.bestSellerGrid?.addEventListener("keydown", handleProductGridKeydown);
+els.bundlingGrid?.addEventListener("click", handleProductGridClick);
+els.bundlingGrid?.addEventListener("keydown", handleProductGridKeydown);
+els.subscriptionGrid?.addEventListener("click", handleProductGridClick);
+els.subscriptionGrid?.addEventListener("keydown", handleProductGridKeydown);
 
 els.searchInput.addEventListener("input", (event) => {
   state.query = event.target.value;
@@ -558,6 +605,7 @@ els.cartToggle.addEventListener("click", () => {
 });
 
 els.openLoginModal.addEventListener("click", openHomeLogin);
+els.openMobileLoginModal?.addEventListener("click", openHomeLogin);
 els.homeLoginModal.addEventListener("click", (event) => {
   if (event.target === els.homeLoginModal) closeHomeLogin();
 });

@@ -333,10 +333,10 @@
   background: #12b76a;
 }
 
-.cc-success-mark svg {
+.cc-success-mark .ph {
   width: 32px;
   height: 32px;
-  fill: currentColor;
+  font-size: 32px;
 }
 
 .cc-success-dialog h2 {

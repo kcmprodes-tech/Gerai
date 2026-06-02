@@ -236,10 +236,11 @@
   font-weight: 600;
 }
 
-.other-payment svg {
+.other-payment .ph {
   width: 20px;
   height: 20px;
-  fill: #667085;
+  color: #667085;
+  font-size: 20px;
 }
 
 .checkout-summary {
@@ -263,10 +264,11 @@
   line-height: 20px;
 }
 
-.checkout-promo svg {
+.checkout-promo .ph {
   width: 20px;
   height: 20px;
-  fill: #667085;
+  color: #667085;
+  font-size: 20px;
 }
 
 .summary-row {
@@ -627,10 +629,10 @@ body.modal-open {
   background: var(--blue);
 }
 
-.success-mark svg {
+.success-mark .ph {
   width: 34px;
   height: 34px;
-  fill: currentColor;
+  font-size: 34px;
 }
 
 .success-home {
@@ -658,6 +660,11 @@ body.modal-open {
 }
 
 @media (max-width: 720px) {
+  .account-actions,
+  .logged-in-actions {
+    gap: 16px;
+  }
+
   .checkout-page {
     padding-bottom: 172px;
   }
@@ -665,6 +672,10 @@ body.modal-open {
   .checkout-shell {
     width: min(100% - 40px, 640px);
     padding-top: 24px;
+  }
+
+  .checkout-shell h1 {
+    margin-bottom: 16px;
   }
 
   .checkout-summary {

@@ -12,6 +12,16 @@ const cartAccountAvatar = document.querySelector("#cartAccountAvatar");
 const selectAllCart = document.querySelector("#selectAllCart");
 const removeSelectedCart = document.querySelector("#removeSelectedCart");
 const cartBuyButton = document.querySelector(".cart-buy-button");
+const cartLoginModal = document.querySelector("#cartLoginModal");
+const cartLoginIdentity = document.querySelector("#cartLoginIdentity");
+const cartLoginPassword = document.querySelector("#cartLoginPassword");
+const cartIdentityStep = document.querySelector('[data-cart-login-step="identity"]');
+const cartPasswordStep = document.querySelector('[data-cart-login-step="password"]');
+const cartLoginIdentityPreview = document.querySelector("#cartLoginIdentityPreview");
+const cartContinueIdentity = document.querySelector("#cartContinueIdentity");
+const cartContinuePassword = document.querySelector("#cartContinuePassword");
+const cartChangeIdentity = document.querySelector("#cartChangeIdentity");
+const cartTogglePassword = document.querySelector("#cartTogglePassword");
 
 function getStoredValue(key) {
   let localValue = null;
@@ -31,11 +41,59 @@ function getStoredValue(key) {
   }
 }
 
+function setStoredValue(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Keep login interactions usable in file:// contexts that block storage.
+  }
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    tabState[key] = value;
+    window.name = JSON.stringify(tabState);
+  } catch {
+    window.name = JSON.stringify({ [key]: value });
+  }
+}
+
 function setHeaderLoginState() {
   const isLoggedIn = getStoredValue("geraiLoggedIn") === "true";
   if (!cartAuthActions || !cartAccountAvatar) return;
   cartAuthActions.classList.toggle("hidden", isLoggedIn);
   cartAccountAvatar.classList.toggle("hidden", !isLoggedIn);
+}
+
+function showCartIdentityStep() {
+  cartIdentityStep.hidden = false;
+  cartPasswordStep.hidden = true;
+}
+
+function showCartPasswordStep() {
+  const identity = cartLoginIdentity.value.trim() || "ikhwanardhi@gmail.com";
+  cartLoginIdentityPreview.textContent = identity;
+  cartIdentityStep.hidden = true;
+  cartPasswordStep.hidden = false;
+  cartLoginPassword.focus();
+}
+
+function openCartLogin() {
+  cartLoginModal.hidden = false;
+  document.body.classList.add("modal-open");
+  showCartIdentityStep();
+  requestAnimationFrame(() => cartLoginIdentity.focus());
+}
+
+function closeCartLogin() {
+  cartLoginModal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
+function finishCartLogin() {
+  setStoredValue("geraiLoggedIn", "true");
+  setHeaderLoginState();
+  closeCartLogin();
+  window.location.href = "./checkout.html";
 }
 
 function getQuantity(row) {
@@ -128,7 +186,36 @@ removeSelectedCart?.addEventListener("click", () => {
 });
 
 cartBuyButton?.addEventListener("click", () => {
+  if (getStoredValue("geraiLoggedIn") !== "true") {
+    openCartLogin();
+    return;
+  }
   window.location.href = "./checkout.html";
+});
+
+cartLoginModal?.addEventListener("click", (event) => {
+  if (event.target === cartLoginModal) closeCartLogin();
+});
+
+cartContinueIdentity?.addEventListener("click", showCartPasswordStep);
+cartLoginIdentity?.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") showCartPasswordStep();
+});
+cartChangeIdentity?.addEventListener("click", () => {
+  showCartIdentityStep();
+  cartLoginIdentity.focus();
+});
+cartTogglePassword?.addEventListener("click", () => {
+  const shouldShow = cartLoginPassword.type === "password";
+  cartLoginPassword.type = shouldShow ? "text" : "password";
+  cartTogglePassword.setAttribute("aria-label", shouldShow ? "Sembunyikan kata sandi" : "Tampilkan kata sandi");
+});
+cartContinuePassword?.addEventListener("click", finishCartLogin);
+cartLoginPassword?.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") finishCartLogin();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && cartLoginModal && !cartLoginModal.hidden) closeCartLogin();
 });
 
 updateCartTotals();

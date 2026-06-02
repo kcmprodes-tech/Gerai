@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Puma ACG Air Zoom - Gerai Kompas</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./detail.css">
   </head>
@@ -16,24 +17,22 @@
 
         <label class="search" for="detailSearchInput">
           <input id="detailSearchInput" type="search" placeholder="Search for any product or brand" autocomplete="off">
-          <span class="search-submit" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 4.38 12.46l3.58 3.58 1.08-1.08-3.58-3.58A7 7 0 0 0 11 4Zm0 1.6a5.4 5.4 0 1 1 0 10.8 5.4 5.4 0 0 1 0-10.8Z"/></svg>
+          <span class="search-submit" aria-hidden="true"><i class="ph ph-magnifying-glass" aria-hidden="true"></i>
           </span>
         </label>
 
         <nav class="account-actions" aria-label="Akun dan belanja">
-          <button class="icon-button mobile-search-toggle" type="button" aria-label="Buka pencarian">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 4.38 12.46l3.58 3.58 1.08-1.08-3.58-3.58A7 7 0 0 0 11 4Zm0 1.6a5.4 5.4 0 1 1 0 10.8 5.4 5.4 0 0 1 0-10.8Z"/></svg>
+          <button class="icon-button mobile-search-toggle" type="button" aria-label="Buka pencarian"><i class="ph ph-magnifying-glass" aria-hidden="true"></i>
           </button>
-          <button class="icon-button" type="button" aria-label="Lihat notifikasi">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22a2.8 2.8 0 0 0 2.75-2.25h-5.5A2.8 2.8 0 0 0 12 22Zm7-6.5V11a7 7 0 0 0-5-6.7V3a2 2 0 1 0-4 0v1.3A7 7 0 0 0 5 11v4.5L3.25 17.25V18h17.5v-.75L19 15.5ZM7 16v-5a5 5 0 0 1 10 0v5H7Z"/></svg>
+          <button class="icon-button" type="button" aria-label="Lihat notifikasi"><i class="ph ph-bell" aria-hidden="true"></i>
           </button>
-          <a class="icon-button" href="./cart.html" aria-label="Buka keranjang">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2Zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2ZM7.16 14.26c-.75 0-1.41-.41-1.75-1.03L2 3H0V1h3.31l.94 2H22l-3.2 9.59a2.49 2.49 0 0 1-2.37 1.71H7.16ZM5.22 5l2.03 7.26h9.18c.21 0 .4-.13.47-.33L19.22 5h-14Z"/></svg>
+          <a class="icon-button" href="./cart.html" aria-label="Buka keranjang"><i class="ph ph-shopping-cart" aria-hidden="true"></i>
           </a>
           <div class="auth-actions" id="detailAuthActions">
             <button class="btn ghost" id="detailHeaderLogin" type="button">Masuk</button>
             <a class="btn primary" href="#register">Daftar</a>
+            <button class="icon-button mobile-login-icon" id="detailMobileHeaderLogin" type="button" aria-label="Masuk akun"><i class="ph ph-user" aria-hidden="true"></i>
+            </button>
           </div>
           <button class="avatar-button hidden" id="detailAccountAvatar" type="button" aria-label="Akun saya" data-avatar-menu-trigger>AS</button>
         </nav>
@@ -42,9 +41,9 @@
       <div class="category-row">
         <div class="category-bar shell" aria-label="Kategori produk">
           <button class="category-tab all-category active" type="button">
-            <span class="category-grid-icon" aria-hidden="true"></span>
+            <i class="ph ph-squares-four category-grid-icon" aria-hidden="true"></i>
             <span>Semua kategori</span>
-            <span class="category-caret" aria-hidden="true"></span>
+            <i class="ph ph-caret-down category-caret" aria-hidden="true"></i>
           </button>
           <span class="category-divider" aria-hidden="true"></span>
           <div class="category-scroll" aria-label="Menu kategori">
@@ -66,8 +65,8 @@
         <div class="gallery">
           <div class="main-image">
             <img id="detailProductImage" src="./assets/detail-shoe-main.svg" alt="Puma ACG Air Zoom shoes">
-            <button class="floating heart" type="button" aria-label="Add to wishlist">♡</button>
-            <button class="floating zoom" type="button" aria-label="Zoom product">⌕</button>
+            <button class="floating heart" type="button" aria-label="Add to wishlist"><i class="ph ph-heart" aria-hidden="true"></i></button>
+            <button class="floating zoom" type="button" aria-label="Zoom product"><i class="ph ph-magnifying-glass-plus" aria-hidden="true"></i></button>
           </div>
           <div class="thumbs" aria-label="Product image previews">
             <button class="thumb active" type="button"><img src="./assets/detail-shoe-thumb-1.svg" alt=""></button>
@@ -85,7 +84,7 @@
               <h1 id="detailProductTitle">Puma ACG Air Zoom</h1>
             </div>
           </div>
-          <div class="rating detail-rating"><span>★</span><strong>4.8</strong><em>(91)</em></div>
+          <div class="rating detail-rating"><i class="ph-fill ph-star" aria-hidden="true"></i><strong>4.8</strong><em>(91)</em></div>
           <div class="price-block" id="detailPriceBlock">
             <strong>₹887</strong>
             <span>MRP ₹3699</span>
@@ -186,20 +185,16 @@
       <section class="footer-service" aria-label="Layanan pelanggan">
         <div class="footer-service-inner">
           <p><strong>LAYANAN</strong> PELANGGAN</p>
-          <a href="tel:+622125676000">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"/></svg>
+          <a href="tel:+622125676000"><i class="ph ph-phone" aria-hidden="true"></i>
             <span><strong>KOMPAS KRING</strong>+6221 2567 6000</span>
           </a>
-          <a href="mailto:hotline@kompas.id">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg>
+          <a href="mailto:hotline@kompas.id"><i class="ph ph-envelope-simple" aria-hidden="true"></i>
             <span><strong>EMAIL</strong>hotline@kompas.id</span>
           </a>
-          <a href="https://api.whatsapp.com/send?phone=6281290050800">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12.04 2a9.86 9.86 0 0 0-8.42 15.02L2.5 21.1l4.17-1.09A9.91 9.91 0 1 0 12.04 2Zm0 1.77a8.13 8.13 0 0 1 6.92 12.41 8.13 8.13 0 0 1-10.1 2.38l-.3-.18-2.47.65.66-2.4-.2-.31a8.12 8.12 0 0 1 5.49-12.55Zm-3.3 4.18c-.18 0-.47.07-.72.34-.25.28-.95.93-.95 2.26s.98 2.62 1.11 2.8c.14.18 1.89 3.02 4.67 4.11 2.31.91 2.78.73 3.28.68.5-.04 1.62-.66 1.85-1.3.23-.64.23-1.19.16-1.3-.07-.12-.25-.18-.53-.32-.27-.14-1.62-.8-1.87-.89-.25-.09-.43-.14-.61.14-.18.27-.7.89-.86 1.07-.16.18-.32.2-.59.07-.27-.14-1.16-.43-2.2-1.36-.81-.73-1.36-1.62-1.52-1.9-.16-.27-.02-.42.12-.56.13-.12.27-.32.41-.48.14-.16.18-.27.27-.46.09-.18.04-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.45-.61-.46h-.52Z"/></svg>
+          <a href="https://api.whatsapp.com/send?phone=6281290050800"><i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
             <span><strong>WHATSAPP</strong>+62812 900 50 800</span>
           </a>
-          <p>
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .01 20.01A10 10 0 0 0 12 2Zm1 11h5v-2h-4V6h-2v7Z"/></svg>
+          <p><i class="ph ph-clock" aria-hidden="true"></i>
             <span><strong>JAM KERJA</strong>06.00 – 16.00 WIB</span>
           </p>
         </div>
@@ -211,39 +206,31 @@
             <p>Harian Kompas adalah surat kabar Indonesia yang berkantor pusat di Jakarta. Kompas diterbitkan oleh PT Kompas Media Nusantara yang merupakan bagian dari kelompok usaha Kompas Gramedia (KG), yang didirikan oleh P.K. Ojong (almarhum) dan Jakob Oetama (almarhum) sejak 28 Juni 1965.</p>
             <p>Mengusung semboyan “Amanat Hati Nurani Rakyat”, Kompas dikenal sebagai sumber informasi tepercaya, akurat, dan mendalam.</p>
             <div class="footer-socials">
-              <a class="facebook" href="https://www.facebook.com/harian.kompas" aria-label="Facebook Kompas">
-                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v2H6v4h3v7h4v-7h3.3l.7-4h-4V9c0-.7.3-1 1-1Z"/></svg>
+              <a class="facebook" href="https://www.facebook.com/harian.kompas" aria-label="Facebook Kompas"><i class="ph ph-facebook-logo" aria-hidden="true"></i>
               </a>
-              <a class="twitter" href="https://twitter.com/hariankompas" aria-label="Twitter Kompas">
-                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M22 5.9c-.7.3-1.5.5-2.4.6.9-.5 1.5-1.3 1.8-2.3-.8.5-1.7.8-2.7 1A4.14 4.14 0 0 0 15.7 4a4.2 4.2 0 0 0-4.1 5.1A11.86 11.86 0 0 1 3 4.8a4.2 4.2 0 0 0 1.3 5.6c-.7 0-1.3-.2-1.9-.5v.1a4.18 4.18 0 0 0 3.4 4.1c-.4.1-.8.2-1.2.2-.3 0-.6 0-.8-.1a4.2 4.2 0 0 0 3.9 2.9A8.4 8.4 0 0 1 2.5 19c-.3 0-.7 0-1-.1A11.8 11.8 0 0 0 8 20.8c7.7 0 12-6.4 12-12v-.5c.8-.6 1.5-1.4 2-2.4Z"/></svg>
+              <a class="twitter" href="https://twitter.com/hariankompas" aria-label="Twitter Kompas"><i class="ph ph-twitter-logo" aria-hidden="true"></i>
               </a>
-              <a class="youtube" href="https://www.youtube.com/user/KompasTV" aria-label="Youtube Kompas">
-                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M21.6 7.2s-.2-1.5-.8-2.2c-.8-.8-1.6-.8-2-.9C16 3.9 12 3.9 12 3.9s-4 0-6.8.2c-.4.1-1.2.1-2 .9-.6.7-.8 2.2-.8 2.2S2.2 9 2.2 10.8v1.7c0 1.8.2 3.6.2 3.6s.2 1.5.8 2.2c.8.8 1.8.8 2.2.9 1.6.2 6.6.2 6.6.2s4 0 6.8-.2c.4-.1 1.2-.1 2-.9.6-.7.8-2.2.8-2.2s.2-1.8.2-3.6v-1.7c0-1.8-.2-3.6-.2-3.6ZM10.1 14.9V8.7l5.8 3.1-5.8 3.1Z"/></svg>
+              <a class="youtube" href="https://www.youtube.com/user/KompasTV" aria-label="Youtube Kompas"><i class="ph ph-youtube-logo" aria-hidden="true"></i>
               </a>
-              <a class="instagram" href="https://www.instagram.com/hariankompas" aria-label="Instagram Kompas">
-                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm8.7 2.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+              <a class="instagram" href="https://www.instagram.com/hariankompas" aria-label="Instagram Kompas"><i class="ph ph-instagram-logo" aria-hidden="true"></i>
               </a>
             </div>
           </div>
 
           <div class="footer-office">
             <h2>KANTOR REDAKSI</h2>
-            <p class="footer-icon-line">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+            <p class="footer-icon-line"><i class="ph ph-map-pin" aria-hidden="true"></i>
               <span>Jalan Palmerah Selatan 26-28<br>Jakarta Pusat, DKI Jakarta,<br>Indonesia 10270</span>
             </p>
-            <p class="footer-icon-line">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"/></svg>
+            <p class="footer-icon-line"><i class="ph ph-phone" aria-hidden="true"></i>
               <span><a href="tel:+62215347710">+6221 5347 710</a><a href="tel:+62215347720">+6221 5347 720</a><a href="tel:+62215347730">+6221 5347 730</a><a href="tel:+62215302200">+6221 530 2200</a></span>
             </p>
 
             <h2>KANTOR IKLAN</h2>
-            <p class="footer-icon-line">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+            <p class="footer-icon-line"><i class="ph ph-map-pin" aria-hidden="true"></i>
               <span>Menara Kompas Lantai 2<br>Jalan Palmerah Selatan 21<br>Jakarta Pusat, DKI Jakarta,<br>Indonesia 10270</span>
             </p>
-            <p class="footer-icon-line">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2Z"/></svg>
+            <p class="footer-icon-line"><i class="ph ph-phone" aria-hidden="true"></i>
               <span><a href="tel:+622180626699">+6221 8062 6699</a></span>
             </p>
           </div>
@@ -343,8 +330,7 @@
           <label for="loginPassword">Kata Sandi</label>
           <div class="password-field">
             <input id="loginPassword" type="password" autocomplete="current-password">
-            <button id="togglePassword" type="button" aria-label="Tampilkan kata sandi">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m2.81 2.81 18.38 18.38-1.41 1.41-3.07-3.07A11.8 11.8 0 0 1 12 20C5 20 1 12 1 12a20.2 20.2 0 0 1 4.12-5.48L1.4 2.1l1.41-1.29Zm5.02 5.02A5.9 5.9 0 0 0 6.23 12 5.77 5.77 0 0 0 12 17.77c1 0 1.94-.25 2.76-.69l-1.52-1.52A3.74 3.74 0 0 1 8.44 10.76L7.83 7.83ZM12 4c7 0 11 8 11 8a20.6 20.6 0 0 1-3.18 4.56l-1.42-1.42A18.1 18.1 0 0 0 20.73 12S17.43 6 12 6c-.74 0-1.43.11-2.08.29L8.31 4.68A10.94 10.94 0 0 1 12 4Zm0 2.23A5.77 5.77 0 0 1 17.77 12c0 .53-.07 1.04-.21 1.52l-2.13-2.13A3.73 3.73 0 0 0 12.61 8.57l-2.13-2.13c.48-.14.99-.21 1.52-.21Z"/></svg>
+            <button id="togglePassword" type="button" aria-label="Tampilkan kata sandi"><i class="ph ph-eye-slash" aria-hidden="true"></i>
             </button>
           </div>
 

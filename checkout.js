@@ -47,7 +47,7 @@ const provinceSelect = document.querySelector("#provinceSelect");
 const districtSelect = document.querySelector("#districtSelect");
 const villageSelect = document.querySelector("#villageSelect");
 const postalSelect = document.querySelector("#postalSelect");
-const baseTotal = 99000;
+const baseTotal = 473000;
 let hasShippingAddress = false;
 let currentGrandTotal = baseTotal;
 
