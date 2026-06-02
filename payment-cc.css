@@ -371,7 +371,7 @@
 
 @media (max-width: 720px) {
   .payment-shell {
-    width: min(100% - 40px, 594px);
+    width: min(100% - 32px, 594px);
     padding: 32px 0 56px;
   }
 

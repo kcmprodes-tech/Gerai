@@ -416,7 +416,7 @@
 @media (max-width: 720px) {
   .flow-shell,
   .success-shell {
-    width: min(100% - 40px, 640px);
+    width: min(100% - 32px, 640px);
     padding-top: 32px;
   }
 

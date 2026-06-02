@@ -670,7 +670,7 @@ body.modal-open {
   }
 
   .checkout-shell {
-    width: min(100% - 40px, 640px);
+    width: min(100% - 32px, 640px);
     padding-top: 24px;
   }
 
@@ -689,7 +689,7 @@ body.modal-open {
     left: 0;
     z-index: 60;
     margin: 0;
-    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+    padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
     border-top: 1px solid var(--line);
     background: #ffffff;
     box-shadow: 0 -8px 24px rgba(16, 24, 32, 0.12);

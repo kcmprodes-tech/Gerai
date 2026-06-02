@@ -325,7 +325,7 @@ function renderProducts() {
   els.emptyState.classList.toggle("hidden", visibleProducts.length > 0);
 
   if (state.category !== "all" || state.query) {
-    const categoryLabel = state.category === "all" ? "Semua kategori" : state.category;
+    const categoryLabel = state.category === "all" ? "Kategori" : state.category;
     els.activeFilter.textContent = `${categoryLabel}${state.query ? ` - "${state.query}"` : ""}`;
     els.activeFilter.classList.remove("hidden");
   } else {

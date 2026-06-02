@@ -1474,11 +1474,11 @@ body.modal-open {
 
 @media (max-width: 720px) {
   :root {
-    --shell: min(100% - 40px, 640px);
+    --shell: min(100% - 32px, 640px);
   }
 
   .site-header .shell {
-    width: min(100% - 40px, 640px);
+    width: min(100% - 32px, 640px);
   }
 
   .header-main {
@@ -1569,10 +1569,11 @@ body.modal-open {
 
   .similar-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   .sticky-checkout-inner {
-    width: min(100% - 40px, 640px);
+    width: min(100% - 32px, 640px);
     align-items: stretch;
     flex-direction: column;
     gap: 12px;
@@ -1613,7 +1614,7 @@ body.modal-open {
   .footer-service-inner,
   .footer-main-inner,
   .footer-bottom-inner {
-    width: min(100% - 40px, 640px);
+    width: min(100% - 32px, 640px);
   }
 
   .footer-service-inner,
