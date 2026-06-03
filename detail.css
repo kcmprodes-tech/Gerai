@@ -1574,8 +1574,8 @@ body.modal-open {
 
   .sticky-checkout-inner {
     width: min(100% - 32px, 640px);
-    align-items: stretch;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
     gap: 12px;
     padding: 12px 0;
   }
@@ -1590,7 +1590,8 @@ body.modal-open {
 
   .sticky-actions {
     width: 100%;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 12px;
   }
 
   .sticky-qty,
@@ -1600,7 +1601,8 @@ body.modal-open {
 
   .sticky-buy-now,
   .sticky-add-bag {
-    flex: 1 1 160px;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .desktop-label {
@@ -1617,19 +1619,61 @@ body.modal-open {
     width: min(100% - 32px, 640px);
   }
 
-  .footer-service-inner,
+  .footer-service-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 18px;
+  }
+
   .footer-main-inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
+  }
+
+  .footer-about,
+  .footer-office,
+  .footer-blue {
+    grid-column: 1 / -1;
+  }
+
+  .footer-links {
+    grid-column: auto;
   }
 
   .footer-service p,
   .footer-service a {
-    font-size: 18px;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
   }
 
   .footer-service strong {
-    font-size: 17px;
+    font-size: 14px;
+  }
+
+  .footer-service > .footer-service-inner > p:first-child {
+    grid-column: 1 / -1;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .footer-service > .footer-service-inner > a:nth-of-type(1) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .footer-service > .footer-service-inner > a:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .footer-service > .footer-service-inner > a:nth-of-type(3) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .footer-service > .footer-service-inner > p:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 3;
   }
 
   .footer-main-inner {
@@ -1643,8 +1687,19 @@ body.modal-open {
   }
 
   .footer-blue {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
     min-height: auto;
     padding: 32px 20px 40px;
+  }
+
+  .footer-blue nav + nav {
+    margin-top: 0;
+  }
+
+  .footer-blue img {
+    grid-column: 1 / -1;
   }
 
   .footer-bottom-inner {

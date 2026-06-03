@@ -81,4 +81,39 @@ function setupSharedAvatarMenu() {
   });
 }
 
+function setupAutoHideHeader() {
+  const header = document.querySelector(".site-header");
+  if (!header || header.dataset.autoHideReady === "true") return;
+
+  header.dataset.autoHideReady = "true";
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const updateHeader = () => {
+    const currentScrollY = window.scrollY;
+    const isScrollingDown = currentScrollY > lastScrollY;
+    const delta = Math.abs(currentScrollY - lastScrollY);
+
+    if (currentScrollY <= 8) {
+      header.classList.remove("header-hidden");
+    } else if (delta > 6) {
+      header.classList.toggle("header-hidden", isScrollingDown);
+    }
+
+    lastScrollY = Math.max(currentScrollY, 0);
+    ticking = false;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateHeader);
+    },
+    { passive: true }
+  );
+}
+
 setupSharedAvatarMenu();
+setupAutoHideHeader();

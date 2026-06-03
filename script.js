@@ -72,8 +72,8 @@ const products = [
     id: 5,
     title: "Harian Kompas Akhir Pekan + Kompas.id",
     category: "All",
-    priceText: "Rp160.000 - Rp400.000",
-    price: 160000,
+    startingPrice: true,
+    price: 175000,
     oldPrice: null,
     image: "./assets/product-harian-kompas.jpeg",
   },
@@ -137,8 +137,8 @@ const products = [
     id: 13,
     title: "Harian Kompas Akhir Pekan + Kompas.id",
     category: "All",
-    priceText: "Rp160.000 - Rp400.000",
-    price: 160000,
+    startingPrice: true,
+    price: 175000,
     oldPrice: null,
     image: "./assets/product-harian-kompas.jpeg",
   },
@@ -212,25 +212,31 @@ const els = {
 
 function productCardTemplate(product) {
   const wished = state.wishlist.has(product.id);
+  const rating = product.rating || 4.9;
+  const reviews = product.reviews || 120;
+  const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : null;
   return `
     <article class="product-card" data-product-detail="${product.id}" tabindex="0" aria-label="Lihat detail ${product.title}">
       <div class="product-media">
         <a class="product-detail-link media-link" href="./detail.html?id=${product.id}" aria-label="Lihat detail ${product.title}">
           <img src="${product.image}" alt="${product.title}" loading="lazy">
         </a>
+        ${discount ? `<span class="product-discount">${discount}%</span>` : ""}
         <button class="icon-button wishlist ${wished ? "active" : ""}" data-wishlist="${product.id}" type="button" aria-label="Tambahkan ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i>
         </button>
       </div>
       <div class="product-body">
         <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+          <span class="product-tag">Digital</span>
           <p class="product-title">${product.title}</p>
-          <div class="rating" aria-label="Rating ${product.rating || 4.8} dari 5">
-            ${stars(product.rating || 4.8)}
-            <span>(${compactNumber(product.reviews || 121)})</span>
+          <div class="rating" aria-label="Rating ${rating} dari 5">
+            <i class="ph-fill ph-star" aria-hidden="true"></i>
+            <span>${rating.toFixed(1)} (${compactNumber(reviews)})</span>
           </div>
           <div class="price-row">
+            ${product.startingPrice ? `<span class="price-prefix">Harga mulai</span>` : ""}
+            <strong class="price">${money(product.price)}</strong>
             ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
-            <strong class="price">${product.priceText || money(product.price)}</strong>
           </div>
         </a>
         <button class="btn primary" data-add-cart="${product.id}" type="button">Tambah</button>

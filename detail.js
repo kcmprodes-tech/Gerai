@@ -29,8 +29,8 @@ const detailProducts = [
   {
     id: 5,
     title: "Harian Kompas Akhir Pekan + Kompas.id",
-    priceText: "Rp160.000 - Rp400.000",
-    price: 160000,
+    priceText: "Rp175.000",
+    price: 175000,
     image: "./assets/product-harian-kompas.jpeg",
   },
   {
@@ -69,30 +69,36 @@ function priceMarkup(product) {
   return `<strong>${price}</strong>${oldPrice}${discount}`;
 }
 
+function shortBreadcrumbTitle(title) {
+  const words = title.trim().split(/\s+/);
+  return words.length > 3 ? `${words.slice(0, 3).join(" ")}...` : title;
+}
+
 function relatedCard(product) {
+  const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : null;
   const oldPrice = product.oldPrice ? `<span class="old-price">${formatRupiah(product.oldPrice)}</span>` : "";
-  const price = product.priceText || formatRupiah(product.price);
   return `
     <article class="product-card" tabindex="0" aria-label="Lihat detail ${product.title}">
       <div class="product-media">
         <img src="${product.image}" alt="${product.title}" loading="lazy">
+        ${discount ? `<span class="product-discount">${discount}%</span>` : ""}
         <button class="icon-button wishlist" type="button" aria-label="Tambahkan ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i>
         </button>
       </div>
       <div class="product-body">
-        <p class="product-title">${product.title}</p>
-        <div class="rating" aria-label="Rating 4.8 dari 5">
-          <i class="ph-fill ph-star" aria-hidden="true"></i>
-          <i class="ph-fill ph-star" aria-hidden="true"></i>
-          <i class="ph-fill ph-star" aria-hidden="true"></i>
-          <i class="ph-fill ph-star" aria-hidden="true"></i>
-          <i class="ph-fill ph-star" aria-hidden="true"></i>
-          <span>(121)</span>
-        </div>
-        <div class="price-row">
-          ${oldPrice}
-          <strong class="price">${price}</strong>
-        </div>
+        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+          <span class="product-tag">Digital</span>
+          <p class="product-title">${product.title}</p>
+          <div class="rating" aria-label="Rating 4.9 dari 5">
+            <i class="ph-fill ph-star" aria-hidden="true"></i>
+            <span>4.9 (120)</span>
+          </div>
+          <div class="price-row">
+            ${product.priceText ? `<span class="price-prefix">Harga mulai</span>` : ""}
+            <strong class="price">${formatRupiah(product.price)}</strong>
+            ${oldPrice}
+          </div>
+        </a>
       </div>
     </article>
   `;
@@ -118,6 +124,13 @@ function updateTotalPrice() {
 }
 
 document.title = `${product.title} - Gerai Kompas`;
+const breadcrumb = document.querySelector("#detailBreadcrumb");
+if (breadcrumb) {
+  breadcrumb.innerHTML = "Beranda / Produk / ";
+  const currentProduct = document.createElement("strong");
+  currentProduct.textContent = shortBreadcrumbTitle(product.title);
+  breadcrumb.append(currentProduct);
+}
 document.querySelector("#detailProductTitle").textContent = product.title;
 document.querySelector("#detailProductImage").src = product.image;
 document.querySelector("#detailProductImage").alt = product.title;
