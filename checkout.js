@@ -33,6 +33,9 @@ const shippingAddressCard = document.querySelector("#shippingAddressCard");
 const shippingMethodCard = document.querySelector("#shippingMethodCard");
 const shippingCostSummary = document.querySelector("#shippingCostSummary");
 const checkoutGrandTotal = document.querySelector("#checkoutGrandTotal");
+const checkoutProducts = document.querySelector("#checkoutProducts");
+const checkoutSummaryItems = document.querySelector("#checkoutSummaryItems");
+const checkoutSubtotal = document.querySelector("#checkoutSubtotal");
 const payButton = document.querySelector(".pay-button");
 const paymentHelperText = document.querySelector("#paymentHelperText");
 const paymentModal = document.querySelector("#paymentModal");
@@ -47,12 +50,118 @@ const provinceSelect = document.querySelector("#provinceSelect");
 const districtSelect = document.querySelector("#districtSelect");
 const villageSelect = document.querySelector("#villageSelect");
 const postalSelect = document.querySelector("#postalSelect");
-const baseTotal = 473000;
+const fallbackCheckoutItems = [
+  {
+    title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
+    variant: "Digital, Bundle",
+    image: "./assets/product-pesta-bola.jpg",
+    alt: "Bundling Pesta Bola",
+    price: 99000,
+    oldPrice: 125000,
+    quantity: 1,
+  },
+  {
+    title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
+    variant: "Putih, Reguler",
+    image: "./assets/product-kaus-kompas.png",
+    alt: "Kaus Halaman Depan Kompas",
+    price: 199000,
+    oldPrice: 0,
+    quantity: 1,
+  },
+  {
+    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
+    variant: "Buku & Digital",
+    image: "./assets/product-bobo-origin.jpg",
+    alt: "Paket Bundling Bobo the Origin",
+    price: 175000,
+    oldPrice: 229000,
+    quantity: 1,
+  },
+];
+let checkoutItems = getCheckoutItems();
+let baseTotal = getCheckoutBaseTotal();
 let hasShippingAddress = false;
 let currentGrandTotal = baseTotal;
 
 function formatRupiah(value) {
   return `Rp${value.toLocaleString("id-ID", { maximumFractionDigits: 0 })}`;
+}
+
+function getStoredValue(key) {
+  try {
+    const value = localStorage.getItem(key);
+    if (value !== null) return value;
+  } catch {
+    // Storage can be blocked on file:// in some browsers.
+  }
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    return tabState[key] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function setStoredValue(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Keep the prototype flow working without persistent storage.
+  }
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    tabState[key] = value;
+    window.name = JSON.stringify(tabState);
+  } catch {
+    window.name = JSON.stringify({ [key]: value });
+  }
+}
+
+function getCheckoutItems() {
+  try {
+    const storedItems = JSON.parse(getStoredValue("geraiCheckoutItems") || "[]");
+    if (Array.isArray(storedItems) && storedItems.length) return storedItems;
+  } catch {
+    // Use fallback below.
+  }
+
+  return fallbackCheckoutItems;
+}
+
+function getCheckoutBaseTotal() {
+  return checkoutItems.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 1), 0);
+}
+
+function getCheckoutItemCount() {
+  return checkoutItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+}
+
+function renderCheckoutProducts() {
+  if (!checkoutProducts) return;
+
+  checkoutProducts.innerHTML = checkoutItems
+    .map((item) => {
+      const quantity = Number(item.quantity) || 1;
+      const lineTotal = (Number(item.price) || 0) * quantity;
+      return `
+        <article class="checkout-card product-checkout-card">
+          <img src="${item.image}" alt="${item.alt || item.title}">
+          <div>
+            <h2>${item.title}</h2>
+            <p>x${quantity}</p>
+          </div>
+          <strong>${formatRupiah(lineTotal)}</strong>
+        </article>
+      `;
+    })
+    .join("");
+
+  if (checkoutSummaryItems) checkoutSummaryItems.textContent = `Total Harga (${getCheckoutItemCount()} Barang)`;
+  if (checkoutSubtotal) checkoutSubtotal.textContent = formatRupiah(baseTotal);
+  setStoredValue("geraiLastPurchaseItems", JSON.stringify(checkoutItems));
 }
 
 function fillSelect(select, placeholder, options) {
@@ -88,6 +197,80 @@ function updateCheckoutState() {
   paymentHelperText.textContent = payButton.disabled
     ? "Lengkapi alamat pengiriman dan pilih metode pembayaran untuk melanjutkan."
     : "Dengan melanjutkan pembayaran, kamu menyetujui S&K Asuransi Pengiriman & Proteksi.";
+}
+
+function getShippingAddressData() {
+  return {
+    name: document.querySelector("#recipientName").value.trim(),
+    phone: document.querySelector("#recipientPhone").value.trim(),
+    email: document.querySelector("#recipientEmail").value.trim(),
+    fullAddress: document.querySelector("#fullAddress").value.trim(),
+    province: provinceSelect.value,
+    district: districtSelect.value,
+    village: villageSelect.value,
+    postal: postalSelect.value,
+    note: document.querySelector("#addressNote")?.value.trim() || "",
+  };
+}
+
+function getAddressLine(addressDataItem) {
+  return `${addressDataItem.fullAddress}, ${addressDataItem.village}, ${addressDataItem.district}, ${addressDataItem.province} ${addressDataItem.postal}`;
+}
+
+function applyShippingAddress(addressDataItem) {
+  if (!addressDataItem) return;
+
+  shippingAddressText.innerHTML = `<span class="filled-address"><strong>${addressDataItem.name}</strong><p>${getAddressLine(addressDataItem)}<br>${addressDataItem.phone}</p></span>`;
+  shippingAddressCard.classList.add("is-filled");
+  openAddressModal.textContent = "Ganti";
+  shippingMethodCard.hidden = false;
+  hasShippingAddress = true;
+}
+
+function fillAddressForm(addressDataItem) {
+  if (!addressDataItem) return;
+
+  document.querySelector("#recipientName").value = addressDataItem.name || "";
+  document.querySelector("#recipientPhone").value = addressDataItem.phone || "";
+  document.querySelector("#recipientEmail").value = addressDataItem.email || "";
+  document.querySelector("#fullAddress").value = addressDataItem.fullAddress || "";
+  if (document.querySelector("#addressNote")) document.querySelector("#addressNote").value = addressDataItem.note || "";
+
+  provinceSelect.value = addressDataItem.province || "";
+  resetLocationAfter("province");
+  if (provinceSelect.value) {
+    fillSelect(districtSelect, "Pilih kecamatan", Object.keys(addressData[provinceSelect.value] || {}));
+    districtSelect.disabled = false;
+    districtSelect.value = addressDataItem.district || "";
+  }
+
+  resetLocationAfter("district");
+  if (districtSelect.value) {
+    fillSelect(villageSelect, "Pilih kelurahan", Object.keys(addressData[provinceSelect.value]?.[districtSelect.value] || {}));
+    villageSelect.disabled = false;
+    villageSelect.value = addressDataItem.village || "";
+  }
+
+  resetLocationAfter("village");
+  if (villageSelect.value) {
+    fillSelect(postalSelect, "Pilih kode pos", addressData[provinceSelect.value]?.[districtSelect.value]?.[villageSelect.value] || []);
+    postalSelect.disabled = false;
+    postalSelect.value = addressDataItem.postal || "";
+  }
+
+  updateContactState();
+  updateDetailState();
+}
+
+function restoreShippingAddress() {
+  try {
+    const savedAddress = JSON.parse(getStoredValue("geraiShippingAddress") || "null");
+    if (!savedAddress) return;
+    applyShippingAddress(savedAddress);
+    fillAddressForm(savedAddress);
+  } catch {
+    // Ignore invalid saved address data.
+  }
 }
 
 function updateCardFormState() {
@@ -154,6 +337,11 @@ function showDetailStep() {
 function openModal() {
   addressModal.hidden = false;
   document.body.classList.add("modal-open");
+  try {
+    fillAddressForm(JSON.parse(getStoredValue("geraiShippingAddress") || "null"));
+  } catch {
+    // Keep the current form state.
+  }
   showContactStep();
   updateContactState();
   document.querySelector("#recipientName").focus();
@@ -229,14 +417,10 @@ addressForm.addEventListener("submit", (event) => {
   if (addressSubmit.disabled) return;
 
   const name = document.querySelector("#recipientName").value.trim();
-  const phone = document.querySelector("#recipientPhone").value.trim();
-  const fullAddress = document.querySelector("#fullAddress").value.trim();
-  const address = `${fullAddress}, ${villageSelect.value}, ${districtSelect.value}, ${provinceSelect.value} ${postalSelect.value}`;
-  shippingAddressText.innerHTML = `<span class="filled-address"><strong>${name}</strong><p>${address}<br>${phone}</p></span>`;
-  shippingAddressCard.classList.add("is-filled");
-  openAddressModal.textContent = "Ganti";
-  shippingMethodCard.hidden = false;
-  hasShippingAddress = true;
+  const savedAddress = getShippingAddressData();
+  savedAddress.name = name;
+  setStoredValue("geraiShippingAddress", JSON.stringify(savedAddress));
+  applyShippingAddress(savedAddress);
   updateCheckoutState();
   closeModal();
 });
@@ -288,6 +472,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 resetLocationAfter("province");
+renderCheckoutProducts();
+restoreShippingAddress();
 updateContactState();
 updateDetailState();
 updateCheckoutState();

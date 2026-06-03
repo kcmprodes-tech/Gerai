@@ -162,8 +162,10 @@ body:not(.home-page) .site-header {
   place-items: center;
   color: #ffffff;
   background: var(--blue);
+  border: 0;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(5, 114, 189, 0.25);
+  cursor: pointer;
 }
 
 .search-submit .ph {
@@ -235,14 +237,18 @@ body:not(.home-page) .site-header {
 
 .avatar-menu-profile {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) auto;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
 }
 
+.avatar-menu-profile > div {
+  min-width: 0;
+}
+
 .avatar-menu-initials {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -255,18 +261,24 @@ body:not(.home-page) .site-header {
 
 .avatar-menu-profile strong {
   display: block;
+  overflow: hidden;
   margin: 0;
   color: #333333;
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .avatar-menu-profile p {
+  overflow: hidden;
   margin: 2px 0 0;
   color: #555555;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 12px;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .avatar-profile-link {
@@ -815,6 +827,16 @@ select {
   line-height: 1;
 }
 
+.product-tag {
+  font-size: 0;
+}
+
+.product-tag::before {
+  content: "Produk";
+  font-size: 12px;
+  line-height: 1;
+}
+
 .product-title {
   margin: 0;
   font-size: 16px;
@@ -876,6 +898,37 @@ select {
 .empty-state {
   margin: 30px 0;
   color: var(--muted);
+}
+
+.search-results-shell {
+  min-height: calc(100vh - 72px);
+  background: #ffffff;
+}
+
+.search-results-section {
+  padding-top: 40px;
+}
+
+.search-results-heading {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.search-results-heading p,
+.search-results-heading span {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.search-results-heading h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
 }
 
 .drawer {
@@ -1224,13 +1277,22 @@ body.modal-open {
   width: 100%;
   height: 40px;
   display: grid;
-  grid-template-columns: 58px 1fr 58px;
+  grid-template-columns: 24px minmax(0, 1fr) 24px;
   align-items: center;
+  column-gap: 12px;
   margin-top: 12px;
+  padding: 0 20px;
   border-radius: 8px;
   background: #ffffff;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
+}
+
+.social-button > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .social-button.google {

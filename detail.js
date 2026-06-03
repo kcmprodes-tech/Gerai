@@ -87,7 +87,7 @@ function relatedCard(product) {
       </div>
       <div class="product-body">
         <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
-          <span class="product-tag">Digital</span>
+          <span class="product-tag">Produk</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating 4.9 dari 5">
             <i class="ph-fill ph-star" aria-hidden="true"></i>
@@ -111,6 +111,10 @@ const stickyProductImage = document.querySelector("#stickyProductImage");
 const stickyProductTitle = document.querySelector("#stickyProductTitle");
 const stickyQtyValue = document.querySelector("#stickyQtyValue");
 const stickyTotalPrice = document.querySelector("#stickyTotalPrice");
+const detailProductImage = document.querySelector("#detailProductImage");
+const galleryDots = document.querySelector("#galleryDots");
+const productGallery = product.gallery || Array.from({ length: 4 }, () => product.image);
+let activeGalleryIndex = 0;
 
 function unitPrice(product) {
   return product.price || 0;
@@ -132,8 +136,8 @@ if (breadcrumb) {
   breadcrumb.append(currentProduct);
 }
 document.querySelector("#detailProductTitle").textContent = product.title;
-document.querySelector("#detailProductImage").src = product.image;
-document.querySelector("#detailProductImage").alt = product.title;
+detailProductImage.src = productGallery[activeGalleryIndex];
+detailProductImage.alt = product.title;
 document.querySelector("#detailPriceBlock").innerHTML = priceMarkup(product);
 stickyProductImage.src = product.image;
 stickyProductImage.alt = product.title;
@@ -144,6 +148,32 @@ document.querySelectorAll(".thumb img").forEach((image) => {
   image.src = product.image;
   image.alt = product.title;
 });
+
+function renderGalleryDots() {
+  if (!galleryDots || productGallery.length <= 1) return;
+  galleryDots.innerHTML = productGallery
+    .map(
+      (_, index) =>
+        `<button class="${index === activeGalleryIndex ? "active" : ""}" type="button" aria-label="Gambar ${index + 1}" data-gallery-dot="${index}"></button>`
+    )
+    .join("");
+}
+
+function setGalleryImage(index) {
+  activeGalleryIndex = index;
+  detailProductImage.src = productGallery[activeGalleryIndex];
+  galleryDots?.querySelectorAll("button").forEach((button, buttonIndex) => {
+    button.classList.toggle("active", buttonIndex === activeGalleryIndex);
+  });
+}
+
+galleryDots?.addEventListener("click", (event) => {
+  const dot = event.target.closest("[data-gallery-dot]");
+  if (!dot) return;
+  setGalleryImage(Number(dot.dataset.galleryDot) || 0);
+});
+
+renderGalleryDots();
 
 const relatedSource = detailProducts.filter((item) => item.id !== product.id);
 const relatedProducts = Array.from({ length: 8 }, (_, index) => relatedSource[index % relatedSource.length]);
@@ -229,6 +259,62 @@ function setStoredValue(key, value) {
   }
 }
 
+function productCartVariant(product) {
+  if (product.id === 7) return "Putih, Reguler";
+  if ([1, 2, 3, 4, 6].includes(product.id)) return product.id === 2 || product.id === 4 ? "Buku & Digital" : "Digital, Bundle";
+  return "Produk";
+}
+
+function getStoredCartItems() {
+  try {
+    return JSON.parse(getStoredValue("geraiCartItems") || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveCartItems(items) {
+  setStoredValue("geraiCartItems", JSON.stringify(items));
+}
+
+function addCurrentProductToCart() {
+  const cartItems = getStoredCartItems();
+  const existingItem = cartItems.find((item) => Number(item.id) === Number(product.id));
+  if (existingItem) {
+    existingItem.quantity = (Number(existingItem.quantity) || 1) + quantity;
+  } else {
+    cartItems.push({
+      id: product.id,
+      title: product.title,
+      variant: productCartVariant(product),
+      image: product.image,
+      alt: product.title,
+      price: product.price || 0,
+      oldPrice: product.oldPrice || 0,
+      quantity,
+    });
+  }
+  saveCartItems(cartItems);
+}
+
+function saveCurrentProductForCheckout() {
+  setStoredValue(
+    "geraiCheckoutItems",
+    JSON.stringify([
+      {
+        id: product.id,
+        title: product.title,
+        variant: productCartVariant(product),
+        image: product.image,
+        alt: product.title,
+        price: product.price || 0,
+        oldPrice: product.oldPrice || 0,
+        quantity,
+      },
+    ])
+  );
+}
+
 function setLoggedIn(isLoggedIn) {
   detailAuthActions.classList.toggle("hidden", isLoggedIn);
   detailAccountAvatar.classList.toggle("hidden", !isLoggedIn);
@@ -274,6 +360,7 @@ function finishLogin() {
 }
 
 function continueToCheckout() {
+  saveCurrentProductForCheckout();
   if (getStoredValue("geraiLoggedIn") === "true") {
     window.location.href = "./checkout.html";
     return;
@@ -291,9 +378,11 @@ if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "tr
   openLoginModal("header");
 }
 addCartButton.addEventListener("click", () => {
+  addCurrentProductToCart();
   window.location.href = "./cart.html";
 });
 stickyAddBag.addEventListener("click", () => {
+  addCurrentProductToCart();
   window.location.href = "./cart.html";
 });
 stickyQtyMinus.addEventListener("click", () => {

@@ -36,6 +36,11 @@
   gap: 16px;
 }
 
+.checkout-products {
+  display: grid;
+  gap: 16px;
+}
+
 .checkout-card,
 .checkout-summary {
   border: 1px solid var(--line);

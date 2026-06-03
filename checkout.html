@@ -60,32 +60,7 @@
 
       <div class="checkout-layout">
         <section class="checkout-left" aria-label="Detail checkout">
-          <article class="checkout-card product-checkout-card">
-            <img src="./assets/product-pesta-bola.jpg" alt="Bundling Pesta Bola">
-            <div>
-              <h2>Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium</h2>
-              <p>x1</p>
-            </div>
-            <strong>Rp99.000</strong>
-          </article>
-
-          <article class="checkout-card product-checkout-card">
-            <img src="./assets/product-kaus-kompas.png" alt="Kaus Halaman Depan Kompas">
-            <div>
-              <h2>Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu</h2>
-              <p>x1</p>
-            </div>
-            <strong>Rp199.000</strong>
-          </article>
-
-          <article class="checkout-card product-checkout-card">
-            <img src="./assets/product-bobo-origin.jpg" alt="Paket Bundling Bobo the Origin">
-            <div>
-              <h2>Paket Bundling Eksklusif: Bobo the Origin x Kompas.id &amp; e-Magazine Bobo Reguler</h2>
-              <p>x1</p>
-            </div>
-            <strong>Rp175.000</strong>
-          </article>
+          <div class="checkout-products" id="checkoutProducts"></div>
 
           <article class="checkout-card address-card" id="shippingAddressCard">
             <div class="address-content">
@@ -143,8 +118,8 @@
 
           <h2>Ringkasan transaksi</h2>
           <div class="summary-row">
-            <span>Total Harga (3 Barang)</span>
-            <strong>Rp473.000</strong>
+            <span id="checkoutSummaryItems">Total Harga (3 Barang)</span>
+            <strong id="checkoutSubtotal">Rp473.000</strong>
           </div>
           <div class="summary-row">
             <span>Total ongkos kirim</span>

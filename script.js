@@ -188,6 +188,7 @@ const els = {
   popularCategories: document.querySelector("#popularCategories"),
   productGrid: document.querySelector("#productGrid"),
   searchInput: document.querySelector("#searchInput"),
+  submitSearch: document.querySelector("#submitSearch"),
   clearSearch: document.querySelector("#clearSearch"),
   sortSelect: document.querySelector("#sortSelect"),
   emptyState: document.querySelector("#emptyState"),
@@ -235,7 +236,7 @@ function productCardTemplate(product) {
       </div>
       <div class="product-body">
         <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
-          <span class="product-tag">Bundling</span>
+          <span class="product-tag">Produk</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating ${rating} dari 5">
             <i class="ph-fill ph-star" aria-hidden="true"></i>
@@ -589,17 +590,20 @@ els.bundlingGrid?.addEventListener("keydown", handleProductGridKeydown);
 els.subscriptionGrid?.addEventListener("click", handleProductGridClick);
 els.subscriptionGrid?.addEventListener("keydown", handleProductGridKeydown);
 
+function goToSearchPage() {
+  const query = els.searchInput.value.trim();
+  if (!query) return;
+  window.location.href = `./search.html?q=${encodeURIComponent(query)}`;
+}
+
 els.searchInput.addEventListener("input", (event) => {
-  state.query = event.target.value;
-  els.clearSearch.classList.toggle("hidden", !state.query);
-  renderProducts();
+  els.clearSearch.classList.toggle("hidden", !event.target.value.trim());
 });
 
 els.clearSearch.addEventListener("click", () => {
   state.query = "";
   els.searchInput.value = "";
   els.clearSearch.classList.add("hidden");
-  renderProducts();
   els.searchInput.focus();
 });
 
@@ -625,8 +629,15 @@ closeSearchMobile.addEventListener("click", () => {
 });
 
 els.searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    goToSearchPage();
+    return;
+  }
   if (e.key === "Escape") closeMobileSearch();
 });
+
+els.submitSearch?.addEventListener("click", goToSearchPage);
 
 if (els.sortSelect) {
   els.sortSelect.addEventListener("change", (event) => {
