@@ -60,100 +60,99 @@
     </header>
 
     <main class="cart-shell">
-      <h1>Keranjang</h1>
+      <h1 class="cart-title">Keranjang</h1>
 
       <div class="cart-layout">
         <section class="cart-list" aria-label="Daftar produk di keranjang">
-          <div class="cart-select-tools">
-            <label class="cart-check">
-              <input id="selectAllCart" type="checkbox" checked>
-              <span aria-hidden="true"></span>
-              <strong>Pilih Semua</strong>
-            </label>
-            <button type="button" id="removeSelectedCart">Hapus Terpilih</button>
+          <div class="cart-items-card">
+            <div class="cart-select-tools">
+              <label class="cart-check">
+                <input id="selectAllCart" type="checkbox" checked>
+                <span aria-hidden="true"></span>
+                <strong>Pilih Semua</strong>
+              </label>
+              <button type="button" id="removeSelectedCart">Hapus</button>
+            </div>
+
+            <div class="cart-store">
+              <div class="cart-row" data-price="99000" data-old-price="125000">
+                <label class="cart-check item-select" aria-label="Pilih produk">
+                  <input type="checkbox" checked data-cart-check>
+                  <span aria-hidden="true"></span>
+                </label>
+                <img class="cart-thumb" src="./assets/product-pesta-bola.jpg" alt="Bundling Pesta Bola">
+                <div class="cart-info">
+                  <h2 class="cart-name">Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026</h2>
+                  <p class="cart-variant">Varian: Digital, Bundle</p>
+                  <div class="cart-row-foot">
+                    <div class="cart-price-area">
+                      <strong data-line-price>Rp99.000</strong>
+                      <span data-line-old-price>Rp125.000</span>
+                    </div>
+                    <div class="cart-qty">
+                      <button data-qty-dec type="button" aria-label="Kurangi">−</button>
+                      <span data-qty-value>1</span>
+                      <button data-qty-inc type="button" aria-label="Tambah">+</button>
+                    </div>
+                  </div>
+                </div>
+                <button class="cart-icon-action" data-remove-item type="button" aria-label="Hapus item"><i class="ph ph-trash" aria-hidden="true"></i></button>
+              </div>
+
+              <div class="cart-row" data-price="199000">
+                <label class="cart-check item-select" aria-label="Pilih produk">
+                  <input type="checkbox" checked data-cart-check>
+                  <span aria-hidden="true"></span>
+                </label>
+                <img class="cart-thumb" src="./assets/product-kaus-kompas.png" alt="Kaus Halaman Depan Kompas">
+                <div class="cart-info">
+                  <h2 class="cart-name">Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu</h2>
+                  <p class="cart-variant">Varian: Putih, Reguler</p>
+                  <div class="cart-row-foot">
+                    <div class="cart-price-area">
+                      <strong data-line-price>Rp199.000</strong>
+                    </div>
+                    <div class="cart-qty">
+                      <button data-qty-dec type="button" aria-label="Kurangi">−</button>
+                      <span data-qty-value>1</span>
+                      <button data-qty-inc type="button" aria-label="Tambah">+</button>
+                    </div>
+                  </div>
+                </div>
+                <button class="cart-icon-action" data-remove-item type="button" aria-label="Hapus item"><i class="ph ph-trash" aria-hidden="true"></i></button>
+              </div>
+
+              <div class="cart-row" data-price="175000" data-old-price="229000">
+                <label class="cart-check item-select" aria-label="Pilih produk">
+                  <input type="checkbox" checked data-cart-check>
+                  <span aria-hidden="true"></span>
+                </label>
+                <img class="cart-thumb" src="./assets/product-bobo-origin.jpg" alt="Paket Bundling Bobo the Origin">
+                <div class="cart-info">
+                  <h2 class="cart-name">Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler</h2>
+                  <p class="cart-variant">Varian: Buku & Digital</p>
+                  <div class="cart-row-foot">
+                    <div class="cart-price-area">
+                      <strong data-line-price>Rp175.000</strong>
+                      <span data-line-old-price>Rp229.000</span>
+                    </div>
+                    <div class="cart-qty">
+                      <button data-qty-dec type="button" aria-label="Kurangi">−</button>
+                      <span data-qty-value>1</span>
+                      <button data-qty-inc type="button" aria-label="Tambah">+</button>
+                    </div>
+                  </div>
+                </div>
+                <button class="cart-icon-action" data-remove-item type="button" aria-label="Hapus item"><i class="ph ph-trash" aria-hidden="true"></i></button>
+              </div>
+            </div>
           </div>
 
-          <article class="cart-store">
-            <div class="cart-row" data-price="99000" data-old-price="125000">
-              <label class="cart-check item-select" aria-label="Pilih produk">
-                <input type="checkbox" checked data-cart-check>
-                <span aria-hidden="true"></span>
-              </label>
-              <div class="cart-thumb-group">
-                <img src="./assets/product-pesta-bola.jpg" alt="Bundling Pesta Bola">
-              </div>
-              <div class="cart-product">
-                <h2>Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium</h2>
-                <p>Tabloid Bola, akses Kompas Digital Premium</p>
-              </div>
-              <div class="cart-price-area">
-                <strong data-line-price>Rp99.000</strong>
-                <span data-line-old-price>Rp125.000</span>
-              </div>
-              <div class="cart-actions">
-                <div class="cart-qty">
-                  <button data-qty-dec type="button" aria-label="Kurangi">−</button>
-                  <span data-qty-value>1</span>
-                  <button data-qty-inc type="button" aria-label="Tambah">+</button>
-                </div>
-                <button class="cart-icon-action" data-remove-item type="button" aria-label="Hapus item"><i class="ph ph-trash" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="cart-row" data-price="199000">
-              <label class="cart-check item-select" aria-label="Pilih produk">
-                <input type="checkbox" checked data-cart-check>
-                <span aria-hidden="true"></span>
-              </label>
-              <div class="cart-thumb-group">
-                <img src="./assets/product-kaus-kompas.png" alt="Kaus Halaman Depan Kompas">
-              </div>
-              <div class="cart-product">
-                <h2>Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu</h2>
-                <p>Putih, ukuran reguler</p>
-              </div>
-              <div class="cart-price-area">
-                <strong data-line-price>Rp199.000</strong>
-              </div>
-              <div class="cart-actions">
-                <div class="cart-qty">
-                  <button data-qty-dec type="button" aria-label="Kurangi">−</button>
-                  <span data-qty-value>1</span>
-                  <button data-qty-inc type="button" aria-label="Tambah">+</button>
-                </div>
-                <button class="cart-icon-action" data-remove-item type="button" aria-label="Hapus item"><i class="ph ph-trash" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="cart-row" data-price="175000" data-old-price="229000">
-              <label class="cart-check item-select" aria-label="Pilih produk">
-                <input type="checkbox" checked data-cart-check>
-                <span aria-hidden="true"></span>
-              </label>
-              <div class="cart-thumb-group">
-                <img src="./assets/product-bobo-origin.jpg" alt="Paket Bundling Bobo the Origin">
-              </div>
-              <div class="cart-product">
-                <h2>Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler</h2>
-                <p>Buku dan akses digital</p>
-              </div>
-              <div class="cart-price-area">
-                <strong data-line-price>Rp175.000</strong>
-                <span data-line-old-price>Rp229.000</span>
-              </div>
-              <div class="cart-actions">
-                <div class="cart-qty">
-                  <button data-qty-dec type="button" aria-label="Kurangi">−</button>
-                  <span data-qty-value>1</span>
-                  <button data-qty-inc type="button" aria-label="Tambah">+</button>
-                </div>
-                <button class="cart-icon-action" data-remove-item type="button" aria-label="Hapus item"><i class="ph ph-trash" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-          </article>
+          <a class="cart-promo-strip" href="#promo">
+            <i class="ph ph-ticket" aria-hidden="true"></i>
+            <span>Pakai promo biar hemat</span>
+            <i class="ph ph-caret-right" aria-hidden="true"></i>
+          </a>
         </section>
 
         <aside class="cart-summary" aria-label="Ringkasan belanja">
@@ -173,13 +172,61 @@
             <strong id="cartSummaryTotal">Rp473.000</strong>
           </div>
           <a class="promo-box" href="#promo">
-            <span>Gunakan promo untuk belanja lebih hemat</span><i class="ph ph-caret-right" aria-hidden="true"></i>
+            <i class="ph ph-ticket" aria-hidden="true"></i>
+            <span>Gunakan promo untuk belanja lebih hemat</span>
+            <i class="ph ph-caret-right" aria-hidden="true"></i>
           </a>
           <button class="btn primary cart-buy-button" type="button">Beli</button>
         </aside>
       </div>
 
+      <section class="cart-recommendations">
+        <h2 class="cart-rec-title">Mungkin Anda Suka</h2>
+        <div class="cart-recommendation-grid">
+          <div class="cart-recommendation-card">
+            <div class="cart-rec-img-wrap">
+              <img src="./assets/product-shoe.svg" alt="Red Sport Runner">
+              <button class="cart-rec-heart" type="button" aria-label="Tambah ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i></button>
+            </div>
+            <h3>Red Sport Runner</h3>
+            <p>Rp899.000</p>
+          </div>
+          <div class="cart-recommendation-card">
+            <div class="cart-rec-img-wrap">
+              <img src="./assets/product-beanbag.svg" alt="Compact Lounge Chair">
+              <button class="cart-rec-heart" type="button" aria-label="Tambah ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i></button>
+            </div>
+            <h3>Compact Lounge Chair</h3>
+            <p>Rp1.450.000</p>
+          </div>
+          <div class="cart-recommendation-card">
+            <div class="cart-rec-img-wrap">
+              <img src="./assets/product-hoodie.svg" alt="Hoodie Kompas Classic">
+              <button class="cart-rec-heart" type="button" aria-label="Tambah ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i></button>
+            </div>
+            <h3>Hoodie Kompas Classic</h3>
+            <p>Rp349.000</p>
+          </div>
+          <div class="cart-recommendation-card">
+            <div class="cart-rec-img-wrap">
+              <img src="./assets/product-phone.svg" alt="Phone Stand Premium">
+              <button class="cart-rec-heart" type="button" aria-label="Tambah ke wishlist"><i class="ph ph-heart" aria-hidden="true"></i></button>
+            </div>
+            <h3>Phone Stand Premium</h3>
+            <p>Rp215.000</p>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <div class="cart-bottom-bar">
+      <div class="cart-bottom-info">
+        <span class="cart-bottom-label">Total Harga</span>
+        <strong id="cartBottomTotal">Rp0</strong>
+      </div>
+      <button class="btn primary cart-buy-button cart-bottom-btn" type="button">Beli (0)</button>
+    </div>
+
     <div class="login-overlay" id="cartLoginModal" hidden>
       <div class="login-popup" role="dialog" aria-modal="true" aria-labelledby="cartLoginTitle">
         <h2 id="cartLoginTitle">Masuk Akun</h2>

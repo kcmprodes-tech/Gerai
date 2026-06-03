@@ -235,7 +235,7 @@ function productCardTemplate(product) {
       </div>
       <div class="product-body">
         <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
-          <span class="product-tag">Digital</span>
+          <span class="product-tag">Bundling</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating ${rating} dari 5">
             <i class="ph-fill ph-star" aria-hidden="true"></i>
@@ -553,6 +553,8 @@ function showHomePasswordStep() {
 }
 
 function finishHomeLogin() {
+  const identity = els.homeLoginIdentityPreview.textContent.trim() || els.homeLoginIdentity.value.trim() || "ikhwanardhi@gmail.com";
+  setStoredValue("geraiLoginIdentity", identity);
   closeHomeLogin();
   setLoggedIn(true);
 }
@@ -599,6 +601,31 @@ els.clearSearch.addEventListener("click", () => {
   els.clearSearch.classList.add("hidden");
   renderProducts();
   els.searchInput.focus();
+});
+
+const topbar = document.querySelector(".topbar");
+const mobileSearchToggle = document.querySelector(".mobile-search-toggle");
+const closeSearchMobile = document.querySelector("#closeSearchMobile");
+
+function openMobileSearch() {
+  topbar.classList.add("search-open");
+  mobileSearchToggle.setAttribute("aria-expanded", "true");
+  els.searchInput.focus();
+}
+
+function closeMobileSearch() {
+  topbar.classList.remove("search-open");
+  mobileSearchToggle.setAttribute("aria-expanded", "false");
+}
+
+mobileSearchToggle.addEventListener("click", openMobileSearch);
+
+closeSearchMobile.addEventListener("click", () => {
+  closeMobileSearch();
+});
+
+els.searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeMobileSearch();
 });
 
 if (els.sortSelect) {

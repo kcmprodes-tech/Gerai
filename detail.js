@@ -263,6 +263,8 @@ function showPasswordStep() {
 }
 
 function finishLogin() {
+  const identity = identityPreview.textContent.trim() || loginInput.value.trim() || "ikhwanardhi@gmail.com";
+  setStoredValue("geraiLoginIdentity", identity);
   setLoggedIn(true);
   if (loginIntent === "checkout") {
     window.location.href = "./checkout.html";

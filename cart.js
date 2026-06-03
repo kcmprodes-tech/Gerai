@@ -7,11 +7,12 @@ const cartSummaryTotal = document.querySelector("#cartSummaryTotal");
 const cartSummarySubtotal = document.querySelector("#cartSummarySubtotal");
 const cartSummaryDiscount = document.querySelector("#cartSummaryDiscount");
 const cartSummaryItems = document.querySelector("#cartSummaryItems");
+const cartBottomTotal = document.querySelector("#cartBottomTotal");
 const cartAuthActions = document.querySelector("#cartAuthActions");
 const cartAccountAvatar = document.querySelector("#cartAccountAvatar");
 const selectAllCart = document.querySelector("#selectAllCart");
 const removeSelectedCart = document.querySelector("#removeSelectedCart");
-const cartBuyButton = document.querySelector(".cart-buy-button");
+const cartBuyButtons = document.querySelectorAll(".cart-buy-button");
 const cartLoginModal = document.querySelector("#cartLoginModal");
 const cartLoginIdentity = document.querySelector("#cartLoginIdentity");
 const cartLoginPassword = document.querySelector("#cartLoginPassword");
@@ -90,6 +91,8 @@ function closeCartLogin() {
 }
 
 function finishCartLogin() {
+  const identity = cartLoginIdentityPreview.textContent.trim() || cartLoginIdentity.value.trim() || "ikhwanardhi@gmail.com";
+  setStoredValue("geraiLoginIdentity", identity);
   setStoredValue("geraiLoggedIn", "true");
   setHeaderLoginState();
   closeCartLogin();
@@ -132,10 +135,19 @@ function updateCartTotals() {
   });
 
   const discount = Math.max(0, subtotal - total);
-  cartSummarySubtotal.textContent = formatRupiah(subtotal);
-  cartSummaryDiscount.textContent = `-${formatRupiah(discount)}`;
-  cartSummaryTotal.textContent = formatRupiah(total);
-  cartSummaryItems.textContent = `Total Harga (${selectedItems} Barang)`;
+  if (cartSummarySubtotal) cartSummarySubtotal.textContent = formatRupiah(subtotal);
+  if (cartSummaryDiscount) cartSummaryDiscount.textContent = `-${formatRupiah(discount)}`;
+  if (cartSummaryTotal) cartSummaryTotal.textContent = formatRupiah(total);
+  if (cartSummaryItems) cartSummaryItems.textContent = `Total Harga (${selectedItems} Barang)`;
+  if (cartBottomTotal) cartBottomTotal.textContent = formatRupiah(total);
+
+  cartBuyButtons.forEach((btn) => {
+    if (btn.classList.contains("cart-bottom-btn")) {
+      btn.textContent = `Beli (${selectedItems})`;
+    } else {
+      btn.textContent = selectedItems > 0 ? `Beli (${selectedItems})` : "Beli";
+    }
+  });
 
   const selectedChecks = cartRows.map((row) => row.querySelector("[data-cart-check]")).filter(Boolean);
   if (selectAllCart) {
@@ -185,12 +197,14 @@ removeSelectedCart?.addEventListener("click", () => {
   updateCartTotals();
 });
 
-cartBuyButton?.addEventListener("click", () => {
-  if (getStoredValue("geraiLoggedIn") !== "true") {
-    openCartLogin();
-    return;
-  }
-  window.location.href = "./checkout.html";
+cartBuyButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    if (getStoredValue("geraiLoggedIn") !== "true") {
+      openCartLogin();
+      return;
+    }
+    window.location.href = "./checkout.html";
+  });
 });
 
 cartLoginModal?.addEventListener("click", (event) => {

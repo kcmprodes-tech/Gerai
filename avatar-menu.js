@@ -1,3 +1,23 @@
+function getAvatarStoredValue(key) {
+  try {
+    const localValue = localStorage.getItem(key);
+    if (localValue !== null) return localValue;
+  } catch {
+    // Fall back to window.name for file:// contexts that block storage.
+  }
+
+  try {
+    const tabState = JSON.parse(window.name || "{}");
+    return tabState[key] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function getAvatarEmail() {
+  return getAvatarStoredValue("geraiLoginIdentity") || "ikhwanardhi@gmail.com";
+}
+
 function createAvatarMenu() {
   const menu = document.createElement("div");
   menu.className = "avatar-menu";
@@ -8,7 +28,7 @@ function createAvatarMenu() {
       <span class="avatar-menu-initials">DM</span>
       <div>
         <strong>Ardi Suhanda</strong>
-        <p>dianmeidina@gmail.com</p>
+        <p data-avatar-email>${getAvatarEmail()}</p>
       </div>
       <a class="avatar-profile-link" href="#profile">Profil<i class="ph ph-caret-right" aria-hidden="true"></i></a>
     </div>
@@ -22,9 +42,15 @@ function createAvatarMenu() {
   return menu;
 }
 
+function syncAvatarMenuEmail(menu) {
+  const email = menu.querySelector("[data-avatar-email]");
+  if (email) email.textContent = getAvatarEmail();
+}
+
 function clearLoginState() {
   try {
     localStorage.removeItem("geraiLoggedIn");
+    localStorage.removeItem("geraiLoginIdentity");
   } catch {
     // Keep logout functional even when storage is unavailable.
   }
@@ -32,6 +58,7 @@ function clearLoginState() {
   try {
     const tabState = JSON.parse(window.name || "{}");
     delete tabState.geraiLoggedIn;
+    delete tabState.geraiLoginIdentity;
     window.name = JSON.stringify(tabState);
   } catch {
     window.name = "{}";
@@ -48,6 +75,7 @@ function setupSharedAvatarMenu() {
     menu = createAvatarMenu();
     accountActions.appendChild(menu);
   }
+  syncAvatarMenuEmail(menu);
 
   trigger.dataset.avatarMenuReady = "true";
   trigger.setAttribute("aria-expanded", "false");
@@ -60,6 +88,7 @@ function setupSharedAvatarMenu() {
   trigger.addEventListener("click", (event) => {
     event.stopPropagation();
     const willOpen = menu.hidden;
+    syncAvatarMenuEmail(menu);
     menu.hidden = !willOpen;
     trigger.setAttribute("aria-expanded", String(willOpen));
   });
