@@ -6,32 +6,40 @@ function money(value) {
 
 const categories = [
   {
-    name: "Electronics",
-    image: "./assets/category-electronics.svg",
+    name: "Promo Spesial",
+    subtitle: "Penawaran terbatas",
+    image: "./assets/category-diskon.png",
+    tone: "pink",
   },
   {
-    name: "Fashion",
-    image: "./assets/category-fashion.svg",
+    name: "Langganan",
+    subtitle: "Digital",
+    image: "./assets/category-langganan.png",
+    tone: "green",
   },
   {
-    name: "Luxury",
-    image: "./assets/category-luxury.svg",
+    name: "Bundling",
+    subtitle: "Pake Hemat",
+    image: "./assets/category-bundling.png",
+    tone: "mint",
   },
   {
-    name: "Home Decor",
-    image: "./assets/category-home.svg",
+    name: "Buku",
+    subtitle: "400+ produk",
+    image: "./assets/category-buku.png",
+    tone: "blue",
   },
   {
-    name: "Beauty",
-    image: "./assets/category-beauty.svg",
+    name: "Merchandise",
+    subtitle: "80+ item",
+    image: "./assets/category-merch.png",
+    tone: "yellow",
   },
   {
-    name: "Groceries",
-    image: "./assets/category-groceries.svg",
-  },
-  {
-    name: "Sneakers",
-    image: "./assets/category-sneakers.svg",
+    name: "Tiket & kelas",
+    subtitle: "Event pilihan",
+    image: "./assets/category-eventclass.png",
+    tone: "peach",
   },
 ];
 
@@ -297,9 +305,9 @@ function renderCategories() {
     .map(
       (category) => `
         <button class="category-card" data-category="${category.name}" type="button">
-          <figure>
+          <figure class="category-tile ${category.tone ? `category-tile-${category.tone}` : ""}">
             <span class="image-wrap"><img src="${category.image}" alt="${category.name}"></span>
-            <figcaption>${category.name}</figcaption>
+            <figcaption><strong>${category.name}</strong><span>${category.subtitle}</span></figcaption>
           </figure>
         </button>
       `,

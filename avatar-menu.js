@@ -90,14 +90,18 @@ function setupAutoHideHeader() {
   let ticking = false;
 
   const updateHeader = () => {
-    const currentScrollY = window.scrollY;
+    const currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
     const isScrollingDown = currentScrollY > lastScrollY;
     const delta = Math.abs(currentScrollY - lastScrollY);
 
     if (currentScrollY <= 8) {
       header.classList.remove("header-hidden");
-    } else if (delta > 6) {
-      header.classList.toggle("header-hidden", isScrollingDown);
+    } else if (delta > 2) {
+      if (isScrollingDown) {
+        header.classList.add("header-hidden");
+      } else {
+        header.classList.remove("header-hidden");
+      }
     }
 
     lastScrollY = Math.max(currentScrollY, 0);
@@ -113,6 +117,11 @@ function setupAutoHideHeader() {
     },
     { passive: true }
   );
+
+  window.addEventListener("focus", () => {
+    lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    header.classList.remove("header-hidden");
+  });
 }
 
 setupSharedAvatarMenu();
