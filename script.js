@@ -60,6 +60,7 @@ const products = [
   { id: 14, type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
   { id: 15, type: "physical", title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu", category: "All", price: 199000, oldPrice: null, image: "./assets/product-kaus-kompas.png" },
   { id: 16, type: "physical", title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian", category: "All", price: 169000, oldPrice: null, image: "./assets/product-papa-francesco.jpeg" },
+  { id: 17, type: "bundling", title: "Suroboyo10K Ultimate Bundle", category: "All", price: 149000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
 ];
 
 const state = {
@@ -103,7 +104,12 @@ const els = {
   homeTogglePassword: document.querySelector("#homeTogglePassword"),
   authActions: document.querySelector("#authActions"),
   accountAvatar: document.querySelector("#accountAvatar"),
+  heroSlides: document.querySelectorAll("[data-hero-slide]"),
+  heroDots: document.querySelectorAll("[data-hero-dot]"),
 };
+
+let heroSlideIndex = 0;
+let heroSlideTimer = null;
 
 function productCardTemplate(product) {
   const wished = state.wishlist.has(product.id);
@@ -240,10 +246,7 @@ function renderProducts() {
 
 function renderBestSellers() {
   if (!els.bestSellerGrid) return;
-  els.bestSellerGrid.innerHTML = products
-    .slice(0, 4)
-    .map((product) => productCardTemplate(product))
-    .join("");
+  renderProductSection(els.bestSellerGrid, [1, 2, 3, 4, 17]);
 }
 
 function renderProductSection(grid, productIds) {
@@ -256,8 +259,8 @@ function renderProductSection(grid, productIds) {
 }
 
 function renderCuratedSections() {
-  renderProductSection(els.bundlingGrid, [2, 3, 4, 6]);
-  renderProductSection(els.subscriptionGrid, [5, 13, 1, 11]);
+  renderProductSection(els.bundlingGrid, [2, 3, 4, 6, 17]);
+  renderProductSection(els.subscriptionGrid, [5, 13, 1, 11, 17]);
 }
 
 function showWishlistToast() {
@@ -281,9 +284,11 @@ function showWishlistToast() {
 function handleProductGridClick(event) {
   const wishlistButton = event.target.closest("[data-wishlist]");
   const cartButton = event.target.closest("[data-add-cart]");
+  const detailLink = event.target.closest(".product-detail-link");
   const productCard = event.target.closest("[data-product-detail]");
 
   if (wishlistButton) {
+    event.preventDefault();
     const id = Number(wishlistButton.dataset.wishlist);
     const wasSaved = state.wishlist.has(id);
     if (wasSaved) state.wishlist.delete(id);
@@ -295,9 +300,16 @@ function handleProductGridClick(event) {
     updateBadges();
   }
 
-  if (cartButton) addToCart(cartButton.dataset.addCart);
+  if (cartButton) {
+    event.preventDefault();
+    addToCart(cartButton.dataset.addCart);
+  }
   if (productCard && !wishlistButton && !cartButton) {
-    window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
+    event.preventDefault();
+    const productId = detailLink?.href
+      ? new URL(detailLink.href, window.location.href).searchParams.get("id")
+      : productCard.dataset.productDetail;
+    window.location.href = `./detail.html?id=${productId}`;
   }
 }
 
@@ -462,11 +474,38 @@ function finishHomeLogin() {
   setLoggedIn(true);
 }
 
+function setHeroSlide(index) {
+  if (!els.heroSlides.length) return;
+  heroSlideIndex = (index + els.heroSlides.length) % els.heroSlides.length;
+  els.heroSlides.forEach((slide, slideIndex) => {
+    slide.classList.toggle("active", slideIndex === heroSlideIndex);
+  });
+  els.heroDots.forEach((dot, dotIndex) => {
+    dot.classList.toggle("active", dotIndex === heroSlideIndex);
+  });
+}
+
+function startHeroCarousel() {
+  if (els.heroSlides.length < 2) return;
+  setHeroSlide(0);
+  heroSlideTimer = window.setInterval(() => {
+    setHeroSlide(heroSlideIndex + 1);
+  }, 3000);
+}
+
+function resetHeroCarousel() {
+  if (!heroSlideTimer) return;
+  window.clearInterval(heroSlideTimer);
+  heroSlideTimer = null;
+  startHeroCarousel();
+}
+
 renderCategories();
 renderProducts();
 renderBestSellers();
 renderCuratedSections();
 renderCart();
+startHeroCarousel();
 setLoggedIn(getStoredValue("geraiLoggedIn") === "true");
 if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "true") {
   openHomeLogin();
@@ -491,6 +530,13 @@ els.bundlingGrid?.addEventListener("click", handleProductGridClick);
 els.bundlingGrid?.addEventListener("keydown", handleProductGridKeydown);
 els.subscriptionGrid?.addEventListener("click", handleProductGridClick);
 els.subscriptionGrid?.addEventListener("keydown", handleProductGridKeydown);
+
+els.heroDots.forEach((dot) => {
+  dot.addEventListener("click", () => {
+    setHeroSlide(Number(dot.dataset.heroDot));
+    resetHeroCarousel();
+  });
+});
 
 function goToSearchPage() {
   const query = els.searchInput.value.trim();

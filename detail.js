@@ -119,6 +119,14 @@ const detailProducts = [
     price: 169000,
     image: "./assets/product-papa-francesco.jpeg",
   },
+  {
+    id: 17,
+    type: "bundling",
+    title: "Suroboyo10K Ultimate Bundle",
+    price: 149000,
+    oldPrice: 229000,
+    image: "./assets/product-bobo-origin.jpg",
+  },
 ];
 
 function formatRupiah(value) {

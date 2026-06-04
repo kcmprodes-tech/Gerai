@@ -84,11 +84,24 @@
     </header>
 
     <main>
-      <section class="hero shell" aria-label="Katalog Merchandise Kompas edisi HUT ke-60">
-        <picture>
-          <source media="(max-width: 720px)" srcset="./assets/banner-mobile.png">
-          <img src="./assets/hero-merchandise-kompas.png" alt="Katalog Merchandise Kompas edisi HUT ke-60">
-        </picture>
+      <section class="hero shell" aria-label="Promo Gerai Kompas">
+        <div class="hero-slider" id="heroSlider">
+          <picture class="hero-slide active" data-hero-slide>
+            <source media="(max-width: 720px)" srcset="./assets/banner-mobile.png">
+            <img src="./assets/hero-merchandise-kompas.png" alt="Katalog Merchandise Kompas edisi HUT ke-60">
+          </picture>
+          <picture class="hero-slide hero-slide--contain" data-hero-slide>
+            <img src="./assets/banner2.png" alt="Promo Payday diskon buku">
+          </picture>
+          <picture class="hero-slide hero-slide--contain" data-hero-slide>
+            <img src="./assets/banner3.png" alt="Kompas One satu langganan semua akses premium">
+          </picture>
+        </div>
+        <div class="hero-dots" aria-label="Navigasi banner utama">
+          <button class="active" data-hero-dot="0" type="button" aria-label="Banner 1"></button>
+          <button data-hero-dot="1" type="button" aria-label="Banner 2"></button>
+          <button data-hero-dot="2" type="button" aria-label="Banner 3"></button>
+        </div>
       </section>
 
       <section class="section shell" aria-labelledby="popularTitle">
@@ -225,7 +238,7 @@
       </div>
     </div>
 
-    <script src="./script.js?v=20260603-search-page"></script>
+    <script src="./script.js?v=20260604-hero-carousel"></script>
     <script src="./avatar-menu.js"></script>
   </body>
 </html>
