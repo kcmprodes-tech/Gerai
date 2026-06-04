@@ -141,39 +141,60 @@
 
       <section class="description" id="description">
         <div class="tabs">
-          <button class="active" type="button">Description</button>
-          <button type="button">Reviews</button>
+          <button class="active" type="button" data-detail-tab="description">Deskripsi</button>
+          <button type="button" data-detail-tab="reviews">Ulasan</button>
         </div>
-        <h2 id="product-description">Deskripsi Produk</h2>
-        <p>Biar nobar tidak nanya mulu, baca dulu ulasan di Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026.</p>
-        <p>Dapatkan sepaket Bundling Premium: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + akses Kompas.id dengan harga spesial Rp99.000 dari harga normal Rp125.000.</p>
-        <p>Bundling ini menghadirkan Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 setebal 40 halaman. Isinya mencakup analisis dan prediksi pertandingan, info eksklusif tim dan pemain, hingga cerita historis yang tercatat oleh Kompas.</p>
-        <p>Selama periode turnamen, kamu juga bisa mengikuti update tepercaya dari Kompas.id dan koran Kompas. Koran akan dikirim langsung ke rumah supaya bisa langsung dibaca di pagi hari setelah nobar.</p>
+        <div class="detail-tab-panel active" data-detail-panel="description">
+          <div class="benefit-box" aria-label="Yang kamu dapat">
+            <h2>Yang kamu dapat</h2>
+            <div class="benefit-list">
+              <article>
+                <span>Produk</span>
+                <p>Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026, edisi collectible yang diproduksi terbatas setebal 40 halaman.</p>
+              </article>
+              <article>
+                <span>Digital</span>
+                <p>Akses Kompas.id untuk membaca berita Pesta Bola 2026 secara digital.</p>
+              </article>
+            </div>
+          </div>
 
-        <h3>Isi Bundling</h3>
-        <ul>
-          <li>Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026, edisi collectible yang diproduksi terbatas setebal 40 halaman.</li>
-          <li>Review tim dan pemain, analisis peluang juara, serta infografis menarik.</li>
-          <li>Match-Day Time Zone Architect untuk sinkronisasi jadwal pertandingan ke kalender.</li>
-          <li>Kartu Koleksi Legend 11, berisi 3 kartu random legenda sepak bola di tiap paket.</li>
-          <li>Akses Kompas.id untuk membaca berita Pesta Bola 2026 secara digital.</li>
-          <li>Fitur Match Event Prediction untuk mengisi waktu dan menguji prediksi sebelum pertandingan.</li>
-        </ul>
+          <h2 id="product-description">Deskripsi Produk</h2>
+          <p>Biar nobar tidak nanya mulu, baca dulu ulasan di Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026.</p>
+          <p>Dapatkan sepaket Bundling Premium: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + akses Kompas.id dengan harga spesial Rp99.000 dari harga normal Rp125.000.</p>
+          <p>Bundling ini menghadirkan Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 setebal 40 halaman. Isinya mencakup analisis dan prediksi pertandingan, info eksklusif tim dan pemain, hingga cerita historis yang tercatat oleh Kompas.</p>
+          <p>Selama periode turnamen, kamu juga bisa mengikuti update tepercaya dari Kompas.id dan koran Kompas. Koran akan dikirim langsung ke rumah supaya bisa langsung dibaca di pagi hari setelah nobar.</p>
 
-        <h3>Detail Produk</h3>
-        <ul>
-          <li>Produk: Bundling Pesta Bola</li>
-          <li>Tabloid: Bola by Kompas Edisi Pesta Bola Amerika 2026</li>
-          <li>Jumlah halaman: 40 halaman</li>
-          <li>Termasuk akses Kompas Digital Premium</li>
-        </ul>
+          <h3>Isi Bundling</h3>
+          <ul>
+            <li>Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026, edisi collectible yang diproduksi terbatas setebal 40 halaman.</li>
+            <li>Review tim dan pemain, analisis peluang juara, serta infografis menarik.</li>
+            <li>Match-Day Time Zone Architect untuk sinkronisasi jadwal pertandingan ke kalender.</li>
+            <li>Kartu Koleksi Legend 11, berisi 3 kartu random legenda sepak bola di tiap paket.</li>
+            <li>Akses Kompas.id untuk membaca berita Pesta Bola 2026 secara digital.</li>
+            <li>Fitur Match Event Prediction untuk mengisi waktu dan menguji prediksi sebelum pertandingan.</li>
+          </ul>
 
-        <h3>Informasi Tambahan</h3>
-        <ul>
-          <li>Akses Kompas.id dan Time Zone Architect bisa langsung digunakan setelah pembelian.</li>
-          <li>Tabloid dan bonus fisik dikirim sesuai jadwal pengiriman produk.</li>
-          <li>Checkout sebelum stok bundling habis.</li>
-        </ul>
+          <h3>Detail Produk</h3>
+          <ul>
+            <li>Produk: Bundling Pesta Bola</li>
+            <li>Tabloid: Bola by Kompas Edisi Pesta Bola Amerika 2026</li>
+            <li>Jumlah halaman: 40 halaman</li>
+            <li>Termasuk akses Kompas Digital Premium</li>
+          </ul>
+
+          <h3>Informasi Tambahan</h3>
+          <ul>
+            <li>Akses Kompas.id dan Time Zone Architect bisa langsung digunakan setelah pembelian.</li>
+            <li>Tabloid dan bonus fisik dikirim sesuai jadwal pengiriman produk.</li>
+            <li>Checkout sebelum stok bundling habis.</li>
+          </ul>
+        </div>
+
+        <div class="detail-tab-panel" data-detail-panel="reviews" hidden>
+          <h2>Ulasan</h2>
+          <p>Belum ada ulasan untuk produk ini.</p>
+        </div>
       </section>
 
       <section class="similar">

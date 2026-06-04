@@ -105,6 +105,9 @@ function relatedCard(product) {
 }
 
 const product = getProduct();
+if (product.id === 3) {
+  document.body.classList.add("bundling-product-page");
+}
 let quantity = 1;
 const productVariants = document.querySelector("#productVariants");
 const stickyProductImage = document.querySelector("#stickyProductImage");
@@ -143,6 +146,10 @@ stickyProductImage.src = product.image;
 stickyProductImage.alt = product.title;
 stickyProductTitle.textContent = product.title;
 productVariants.hidden = product.id !== 7;
+if (product.id === 3) {
+  const stockText = document.querySelector(".stock-summary span");
+  if (stockText) stockText.textContent = "Stok 23";
+}
 updateTotalPrice();
 document.querySelectorAll(".thumb img").forEach((image) => {
   image.src = product.image;
@@ -178,6 +185,20 @@ renderGalleryDots();
 const relatedSource = detailProducts.filter((item) => item.id !== product.id);
 const relatedProducts = Array.from({ length: 8 }, (_, index) => relatedSource[index % relatedSource.length]);
 document.querySelector("#relatedProducts").innerHTML = relatedProducts.map(relatedCard).join("");
+
+document.querySelectorAll("[data-detail-tab]").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const targetPanel = tab.dataset.detailTab;
+    document.querySelectorAll("[data-detail-tab]").forEach((item) => {
+      item.classList.toggle("active", item === tab);
+    });
+    document.querySelectorAll("[data-detail-panel]").forEach((panel) => {
+      const isActive = panel.dataset.detailPanel === targetPanel;
+      panel.hidden = !isActive;
+      panel.classList.toggle("active", isActive);
+    });
+  });
+});
 
 document.querySelectorAll(".swatches, .sizes").forEach((group) => {
   group.addEventListener("click", (event) => {

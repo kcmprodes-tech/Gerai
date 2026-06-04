@@ -1126,6 +1126,50 @@ body.modal-open {
   font-weight: 600;
 }
 
+.detail-tab-panel[hidden] {
+  display: none;
+}
+
+.benefit-box {
+  padding-top: 22px;
+}
+
+.benefit-box h2 {
+  margin: 0 0 14px;
+}
+
+.benefit-list {
+  display: grid;
+  gap: 12px;
+}
+
+.benefit-list article {
+  display: grid;
+  gap: 4px;
+}
+
+.benefit-list span {
+  width: max-content;
+  min-height: 20px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  color: var(--blue);
+  background: #eaf6ff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.benefit-list p {
+  margin: 0;
+}
+
+.bundling-product-page .product-summary {
+  display: none;
+}
+
 .similar {
   margin: 80px 0 86px;
 }
@@ -1818,4 +1862,274 @@ body.modal-open {
     width: 100%;
   }
 
+}
+
+@media (max-width: 720px) {
+  .bundling-product-page .detail-shell {
+    padding-bottom: 0;
+  }
+
+  .bundling-product-page .breadcrumb {
+    margin: 12px 0 12px;
+    color: #98a2b3;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 16px;
+  }
+
+  .bundling-product-page .product-hero {
+    gap: 16px;
+  }
+
+  .bundling-product-page .main-image {
+    border-radius: 8px;
+  }
+
+  .bundling-product-page .main-image img {
+    aspect-ratio: 1;
+  }
+
+  .bundling-product-page .heart {
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    font-size: 22px;
+  }
+
+  .bundling-product-page .product-info {
+    padding-top: 0;
+  }
+
+  .bundling-product-page .title-row::before {
+    content: "Bundling";
+    width: max-content;
+    min-height: 18px;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 6px;
+    padding: 0 8px;
+    border-radius: 999px;
+    color: var(--blue);
+    background: #eaf6ff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+  }
+
+  .bundling-product-page h1 {
+    margin-top: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 26px;
+  }
+
+  .bundling-product-page .detail-rating {
+    gap: 4px;
+    margin-top: 8px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .bundling-product-page .price-block {
+    margin-top: 12px;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .bundling-product-page .price-block::before {
+    content: "Harga mulai";
+    display: block;
+    margin-bottom: 0;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+  }
+
+  .bundling-product-page .price-block strong {
+    color: #253044;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+
+  .bundling-product-page .price-block span {
+    margin-left: 6px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .bundling-product-page .price-block b {
+    min-height: 20px;
+    margin-left: 6px;
+    padding: 0 8px;
+    font-size: 11px;
+    line-height: 18px;
+  }
+
+  .bundling-product-page .product-info > .buy-row {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 38px;
+    padding-bottom: 16px;
+    border-bottom: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .bundling-product-page .product-info > .buy-row::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 100vw;
+    height: 8px;
+    background: #f0f0f0;
+    transform: translateX(-50%);
+  }
+
+  .bundling-product-page .product-info > .buy-row::before {
+    content: "Jumlah";
+    position: absolute;
+    left: 0;
+    top: 16px;
+    color: #344054;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+  }
+
+  .bundling-product-page .buy-row .qty {
+    width: 100px;
+    height: 32px;
+    border-radius: 4px;
+  }
+
+  .bundling-product-page .buy-row .qty button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .bundling-product-page .total-summary {
+    display: none;
+  }
+
+  .bundling-product-page .stock-summary {
+    margin: 0;
+    color: #667085 !important;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .bundling-product-page .stock-summary span {
+    color: #667085 !important;
+  }
+
+  .bundling-product-page .stock-summary strong {
+    display: none;
+  }
+
+  .bundling-product-page .product-info > .cta-row {
+    display: none !important;
+  }
+
+  .bundling-product-page .description {
+    margin-top: 16px;
+    border-top: 0;
+  }
+
+  .bundling-product-page .tabs {
+    gap: 24px;
+    height: 38px;
+    align-items: end;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bundling-product-page .tabs button {
+    height: 38px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .bundling-product-page .tabs .active::after {
+    height: 2px;
+  }
+
+  .bundling-product-page .detail-tab-panel {
+    padding-top: 24px;
+  }
+
+  .bundling-product-page .benefit-box {
+    padding-top: 0;
+  }
+
+  .bundling-product-page .benefit-box h2,
+  .bundling-product-page .description h2,
+  .bundling-product-page .description h3,
+  .bundling-product-page .similar h2 {
+    margin: 0 0 12px;
+    color: #253044;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .bundling-product-page .detail-tab-panel > h2 {
+    margin-top: 20px;
+  }
+
+  .bundling-product-page .benefit-box h2 {
+    margin-top: 0;
+  }
+
+  .bundling-product-page .description h3 {
+    margin-top: 24px;
+  }
+
+  .bundling-product-page .description p,
+  .bundling-product-page .description li {
+    color: #667085;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .bundling-product-page .description p {
+    margin-bottom: 10px;
+  }
+
+  .bundling-product-page .description ul {
+    gap: 12px;
+  }
+
+  .bundling-product-page .description li {
+    padding-left: 24px;
+  }
+
+  .bundling-product-page .description li::before {
+    width: 16px;
+    height: 16px;
+  }
+
+  .bundling-product-page .similar {
+    margin: 28px 0 32px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .bundling-product-page .similar h2 {
+    margin-bottom: 16px;
+  }
+
+  .bundling-product-page .similar-grid {
+    gap: 24px 16px;
+  }
+
+  .bundling-product-page .product-card .product-title {
+    -webkit-line-clamp: 3;
+  }
 }
