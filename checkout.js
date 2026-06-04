@@ -43,6 +43,11 @@ const successModal = document.querySelector("#successModal");
 const creditCardForm = document.querySelector("#creditCardForm");
 const cardPaymentTotal = document.querySelector("#cardPaymentTotal");
 const cardPayButton = document.querySelector(".card-pay-button");
+const protectionCostSummary = document.querySelector("#protectionCostSummary");
+const voucherSummary = document.querySelector("#voucherSummary");
+const checkoutBottomTotal = document.querySelector("#checkoutBottomTotal");
+const checkoutBottomPay = document.querySelector(".checkout-bottom-pay");
+const subscriptionEmail = document.querySelector("#subscriptionEmail");
 const cardRequiredFields = Array.from(document.querySelectorAll("[data-card-required]"));
 const contactInputs = Array.from(addressForm.querySelectorAll("[data-contact-required]"));
 const detailRequiredFields = Array.from(addressForm.querySelectorAll("[data-detail-required]"));
@@ -83,6 +88,9 @@ let checkoutItems = getCheckoutItems();
 let baseTotal = getCheckoutBaseTotal();
 let hasShippingAddress = false;
 let currentGrandTotal = baseTotal;
+const defaultShippingCost = 15000;
+const defaultProtectionCost = 3000;
+const defaultVoucherValue = -14000;
 
 function formatRupiah(value) {
   return `Rp${value.toLocaleString("id-ID", { maximumFractionDigits: 0 })}`;
@@ -139,6 +147,10 @@ function getCheckoutItemCount() {
   return checkoutItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
 }
 
+function recalculateBaseTotal() {
+  baseTotal = getCheckoutBaseTotal();
+}
+
 function renderCheckoutProducts() {
   if (!checkoutProducts) return;
 
@@ -147,6 +159,8 @@ function renderCheckoutProducts() {
       const quantity = Number(item.quantity) || 1;
       const lineTotal = (Number(item.price) || 0) * quantity;
       const oldPrice = Number(item.oldPrice) ? `<span>${formatRupiah(Number(item.oldPrice))}</span>` : "";
+      const discount = Number(item.oldPrice) && Number(item.price) ? Math.round(((Number(item.oldPrice) - Number(item.price)) / Number(item.oldPrice)) * 100) : 0;
+      const discountBadge = discount > 0 ? `<em class="checkout-product-discount">${discount}%</em>` : "";
       return `
         <article class="checkout-card product-checkout-card">
           <img class="checkout-product-thumb" src="${item.image}" alt="${item.alt || item.title}">
@@ -157,8 +171,13 @@ function renderCheckoutProducts() {
               <div class="checkout-product-price">
                 <strong>${formatRupiah(lineTotal)}</strong>
                 ${oldPrice}
+                ${discountBadge}
               </div>
-              <span class="checkout-product-qty">x${quantity}</span>
+              <div class="checkout-product-qty-control" aria-label="Jumlah produk">
+                <button type="button" data-checkout-qty-minus>-</button>
+                <span>${quantity}</span>
+                <button type="button" data-checkout-qty-plus>+</button>
+              </div>
             </div>
           </div>
         </article>
@@ -166,7 +185,7 @@ function renderCheckoutProducts() {
     })
     .join("");
 
-  if (checkoutSummaryItems) checkoutSummaryItems.textContent = `Total Harga (${getCheckoutItemCount()} Barang)`;
+  if (checkoutSummaryItems) checkoutSummaryItems.textContent = "Subtotal produk";
   if (checkoutSubtotal) checkoutSubtotal.textContent = formatRupiah(baseTotal);
   setStoredValue("geraiLastPurchaseItems", JSON.stringify(checkoutItems));
 }
@@ -192,15 +211,20 @@ function updateDetailState() {
 }
 
 function updateCheckoutState() {
-  const selectedShipping = document.querySelector('input[name="shipping"]:checked');
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
-  const shippingCost = Number(selectedShipping?.value || 0);
+  const shippingCost = hasShippingAddress ? defaultShippingCost : 0;
+  const protectionCost = hasShippingAddress ? defaultProtectionCost : 0;
+  const voucherValue = hasShippingAddress ? defaultVoucherValue : 0;
 
   shippingCostSummary.textContent = formatRupiah(shippingCost);
-  currentGrandTotal = baseTotal + shippingCost;
+  if (protectionCostSummary) protectionCostSummary.textContent = formatRupiah(protectionCost);
+  if (voucherSummary) voucherSummary.textContent = voucherValue ? `-${formatRupiah(Math.abs(voucherValue))}` : formatRupiah(0);
+  currentGrandTotal = Math.max(0, baseTotal + shippingCost + protectionCost + voucherValue);
   checkoutGrandTotal.textContent = formatRupiah(currentGrandTotal);
+  if (checkoutBottomTotal) checkoutBottomTotal.textContent = formatRupiah(currentGrandTotal);
   cardPaymentTotal.textContent = formatRupiah(currentGrandTotal);
-  payButton.disabled = !(hasShippingAddress && selectedShipping && selectedPayment);
+  payButton.disabled = !(hasShippingAddress && selectedPayment);
+  if (checkoutBottomPay) checkoutBottomPay.disabled = payButton.disabled;
   paymentHelperText.textContent = payButton.disabled
     ? "Lengkapi alamat pengiriman dan pilih metode pembayaran untuk melanjutkan."
     : "Dengan melanjutkan pembayaran, kamu menyetujui S&K Asuransi Pengiriman & Proteksi.";
@@ -230,7 +254,7 @@ function applyShippingAddress(addressDataItem) {
   shippingAddressText.innerHTML = `<span class="filled-address"><strong>${addressDataItem.name}</strong><p>${getAddressLine(addressDataItem)}<br>${addressDataItem.phone}</p></span>`;
   shippingAddressCard.classList.add("is-filled");
   openAddressModal.textContent = "Ganti";
-  shippingMethodCard.hidden = false;
+  shippingMethodCard.hidden = true;
   hasShippingAddress = true;
 }
 
@@ -295,10 +319,29 @@ function openPaymentModal() {
   window.location.href = `./payment-cc.html?total=${currentGrandTotal}`;
 }
 
+function syncSubscriptionEmail() {
+  const email = getStoredValue("geraiLoginIdentity") || document.querySelector("#recipientEmail")?.value || "ikhwanardhi@gmail.com";
+  if (subscriptionEmail) subscriptionEmail.textContent = email;
+  const emailInput = document.querySelector("#recipientEmail");
+  if (emailInput && !emailInput.value.trim()) emailInput.value = email;
+}
+
 function closePaymentModal() {
   paymentModal.hidden = true;
   document.body.classList.remove("modal-open");
   payButton.focus();
+}
+
+function changeCheckoutQuantity(index, direction) {
+  const item = checkoutItems[index];
+  if (!item) return;
+
+  const currentQuantity = Number(item.quantity) || 1;
+  item.quantity = Math.max(1, currentQuantity + direction);
+  recalculateBaseTotal();
+  renderCheckoutProducts();
+  updateCheckoutState();
+  setStoredValue("geraiCheckoutItems", JSON.stringify(checkoutItems));
 }
 
 function showSuccessModal() {
@@ -438,7 +481,17 @@ document.querySelector(".checkout-left").addEventListener("change", (event) => {
   }
 });
 
+checkoutProducts?.addEventListener("click", (event) => {
+  const card = event.target.closest(".product-checkout-card");
+  if (!card) return;
+  const index = Array.from(checkoutProducts.querySelectorAll(".product-checkout-card")).indexOf(card);
+
+  if (event.target.closest("[data-checkout-qty-minus]")) changeCheckoutQuantity(index, -1);
+  if (event.target.closest("[data-checkout-qty-plus]")) changeCheckoutQuantity(index, 1);
+});
+
 payButton.addEventListener("click", openPaymentModal);
+checkoutBottomPay?.addEventListener("click", openPaymentModal);
 
 paymentModal.addEventListener("click", (event) => {
   if (event.target === paymentModal) {
@@ -479,6 +532,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 resetLocationAfter("province");
+syncSubscriptionEmail();
 renderCheckoutProducts();
 restoreShippingAddress();
 updateContactState();

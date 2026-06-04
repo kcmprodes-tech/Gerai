@@ -502,6 +502,7 @@ function setLoggedIn(isLoggedIn) {
   els.accountAvatar.classList.toggle("hidden", !isLoggedIn);
   setStoredValue("geraiLoggedIn", isLoggedIn ? "true" : "false");
   syncHomeAvatarEmail();
+  window.syncGeraiAuthHeader?.();
 }
 
 function closeAvatarMenu() {
@@ -537,7 +538,9 @@ function setupAvatarMenu() {
     trigger.setAttribute("aria-expanded", String(willOpen));
   });
 
-  menu.addEventListener("click", (event) => event.stopPropagation());
+  menu.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-logout]")) event.stopPropagation();
+  });
   document.addEventListener("click", closeAvatarMenu);
 }
 

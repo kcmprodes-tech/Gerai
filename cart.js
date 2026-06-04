@@ -147,6 +147,7 @@ function setHeaderLoginState() {
   if (!cartAuthActions || !cartAccountAvatar) return;
   cartAuthActions.classList.toggle("hidden", isLoggedIn);
   cartAccountAvatar.classList.toggle("hidden", !isLoggedIn);
+  window.syncGeraiAuthHeader?.();
 }
 
 function showCartIdentityStep() {
@@ -179,6 +180,7 @@ function finishCartLogin() {
   setStoredValue("geraiLoginIdentity", identity);
   setStoredValue("geraiLoggedIn", "true");
   setHeaderLoginState();
+  window.syncGeraiAuthHeader?.();
   closeCartLogin();
   window.location.href = "./checkout.html";
 }

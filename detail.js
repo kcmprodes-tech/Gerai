@@ -340,6 +340,7 @@ function setLoggedIn(isLoggedIn) {
   detailAuthActions.classList.toggle("hidden", isLoggedIn);
   detailAccountAvatar.classList.toggle("hidden", !isLoggedIn);
   setStoredValue("geraiLoggedIn", isLoggedIn ? "true" : "false");
+  window.syncGeraiAuthHeader?.();
 }
 
 function openLoginModal(intent = "checkout") {

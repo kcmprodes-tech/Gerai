@@ -18,6 +18,41 @@ function getAvatarEmail() {
   return getAvatarStoredValue("geraiLoginIdentity") || "ikhwanardhi@gmail.com";
 }
 
+function getAvatarDisplayName() {
+  const identity = getAvatarEmail().trim();
+  const localPart = identity.split("@")[0] || identity;
+  return localPart
+    .replace(/[._-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase()) || "Akun Gerai";
+}
+
+function getAvatarInitials() {
+  return getAvatarDisplayName()
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase() || "AS";
+}
+
+function isAvatarLoggedIn() {
+  return getAvatarStoredValue("geraiLoggedIn") === "true";
+}
+
+function createGuestActions() {
+  const guestActions = document.createElement("div");
+  guestActions.className = "auth-actions";
+  guestActions.innerHTML = `
+    <a class="btn ghost" href="./index.html#login">Masuk</a>
+    <a class="btn primary" href="#register">Daftar</a>
+    <a class="icon-button mobile-login-icon" href="./index.html#login" aria-label="Masuk akun"><i class="ph ph-user" aria-hidden="true"></i></a>
+  `;
+  return guestActions;
+}
+
 function createAvatarMenu() {
   const menu = document.createElement("div");
   menu.className = "avatar-menu";
@@ -25,9 +60,9 @@ function createAvatarMenu() {
   menu.hidden = true;
   menu.innerHTML = `
     <div class="avatar-menu-profile">
-      <span class="avatar-menu-initials">DM</span>
+      <span class="avatar-menu-initials">${getAvatarInitials()}</span>
       <div>
-        <strong>Ardi Suhanda</strong>
+        <strong data-avatar-name>${getAvatarDisplayName()}</strong>
         <p data-avatar-email>${getAvatarEmail()}</p>
       </div>
       <a class="avatar-profile-link" href="#profile">Profil<i class="ph ph-caret-right" aria-hidden="true"></i></a>
@@ -45,6 +80,42 @@ function createAvatarMenu() {
 function syncAvatarMenuEmail(menu) {
   const email = menu.querySelector("[data-avatar-email]") || menu.querySelector(".avatar-menu-profile p");
   if (email) email.textContent = getAvatarEmail();
+  const name = menu.querySelector("[data-avatar-name]") || menu.querySelector(".avatar-menu-profile strong");
+  if (name) name.textContent = getAvatarDisplayName();
+  const initials = menu.querySelector(".avatar-menu-initials");
+  if (initials) initials.textContent = getAvatarInitials();
+}
+
+function syncSharedHeaderAuth() {
+  const loggedIn = isAvatarLoggedIn();
+  document.body.classList.toggle("auth-logged-in", loggedIn);
+  document.body.classList.toggle("auth-logged-out", !loggedIn);
+
+  document.querySelectorAll(".site-header .account-actions").forEach((accountActions) => {
+    let authActions = accountActions.querySelector(".auth-actions");
+    const avatarButton = accountActions.querySelector("[data-avatar-menu-trigger]");
+
+    if (!authActions) {
+      authActions = createGuestActions();
+      if (avatarButton) accountActions.insertBefore(authActions, avatarButton);
+      else accountActions.appendChild(authActions);
+    }
+
+    authActions.classList.toggle("hidden", loggedIn);
+    if (avatarButton) {
+      avatarButton.classList.toggle("hidden", !loggedIn);
+      avatarButton.hidden = !loggedIn;
+    }
+
+    accountActions.querySelectorAll("[data-avatar-menu]").forEach((menu) => {
+      syncAvatarMenuEmail(menu);
+      if (!loggedIn) menu.hidden = true;
+    });
+  });
+
+  document.querySelectorAll("[data-avatar-email]").forEach((email) => {
+    email.textContent = getAvatarEmail();
+  });
 }
 
 function clearLoginState() {
@@ -63,9 +134,13 @@ function clearLoginState() {
   } catch {
     window.name = "{}";
   }
+
+  window.dispatchEvent(new CustomEvent("gerai-auth-changed"));
 }
 
 function setupSharedAvatarMenu() {
+  syncSharedHeaderAuth();
+
   const trigger = document.querySelector("[data-avatar-menu-trigger]");
   if (!trigger || trigger.dataset.avatarMenuReady === "true") return;
 
@@ -102,11 +177,26 @@ function setupSharedAvatarMenu() {
 
     clearLoginState();
     window.location.hash = "";
-    window.location.reload();
+    syncSharedHeaderAuth();
+    closeMenu();
   });
   document.addEventListener("click", closeMenu);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMenu();
+  });
+}
+
+function setupSharedLogoutHandlers() {
+  document.querySelectorAll("[data-logout]").forEach((logoutButton) => {
+    if (logoutButton.dataset.sharedLogoutReady === "true") return;
+    logoutButton.dataset.sharedLogoutReady = "true";
+    logoutButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      clearLoginState();
+      window.location.hash = "";
+      syncSharedHeaderAuth();
+    });
   });
 }
 
@@ -153,5 +243,13 @@ function setupAutoHideHeader() {
   });
 }
 
+window.syncGeraiAuthHeader = syncSharedHeaderAuth;
+window.clearGeraiLoginState = clearLoginState;
+window.addEventListener("gerai-auth-changed", syncSharedHeaderAuth);
+window.addEventListener("storage", (event) => {
+  if (event.key === "geraiLoggedIn" || event.key === "geraiLoginIdentity") syncSharedHeaderAuth();
+});
+
 setupSharedAvatarMenu();
+setupSharedLogoutHandlers();
 setupAutoHideHeader();

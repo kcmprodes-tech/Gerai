@@ -57,17 +57,19 @@
 
     <main class="checkout-shell">
       <h1>Checkout</h1>
+      <p class="checkout-subtitle">Lengkapi pesanan Anda di Gerai Kompas.</p>
 
       <div class="checkout-layout">
         <section class="checkout-left" aria-label="Detail checkout">
+          <h2 class="checkout-section-title"><i class="ph ph-shopping-cart-simple" aria-hidden="true"></i>Pesanan Anda</h2>
           <div class="checkout-products" id="checkoutProducts"></div>
 
-          <article class="checkout-card address-card" id="shippingAddressCard">
-            <div class="address-content">
-              <h2>Alamat Pengiriman</h2>
+          <article class="checkout-block address-block" id="shippingAddressCard">
+            <h2 class="checkout-section-title"><i class="ph ph-truck" aria-hidden="true"></i>Alamat pengiriman</h2>
+            <div class="checkout-muted-panel">
               <p id="shippingAddressText">Ada produk yang perlu dikirim dan kamu belum memiliki alamat pengiriman.</p>
+              <button id="openAddressModal" type="button">Atur alamat pengiriman</button>
             </div>
-            <button id="openAddressModal" type="button">Atur alamat pengiriman</button>
           </article>
 
           <section class="checkout-card shipping-card" id="shippingMethodCard" hidden>
@@ -84,9 +86,29 @@
             </label>
           </section>
 
+          <section class="checkout-block subscription-block">
+            <h2 class="checkout-section-title"><i class="ph ph-key" aria-hidden="true"></i>Akses langganan</h2>
+            <div class="checkout-muted-panel">
+              <p>Email yang Anda gunakan untuk mengakses Kompas Digital Premium</p>
+              <strong id="subscriptionEmail">ikhwanardhi@gmail.com</strong>
+              <button type="button" id="changeSubscriptionEmail">Ubah email</button>
+            </div>
+          </section>
+
           <section class="checkout-card payment-card">
-            <h2>Metode Pembayaran</h2>
+            <h2>Opsi Pembayaran</h2>
+            <div class="payment-mode" role="group" aria-label="Opsi pembayaran">
+              <button class="payment-mode-button active" type="button">
+                <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
+                <span>Perpanjang otomatis</span>
+              </button>
+              <button class="payment-mode-button" type="button">
+                <i class="ph ph-bank" aria-hidden="true"></i>
+                <span>Sekali Bayar</span>
+              </button>
+            </div>
             <p>Perpanjang otomatis, batalkan kapan saja. Pembayaran selanjutnya Rp49.000 untuk langganan Kompas Digital Premium.</p>
+            <h3>Pilih metode pembayaran</h3>
 
             <label class="payment-option">
               <span class="payment-name"><img src="./assets/payment-card.png" alt="">Kartu Kredit</span>
@@ -116,19 +138,27 @@
             <span>Pakai promo biar makin hemat!</span><i class="ph ph-caret-right" aria-hidden="true"></i>
           </a>
 
-          <h2>Ringkasan transaksi</h2>
+          <h2>Ringkasan Belanja</h2>
           <div class="summary-row">
-            <span id="checkoutSummaryItems">Total Harga (3 Barang)</span>
+            <span id="checkoutSummaryItems">Subtotal produk</span>
             <strong id="checkoutSubtotal">Rp473.000</strong>
           </div>
           <div class="summary-row">
-            <span>Total ongkos kirim</span>
+            <span>Pengiriman</span>
             <strong id="shippingCostSummary">Rp0</strong>
+          </div>
+          <div class="summary-row">
+            <span>Proteksi paket</span>
+            <strong id="protectionCostSummary">Rp0</strong>
+          </div>
+          <div class="summary-row voucher-row">
+            <span>Voucher Pembayaran Langganan</span>
+            <strong id="voucherSummary">Rp0</strong>
           </div>
 
           <div class="summary-total">
             <div class="summary-row">
-              <span>Total Tagihan</span>
+              <span>Total</span>
               <strong id="checkoutGrandTotal">Rp473.000</strong>
             </div>
             <button class="btn primary pay-button" type="button" disabled>Bayar Sekarang</button>
@@ -137,6 +167,14 @@
         </aside>
       </div>
     </main>
+    <div class="checkout-bottom-bar" aria-label="Total pembayaran">
+      <div>
+        <span>Total</span>
+        <strong id="checkoutBottomTotal">Rp473.000</strong>
+        <p>Dengan melanjutkan, pembeli menyetujui syarat transaksi resmi Gerai Kompas.id.</p>
+      </div>
+      <button class="btn primary checkout-bottom-pay" type="button" disabled>Bayar Sekarang</button>
+    </div>
     <div class="address-modal-overlay" id="addressModal" hidden>
       <section class="address-modal" role="dialog" aria-modal="true" aria-labelledby="addressModalTitle">
         <h2 id="addressModalTitle">Atur alamat pengiriman</h2>
