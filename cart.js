@@ -167,7 +167,9 @@ function openCartLogin() {
   cartLoginModal.hidden = false;
   document.body.classList.add("modal-open");
   showCartIdentityStep();
-  requestAnimationFrame(() => cartLoginIdentity.focus());
+  if (!window.matchMedia("(max-width: 767px)").matches) {
+    requestAnimationFrame(() => cartLoginIdentity.focus());
+  }
 }
 
 function closeCartLogin() {

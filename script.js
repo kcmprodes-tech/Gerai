@@ -446,7 +446,9 @@ function openHomeLogin() {
   els.homeLoginModal.hidden = false;
   document.body.classList.add("modal-open");
   showHomeIdentityStep();
-  requestAnimationFrame(() => els.homeLoginIdentity.focus());
+  if (!window.matchMedia("(max-width: 767px)").matches) {
+    requestAnimationFrame(() => els.homeLoginIdentity.focus());
+  }
 }
 
 function closeHomeLogin() {

@@ -429,7 +429,9 @@ function openLoginModal(intent = "checkout") {
   loginModal.hidden = false;
   document.body.classList.add("modal-open");
   showIdentityStep();
-  loginInput.focus();
+  if (!window.matchMedia("(max-width: 767px)").matches) {
+    loginInput.focus();
+  }
 }
 
 function closeLoginModal() {
