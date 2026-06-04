@@ -108,12 +108,12 @@ const paymentMethods = {
     { label: "GoPay", value: "gopay", image: "./assets/payment-gopay.png" },
     { label: "OVO", value: "ovo", image: "./assets/payment-ovo.png" },
     { label: "ShopeePay", value: "shopeepay", image: "./assets/payment-shopeepay.png" },
-    { label: "DANA", value: "dana", icon: "ph-wallet" },
-    { label: "Virtual Account BCA", value: "va-bca", icon: "ph-bank" },
-    { label: "Virtual Account Mandiri", value: "va-mandiri", icon: "ph-bank" },
-    { label: "Virtual Account BNI", value: "va-bni", icon: "ph-bank" },
-    { label: "Virtual Account BRI", value: "va-bri", icon: "ph-bank" },
-    { label: "QRIS", value: "qris", icon: "ph-qr-code" },
+    { label: "DANA", value: "dana", image: "./assets/payment-dana.png" },
+    { label: "Virtual Account BCA", value: "va-bca", image: "./assets/payment-bca.png" },
+    { label: "Virtual Account Mandiri", value: "va-mandiri", image: "./assets/payment-mandiri.png" },
+    { label: "Virtual Account BNI", value: "va-bni", image: "./assets/payment-bni.png" },
+    { label: "Virtual Account BRI", value: "va-bri", image: "./assets/payment-bri.png" },
+    { label: "QRIS", value: "qris", image: "./assets/payment-qris.png" },
   ],
 };
 
