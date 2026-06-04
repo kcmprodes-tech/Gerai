@@ -146,14 +146,21 @@ function renderCheckoutProducts() {
     .map((item) => {
       const quantity = Number(item.quantity) || 1;
       const lineTotal = (Number(item.price) || 0) * quantity;
+      const oldPrice = Number(item.oldPrice) ? `<span>${formatRupiah(Number(item.oldPrice))}</span>` : "";
       return `
         <article class="checkout-card product-checkout-card">
-          <img src="${item.image}" alt="${item.alt || item.title}">
-          <div>
+          <img class="checkout-product-thumb" src="${item.image}" alt="${item.alt || item.title}">
+          <div class="checkout-product-info">
             <h2>${item.title}</h2>
-            <p>x${quantity}</p>
+            <p>Varian: ${item.variant || "Digital, Bundle"}</p>
+            <div class="checkout-product-foot">
+              <div class="checkout-product-price">
+                <strong>${formatRupiah(lineTotal)}</strong>
+                ${oldPrice}
+              </div>
+              <span class="checkout-product-qty">x${quantity}</span>
+            </div>
           </div>
-          <strong>${formatRupiah(lineTotal)}</strong>
         </article>
       `;
     })

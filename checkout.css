@@ -1,6 +1,6 @@
 .checkout-page {
   min-height: 100vh;
-  background: #f4f6f9;
+  background: #ffffff;
 }
 
 .logged-in-actions {
@@ -46,44 +46,86 @@
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #ffffff;
+  box-shadow: none;
 }
 
 .product-checkout-card {
   display: grid;
-  grid-template-columns: 80px minmax(0, 1fr) auto;
-  gap: 16px;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 14px;
   align-items: start;
-  padding: 24px;
+  padding: 20px;
 }
 
-.product-checkout-card img {
-  width: 80px;
-  height: 80px;
+.checkout-product-thumb {
+  width: 96px;
+  height: 96px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #f5f7fb;
 }
 
+.checkout-product-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 2px;
+}
+
 .product-checkout-card h2 {
-  max-width: 520px;
   margin: 0;
   color: var(--ink);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .product-checkout-card p {
-  margin: 10px 0 0;
-  color: #475467;
-  font-size: 14px;
+  margin: 0;
+  color: #8a95a5;
+  font-size: 12px;
+  line-height: 16px;
 }
 
-.product-checkout-card strong {
+.checkout-product-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.checkout-product-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.checkout-product-price strong {
   color: var(--ink);
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
+}
+
+.checkout-product-price span {
+  color: #a0aab4;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: line-through;
+}
+
+.checkout-product-qty {
+  flex: 0 0 auto;
+  color: #475467;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .address-card {
@@ -701,20 +743,114 @@ body.modal-open {
   }
 
   .product-checkout-card {
-    grid-template-columns: 72px 1fr;
+    grid-template-columns: 64px minmax(0, 1fr);
+    column-gap: 10px;
+    min-height: 156px;
+    padding: 16px 12px 16px 16px;
+    border-radius: 8px;
   }
 
-  .product-checkout-card img {
-    width: 72px;
-    height: 72px;
+  .checkout-product-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
   }
 
-  .product-checkout-card strong {
-    grid-column: 2;
+  .checkout-product-info {
+    gap: 4px;
+    padding: 0 0 0 6px;
+  }
+
+  .product-checkout-card h2 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    -webkit-line-clamp: 2;
+  }
+
+  .product-checkout-card p {
+    color: #475467;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .checkout-product-foot {
+    position: relative;
+    align-items: end;
+    width: calc(100% + 80px);
+    margin-top: 12px;
+    margin-left: -80px;
+    padding: 12px 0 0;
+  }
+
+  .checkout-product-foot::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .checkout-product-price {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .checkout-product-price strong {
+    color: #344054;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .checkout-product-qty {
+    font-weight: 600;
   }
 
   .address-card {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .address-modal-overlay {
+    padding: 12px;
+  }
+
+  .address-modal {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  .address-modal h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .address-form,
+  .address-step,
+  .address-form label,
+  .address-field,
+  .address-field input,
+  .address-full textarea,
+  .address-form select,
+  .address-full input,
+  .address-next,
+  .address-submit {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .address-form,
+  .address-step {
+    justify-items: stretch;
+  }
+
+  .address-grid {
+    grid-template-columns: 1fr;
   }
 }

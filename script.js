@@ -501,6 +501,7 @@ function setLoggedIn(isLoggedIn) {
   els.authActions.classList.toggle("hidden", isLoggedIn);
   els.accountAvatar.classList.toggle("hidden", !isLoggedIn);
   setStoredValue("geraiLoggedIn", isLoggedIn ? "true" : "false");
+  syncHomeAvatarEmail();
 }
 
 function closeAvatarMenu() {
@@ -511,15 +512,27 @@ function closeAvatarMenu() {
   trigger.setAttribute("aria-expanded", "false");
 }
 
+function getHomeLoginIdentity() {
+  return getStoredValue("geraiLoginIdentity") || "ikhwanardhi@gmail.com";
+}
+
+function syncHomeAvatarEmail() {
+  document.querySelectorAll("[data-avatar-email]").forEach((email) => {
+    email.textContent = getHomeLoginIdentity();
+  });
+}
+
 function setupAvatarMenu() {
   const menu = document.querySelector("[data-avatar-menu]");
   const trigger = document.querySelector("[data-avatar-menu-trigger]");
   if (!menu || !trigger || trigger.dataset.avatarMenuReady === "true") return;
   trigger.dataset.avatarMenuReady = "true";
+  syncHomeAvatarEmail();
 
   trigger.addEventListener("click", (event) => {
     event.stopPropagation();
     const willOpen = menu.hidden;
+    syncHomeAvatarEmail();
     menu.hidden = !willOpen;
     trigger.setAttribute("aria-expanded", String(willOpen));
   });

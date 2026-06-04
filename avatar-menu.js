@@ -43,7 +43,7 @@ function createAvatarMenu() {
 }
 
 function syncAvatarMenuEmail(menu) {
-  const email = menu.querySelector("[data-avatar-email]");
+  const email = menu.querySelector("[data-avatar-email]") || menu.querySelector(".avatar-menu-profile p");
   if (email) email.textContent = getAvatarEmail();
 }
 

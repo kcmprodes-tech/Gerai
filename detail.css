@@ -703,7 +703,7 @@ body.modal-open {
 }
 
 .login-register {
-  margin: 14px 0 22px;
+  margin: 14px 0 24px;
   color: #333333;
   font-size: 16px;
   line-height: 1.25;
@@ -718,7 +718,7 @@ body.modal-open {
 }
 
 .login-panel {
-  padding: 32px 0 0;
+  padding: 0;
   border: 0;
   border-radius: 5px;
 }
@@ -1765,12 +1765,12 @@ body.modal-open {
   }
 
   .login-register {
-    margin: 14px 0 22px;
+    margin: 14px 0 24px;
     font-size: 16px;
   }
 
   .login-panel {
-    padding: 32px 0 0;
+    padding: 0;
   }
 
   .login-panel label {
