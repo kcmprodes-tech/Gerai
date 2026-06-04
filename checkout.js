@@ -43,11 +43,13 @@ const successModal = document.querySelector("#successModal");
 const creditCardForm = document.querySelector("#creditCardForm");
 const cardPaymentTotal = document.querySelector("#cardPaymentTotal");
 const cardPayButton = document.querySelector(".card-pay-button");
-const protectionCostSummary = document.querySelector("#protectionCostSummary");
 const voucherSummary = document.querySelector("#voucherSummary");
 const checkoutBottomTotal = document.querySelector("#checkoutBottomTotal");
 const checkoutBottomPay = document.querySelector(".checkout-bottom-pay");
 const subscriptionEmail = document.querySelector("#subscriptionEmail");
+const paymentModeButtons = Array.from(document.querySelectorAll("[data-payment-mode]"));
+const paymentModeDescription = document.querySelector("#paymentModeDescription");
+const paymentOptions = document.querySelector("#paymentOptions");
 const cardRequiredFields = Array.from(document.querySelectorAll("[data-card-required]"));
 const contactInputs = Array.from(addressForm.querySelectorAll("[data-contact-required]"));
 const detailRequiredFields = Array.from(addressForm.querySelectorAll("[data-detail-required]"));
@@ -89,11 +91,63 @@ let baseTotal = getCheckoutBaseTotal();
 let hasShippingAddress = false;
 let currentGrandTotal = baseTotal;
 const defaultShippingCost = 15000;
-const defaultProtectionCost = 3000;
 const defaultVoucherValue = -14000;
+let activePaymentMode = "auto";
+const paymentModeCopy = {
+  auto: "Perpanjang otomatis, batalkan kapan saja. Pembayaran selanjutnya Rp49.000 untuk langganan Kompas Digital Premium.",
+  once: "Pembayaran dilakukan sekali untuk pesanan ini tanpa perpanjangan otomatis.",
+};
+const paymentMethods = {
+  auto: [
+    { label: "Kartu Kredit", value: "credit-card", image: "./assets/payment-card.png" },
+    { label: "GoPay", value: "gopay", image: "./assets/payment-gopay.png" },
+    { label: "OVO", value: "ovo", image: "./assets/payment-ovo.png" },
+    { label: "ShopeePay", value: "shopeepay", image: "./assets/payment-shopeepay.png" },
+  ],
+  once: [
+    { label: "Kartu Kredit", value: "credit-card", image: "./assets/payment-card.png" },
+    { label: "GoPay", value: "gopay", image: "./assets/payment-gopay.png" },
+    { label: "OVO", value: "ovo", image: "./assets/payment-ovo.png" },
+    { label: "ShopeePay", value: "shopeepay", image: "./assets/payment-shopeepay.png" },
+    { label: "DANA", value: "dana", icon: "ph-wallet" },
+    { label: "Virtual Account BCA", value: "va-bca", icon: "ph-bank" },
+    { label: "Virtual Account Mandiri", value: "va-mandiri", icon: "ph-bank" },
+    { label: "Virtual Account BNI", value: "va-bni", icon: "ph-bank" },
+    { label: "Virtual Account BRI", value: "va-bri", icon: "ph-bank" },
+    { label: "QRIS", value: "qris", icon: "ph-qr-code" },
+  ],
+};
 
 function formatRupiah(value) {
   return `Rp${value.toLocaleString("id-ID", { maximumFractionDigits: 0 })}`;
+}
+
+function getPaymentIcon(method) {
+  if (method.image) return `<img src="${method.image}" alt="">`;
+  return `<span class="payment-fallback-icon"><i class="ph ${method.icon}" aria-hidden="true"></i></span>`;
+}
+
+function renderPaymentOptions() {
+  if (!paymentOptions) return;
+
+  paymentModeButtons.forEach((button) => {
+    const isActive = button.dataset.paymentMode === activePaymentMode;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+  if (paymentModeDescription) paymentModeDescription.textContent = paymentModeCopy[activePaymentMode];
+
+  paymentOptions.innerHTML = paymentMethods[activePaymentMode]
+    .map(
+      (method) => `
+        <label class="payment-option">
+          <span class="payment-name">${getPaymentIcon(method)}${method.label}</span>
+          <input type="radio" name="payment" value="${method.value}">
+        </label>
+      `,
+    )
+    .join("");
 }
 
 function getStoredValue(key) {
@@ -213,13 +267,11 @@ function updateDetailState() {
 function updateCheckoutState() {
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
   const shippingCost = hasShippingAddress ? defaultShippingCost : 0;
-  const protectionCost = hasShippingAddress ? defaultProtectionCost : 0;
   const voucherValue = hasShippingAddress ? defaultVoucherValue : 0;
 
   shippingCostSummary.textContent = formatRupiah(shippingCost);
-  if (protectionCostSummary) protectionCostSummary.textContent = formatRupiah(protectionCost);
   if (voucherSummary) voucherSummary.textContent = voucherValue ? `-${formatRupiah(Math.abs(voucherValue))}` : formatRupiah(0);
-  currentGrandTotal = Math.max(0, baseTotal + shippingCost + protectionCost + voucherValue);
+  currentGrandTotal = Math.max(0, baseTotal + shippingCost + voucherValue);
   checkoutGrandTotal.textContent = formatRupiah(currentGrandTotal);
   if (checkoutBottomTotal) checkoutBottomTotal.textContent = formatRupiah(currentGrandTotal);
   cardPaymentTotal.textContent = formatRupiah(currentGrandTotal);
@@ -227,7 +279,7 @@ function updateCheckoutState() {
   if (checkoutBottomPay) checkoutBottomPay.disabled = payButton.disabled;
   paymentHelperText.textContent = payButton.disabled
     ? "Lengkapi alamat pengiriman dan pilih metode pembayaran untuk melanjutkan."
-    : "Dengan melanjutkan pembayaran, kamu menyetujui S&K Asuransi Pengiriman & Proteksi.";
+    : "Dengan melanjutkan pembayaran, kamu menyetujui syarat & ketentuan Gerai Kompas.";
 }
 
 function getShippingAddressData() {
@@ -310,7 +362,11 @@ function updateCardFormState() {
 
 function openPaymentModal() {
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
-  if (payButton.disabled || selectedPayment?.value !== "credit-card") return;
+  if (payButton.disabled || !selectedPayment) return;
+  if (selectedPayment.value !== "credit-card") {
+    showSuccessModal();
+    return;
+  }
   try {
     sessionStorage.setItem("geraiPaymentTotal", String(currentGrandTotal));
   } catch (error) {
@@ -481,6 +537,14 @@ document.querySelector(".checkout-left").addEventListener("change", (event) => {
   }
 });
 
+paymentModeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    activePaymentMode = button.dataset.paymentMode || "auto";
+    renderPaymentOptions();
+    updateCheckoutState();
+  });
+});
+
 checkoutProducts?.addEventListener("click", (event) => {
   const card = event.target.closest(".product-checkout-card");
   if (!card) return;
@@ -534,6 +598,7 @@ document.addEventListener("keydown", (event) => {
 resetLocationAfter("province");
 syncSubscriptionEmail();
 renderCheckoutProducts();
+renderPaymentOptions();
 restoreShippingAddress();
 updateContactState();
 updateDetailState();

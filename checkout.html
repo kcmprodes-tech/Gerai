@@ -98,34 +98,19 @@
           <section class="checkout-card payment-card">
             <h2>Opsi Pembayaran</h2>
             <div class="payment-mode" role="group" aria-label="Opsi pembayaran">
-              <button class="payment-mode-button active" type="button">
+              <button class="payment-mode-button active" type="button" data-payment-mode="auto">
                 <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
                 <span>Perpanjang otomatis</span>
               </button>
-              <button class="payment-mode-button" type="button">
+              <button class="payment-mode-button" type="button" data-payment-mode="once">
                 <i class="ph ph-bank" aria-hidden="true"></i>
                 <span>Sekali Bayar</span>
               </button>
             </div>
-            <p>Perpanjang otomatis, batalkan kapan saja. Pembayaran selanjutnya Rp49.000 untuk langganan Kompas Digital Premium.</p>
+            <p id="paymentModeDescription">Perpanjang otomatis, batalkan kapan saja. Pembayaran selanjutnya Rp49.000 untuk langganan Kompas Digital Premium.</p>
             <h3>Pilih metode pembayaran</h3>
 
-            <label class="payment-option">
-              <span class="payment-name"><img src="./assets/payment-card.png" alt="">Kartu Kredit</span>
-              <input type="radio" name="payment" value="credit-card">
-            </label>
-            <label class="payment-option">
-              <span class="payment-name"><img src="./assets/payment-gopay.png" alt="">GoPay</span>
-              <input type="radio" name="payment" value="gopay">
-            </label>
-            <label class="payment-option">
-              <span class="payment-name"><img src="./assets/payment-ovo.png" alt="">OVO</span>
-              <input type="radio" name="payment" value="ovo">
-            </label>
-            <label class="payment-option">
-              <span class="payment-name"><img src="./assets/payment-shopeepay.png" alt="">ShopeePay</span>
-              <input type="radio" name="payment" value="shopeepay">
-            </label>
+            <div id="paymentOptions" class="payment-options"></div>
           </section>
 
           <button class="checkout-card other-payment" type="button">
@@ -147,11 +132,7 @@
             <span>Pengiriman</span>
             <strong id="shippingCostSummary">Rp0</strong>
           </div>
-          <div class="summary-row">
-            <span>Proteksi paket</span>
-            <strong id="protectionCostSummary">Rp0</strong>
-          </div>
-          <div class="summary-row voucher-row">
+<div class="summary-row voucher-row">
             <span>Voucher Pembayaran Langganan</span>
             <strong id="voucherSummary">Rp0</strong>
           </div>

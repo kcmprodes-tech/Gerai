@@ -701,6 +701,18 @@
   object-fit: contain;
 }
 
+.payment-fallback-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--blue);
+  background: #eef7ff;
+  font-size: 18px;
+}
+
 .payment-option input {
   width: 20px;
   height: 20px;
