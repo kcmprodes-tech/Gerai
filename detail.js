@@ -34,7 +34,7 @@ const detailProducts = [
     id: 5,
     type: "digital",
     title: "Harian Kompas Akhir Pekan + Kompas.id",
-    priceText: "Rp175.000",
+    startingPrice: true,
     price: 175000,
     image: "./assets/product-harian-kompas.jpeg",
   },
@@ -59,6 +59,66 @@ const detailProducts = [
     price: 169000,
     image: "./assets/product-papa-francesco.jpeg",
   },
+  {
+    id: 9,
+    type: "bundling",
+    title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id",
+    price: 95000,
+    image: "./assets/product-demam-bola.jpg",
+  },
+  {
+    id: 10,
+    type: "bundling",
+    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
+    price: 175000,
+    oldPrice: 229000,
+    image: "./assets/product-bobo-origin.jpg",
+  },
+  {
+    id: 11,
+    type: "bundling",
+    title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
+    price: 99000,
+    oldPrice: 125000,
+    image: "./assets/product-pesta-bola.jpg",
+  },
+  {
+    id: 12,
+    type: "bundling",
+    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
+    price: 149000,
+    oldPrice: 229000,
+    image: "./assets/product-bobo-origin.jpg",
+  },
+  {
+    id: 13,
+    type: "digital",
+    title: "Harian Kompas Akhir Pekan + Kompas.id",
+    startingPrice: true,
+    price: 175000,
+    image: "./assets/product-harian-kompas.jpeg",
+  },
+  {
+    id: 14,
+    type: "physical",
+    title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026",
+    price: 50000,
+    image: "./assets/product-pesta-bola.jpg",
+  },
+  {
+    id: 15,
+    type: "physical",
+    title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
+    price: 199000,
+    image: "./assets/product-kaus-kompas.png",
+  },
+  {
+    id: 16,
+    type: "physical",
+    title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian",
+    price: 169000,
+    image: "./assets/product-papa-francesco.jpeg",
+  },
 ];
 
 function formatRupiah(value) {
@@ -67,14 +127,18 @@ function formatRupiah(value) {
 
 function getProduct() {
   const id = Number(new URLSearchParams(window.location.search).get("id")) || 1;
-  return detailProducts.find((product) => product.id === ((id - 1) % 8) + 1) || detailProducts[0];
+  return detailProducts.find((product) => product.id === id) || detailProducts[0];
 }
 
 function priceMarkup(product) {
-  const price = product.priceText || formatRupiah(product.price);
+  const price = formatRupiah(product.price);
   const oldPrice = product.oldPrice ? `<span>${formatRupiah(product.oldPrice)}</span>` : "";
   const discount = product.oldPrice ? `<b>${Math.round((1 - product.price / product.oldPrice) * 100)}%</b>` : "";
   return `<strong>${price}</strong>${oldPrice}${discount}`;
+}
+
+function productTypeLabel(type) {
+  return { bundling: "Bundling", digital: "Digital", physical: "Produk fisik" }[type] || "Produk";
 }
 
 function shortBreadcrumbTitle(title) {
@@ -94,15 +158,15 @@ function relatedCard(product) {
         </button>
       </div>
       <div class="product-body">
-        <a class="product-detail-link product-info-link" href="./detail?id=${product.id}">
-          <span class="product-tag">Produk</span>
+        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+          <span class="product-tag product-tag--${product.type || "physical"}">${productTypeLabel(product.type)}</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating 4.9 dari 5">
             <i class="ph-fill ph-star" aria-hidden="true"></i>
             <span>4.9 (120)</span>
           </div>
           <div class="price-row">
-            ${product.priceText ? `<span class="price-prefix">Harga mulai</span>` : ""}
+            ${product.startingPrice ? `<span class="price-prefix">Harga mulai</span>` : ""}
             <strong class="price">${formatRupiah(product.price)}</strong>
             ${oldPrice}
           </div>
