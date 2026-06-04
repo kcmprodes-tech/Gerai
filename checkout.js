@@ -91,7 +91,6 @@ let baseTotal = getCheckoutBaseTotal();
 let hasShippingAddress = false;
 let currentGrandTotal = baseTotal;
 const defaultShippingCost = 15000;
-const defaultVoucherValue = -14000;
 let activePaymentMode = "auto";
 const paymentModeCopy = {
   auto: "Perpanjang otomatis, batalkan kapan saja. Pembayaran selanjutnya Rp49.000 untuk langganan Kompas Digital Premium.",
@@ -194,7 +193,20 @@ function getCheckoutItems() {
 }
 
 function getCheckoutBaseTotal() {
-  return checkoutItems.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 1), 0);
+  // Always sum full/original prices (oldPrice ?? price) — used as subtotal before voucher
+  return checkoutItems.reduce((sum, item) => {
+    const full = Number(item.oldPrice) || Number(item.price) || 0;
+    return sum + full * (Number(item.quantity) || 1);
+  }, 0);
+}
+
+function getAutoVoucherAmount() {
+  // Voucher = total discount when using auto-renew (oldPrice - price per item)
+  return checkoutItems.reduce((sum, item) => {
+    const old = Number(item.oldPrice) || 0;
+    const current = Number(item.price) || 0;
+    return old > current ? sum + (old - current) * (Number(item.quantity) || 1) : sum;
+  }, 0);
 }
 
 function getCheckoutItemCount() {
@@ -208,12 +220,20 @@ function recalculateBaseTotal() {
 function renderCheckoutProducts() {
   if (!checkoutProducts) return;
 
+  const isAuto = activePaymentMode === "auto";
+
   checkoutProducts.innerHTML = checkoutItems
     .map((item) => {
       const quantity = Number(item.quantity) || 1;
-      const lineTotal = (Number(item.price) || 0) * quantity;
-      const oldPrice = Number(item.oldPrice) ? `<span>${formatRupiah(Number(item.oldPrice))}</span>` : "";
-      const discount = Number(item.oldPrice) && Number(item.price) ? Math.round(((Number(item.oldPrice) - Number(item.price)) / Number(item.oldPrice)) * 100) : 0;
+      const fullPrice = Number(item.oldPrice) || Number(item.price) || 0;
+      const discountedPrice = Number(item.price) || 0;
+      const effectivePrice = isAuto ? discountedPrice : fullPrice;
+      const lineTotal = effectivePrice * quantity;
+
+      // Strikethrough + badge only in auto mode
+      const oldPrice = isAuto && Number(item.oldPrice) ? `<span>${formatRupiah(fullPrice)}</span>` : "";
+      const discount = isAuto && Number(item.oldPrice) && Number(item.price)
+        ? Math.round(((fullPrice - discountedPrice) / fullPrice) * 100) : 0;
       const discountBadge = discount > 0 ? `<em class="checkout-product-discount">${discount}%</em>` : "";
       return `
         <article class="checkout-card product-checkout-card">
@@ -266,16 +286,23 @@ function updateDetailState() {
 
 function updateCheckoutState() {
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
-  const shippingCost = hasShippingAddress ? defaultShippingCost : 0;
-  const voucherValue = hasShippingAddress ? defaultVoucherValue : 0;
+  const selectedShipping = document.querySelector('input[name="shipping"]:checked');
+  const shippingCost = selectedShipping ? Number(selectedShipping.value) : (hasShippingAddress ? defaultShippingCost : 0);
+
+  // Auto mode: apply voucher discount; once mode: full price, no voucher
+  const isAuto = activePaymentMode === "auto";
+  const voucherAmount = isAuto ? getAutoVoucherAmount() : 0;
+  // baseTotal = sum of full prices; subtract voucher to get effective total in auto mode
+  const effectiveSubtotal = baseTotal - voucherAmount;
 
   shippingCostSummary.textContent = formatRupiah(shippingCost);
-  if (voucherSummary) voucherSummary.textContent = voucherValue ? `-${formatRupiah(Math.abs(voucherValue))}` : formatRupiah(0);
-  currentGrandTotal = Math.max(0, baseTotal + shippingCost + voucherValue);
+  if (voucherSummary) voucherSummary.textContent = voucherAmount ? `-${formatRupiah(voucherAmount)}` : formatRupiah(0);
+  if (checkoutSubtotal) checkoutSubtotal.textContent = formatRupiah(baseTotal);
+  currentGrandTotal = Math.max(0, effectiveSubtotal + shippingCost);
   checkoutGrandTotal.textContent = formatRupiah(currentGrandTotal);
   if (checkoutBottomTotal) checkoutBottomTotal.textContent = formatRupiah(currentGrandTotal);
   cardPaymentTotal.textContent = formatRupiah(currentGrandTotal);
-  payButton.disabled = !(hasShippingAddress && selectedPayment);
+  payButton.disabled = !(hasShippingAddress && selectedShipping && selectedPayment);
   if (checkoutBottomPay) checkoutBottomPay.disabled = payButton.disabled;
   paymentHelperText.textContent = payButton.disabled
     ? "Lengkapi alamat pengiriman dan pilih metode pembayaran untuk melanjutkan."
@@ -303,10 +330,14 @@ function getAddressLine(addressDataItem) {
 function applyShippingAddress(addressDataItem) {
   if (!addressDataItem) return;
 
-  shippingAddressText.innerHTML = `<span class="filled-address"><strong>${addressDataItem.name}</strong><p>${getAddressLine(addressDataItem)}<br>${addressDataItem.phone}</p></span>`;
+  const noteHtml = addressDataItem.note
+    ? `<p class="addr-note">Catatan: ${addressDataItem.note}</p>`
+    : "";
+
+  shippingAddressText.innerHTML = `<span class="filled-address"><strong>${addressDataItem.name}</strong><p>${getAddressLine(addressDataItem)}</p><p>Telp ${addressDataItem.phone}</p>${noteHtml}</span>`;
   shippingAddressCard.classList.add("is-filled");
-  openAddressModal.textContent = "Ganti";
-  shippingMethodCard.hidden = true;
+  openAddressModal.textContent = "Ubah alamat pengiriman";
+  shippingMethodCard.hidden = false;
   hasShippingAddress = true;
 }
 
@@ -541,6 +572,7 @@ paymentModeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     activePaymentMode = button.dataset.paymentMode || "auto";
     renderPaymentOptions();
+    renderCheckoutProducts();
     updateCheckoutState();
   });
 });
@@ -604,3 +636,5 @@ updateContactState();
 updateDetailState();
 updateCheckoutState();
 updateCardFormState();
+
+document.querySelector("#shippingMethodCard")?.addEventListener("change", updateCheckoutState);

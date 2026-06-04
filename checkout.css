@@ -23,11 +23,16 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin: 0 0 12px;
+  margin: 0;
   color: var(--ink);
   font-size: 18px;
   font-weight: 600;
   line-height: 26px;
+}
+
+/* "Pesanan Anda" title is a direct child of checkout-left — reduce the 24px grid gap to 12px */
+.checkout-left > .checkout-section-title {
+  margin-bottom: -12px;
 }
 
 .checkout-section-title .ph {
@@ -209,7 +214,6 @@
   }
 
   .checkout-section-title {
-    margin-bottom: 8px;
     font-size: 16px;
     line-height: 24px;
   }
@@ -610,7 +614,7 @@
 
 .filled-address strong {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: var(--ink);
   font-size: 14px;
   font-weight: 600;
@@ -619,6 +623,17 @@
 
 .filled-address p {
   margin: 0;
+  color: #344054;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.filled-address p + p {
+  margin-top: 2px;
+}
+
+.filled-address .addr-note {
+  color: #667085;
 }
 
 .address-card button {
@@ -1395,7 +1410,6 @@ body.modal-open {
   }
 
   .checkout-section-title {
-    margin: 0 0 12px !important;
     font-size: 16px;
     line-height: 24px;
   }
@@ -1454,7 +1468,7 @@ body.modal-open {
   .checkout-product-foot {
     position: relative;
     width: calc(100% + 96px) !important;
-    margin: 14px 0 0 -96px !important;
+    margin: 20px 0 0 -96px !important;
     padding-top: 12px !important;
     align-items: end;
   }
@@ -1705,5 +1719,39 @@ body.modal-open {
   .checkout-page .checkout-product-discount {
     grid-column: 2;
     margin-top: 0 !important;
+  }
+
+  /* Shipping card: full-width section with thick top divider, cancel grid gap */
+  .checkout-page .shipping-card {
+    margin-right: -16px !important;
+    margin-left: -16px !important;
+    margin-top: -24px !important;
+    padding: 24px 16px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Fix 0: subscription border-bottom is the divider → cancel grid gap above payment card
+     so: divider(8px) + 0(grid cancelled) + payCard-padding-top(24px) → h2 = 24px from divider ✓ */
+  .checkout-page .payment-card {
+    margin-top: -24px !important;
+  }
+
+  /* Fix 1: addr → subscription gap: 72px → 24px
+     breakdown: addr-pad-bottom(0) + grid-gap(24) + sub-margin-top(-24) + sub-pad-top(24) = 24px */
+  .checkout-page #shippingAddressCard {
+    padding-bottom: 0 !important;
+  }
+
+  .checkout-page .subscription-block {
+    margin-top: -24px !important;
+  }
+
+  /* Fix 2: thick divider + 24px padding above checkout-promo (first child of summary) */
+  .checkout-page .checkout-summary {
+    border-top: 8px solid #f0f0f0 !important;
+    margin-top: 0 !important;
+    padding-top: 24px !important;
   }
 }

@@ -86,7 +86,7 @@ function relatedCard(product) {
         </button>
       </div>
       <div class="product-body">
-        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+        <a class="product-detail-link product-info-link" href="./detail?id=${product.id}">
           <span class="product-tag">Produk</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating 4.9 dari 5">
@@ -112,7 +112,6 @@ let quantity = 1;
 const productVariants = document.querySelector("#productVariants");
 const stickyProductImage = document.querySelector("#stickyProductImage");
 const stickyProductTitle = document.querySelector("#stickyProductTitle");
-const stickyQtyValue = document.querySelector("#stickyQtyValue");
 const stickyTotalPrice = document.querySelector("#stickyTotalPrice");
 const detailProductImage = document.querySelector("#detailProductImage");
 const galleryDots = document.querySelector("#galleryDots");
@@ -126,7 +125,6 @@ function unitPrice(product) {
 function updateTotalPrice() {
   const total = unitPrice(product) * quantity;
   document.querySelector("#detailTotalPrice").textContent = formatRupiah(total).replace(/^Rp/, "");
-  stickyQtyValue.textContent = quantity;
   stickyTotalPrice.textContent = formatRupiah(total);
 }
 
@@ -236,8 +234,6 @@ const continueIdentity = document.querySelector("#continueIdentity");
 const continuePassword = document.querySelector("#continuePassword");
 const changeIdentity = document.querySelector("#changeIdentity");
 const togglePassword = document.querySelector("#togglePassword");
-const stickyQtyMinus = document.querySelector("#stickyQtyMinus");
-const stickyQtyPlus = document.querySelector("#stickyQtyPlus");
 const stickyBuyNow = document.querySelector("#stickyBuyNow");
 const stickyAddBag = document.querySelector("#stickyAddBag");
 const detailHeaderLogin = document.querySelector("#detailHeaderLogin");
@@ -406,12 +402,6 @@ addCartButton.addEventListener("click", () => {
 stickyAddBag.addEventListener("click", () => {
   addCurrentProductToCart();
   window.location.href = "./cart.html";
-});
-stickyQtyMinus.addEventListener("click", () => {
-  setDetailQuantity(quantity - 1);
-});
-stickyQtyPlus.addEventListener("click", () => {
-  setDetailQuantity(quantity + 1);
 });
 continueIdentity.addEventListener("click", showPasswordStep);
 loginInput.addEventListener("keydown", (event) => {
