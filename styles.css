@@ -820,21 +820,27 @@ select {
   min-height: 20px;
   border-radius: 999px;
   padding: 0 10px;
-  color: var(--blue);
-  background: #eaf5ff;
   font-size: 12px;
   font-weight: 600;
   line-height: 1;
+  /* default fallback */
+  color: var(--blue);
+  background: #eaf5ff;
 }
 
-.product-tag {
-  font-size: 0;
+.product-tag--bundling {
+  color: #0a7a6b;
+  background: #d6faf4;
 }
 
-.product-tag::before {
-  content: "Produk";
-  font-size: 12px;
-  line-height: 1;
+.product-tag--digital {
+  color: #027a48;
+  background: #ecfdf3;
+}
+
+.product-tag--physical {
+  color: #344054;
+  background: #e8f0fe;
 }
 
 .product-title {

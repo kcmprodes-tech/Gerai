@@ -44,136 +44,22 @@ const categories = [
 ];
 
 const products = [
-  {
-    id: 1,
-    title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id",
-    category: "All",
-    price: 95000,
-    oldPrice: null,
-    image: "./assets/product-demam-bola.jpg",
-  },
-  {
-    id: 2,
-    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
-    category: "All",
-    price: 175000,
-    oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
-  },
-  {
-    id: 3,
-    title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
-    category: "All",
-    price: 99000,
-    oldPrice: 125000,
-    image: "./assets/product-pesta-bola.jpg",
-  },
-  {
-    id: 4,
-    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
-    category: "All",
-    price: 149000,
-    oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
-  },
-  {
-    id: 5,
-    title: "Harian Kompas Akhir Pekan + Kompas.id",
-    category: "All",
-    startingPrice: true,
-    price: 175000,
-    oldPrice: null,
-    image: "./assets/product-harian-kompas.jpeg",
-  },
-  {
-    id: 6,
-    title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026",
-    category: "All",
-    price: 50000,
-    oldPrice: null,
-    image: "./assets/product-pesta-bola.jpg",
-  },
-  {
-    id: 7,
-    title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
-    category: "All",
-    price: 199000,
-    oldPrice: null,
-    image: "./assets/product-kaus-kompas.png",
-  },
-  {
-    id: 8,
-    title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian",
-    category: "All",
-    price: 169000,
-    oldPrice: null,
-    image: "./assets/product-papa-francesco.jpeg",
-  },
-  {
-    id: 9,
-    title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id",
-    category: "All",
-    price: 95000,
-    oldPrice: null,
-    image: "./assets/product-demam-bola.jpg",
-  },
-  {
-    id: 10,
-    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
-    category: "All",
-    price: 175000,
-    oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
-  },
-  {
-    id: 11,
-    title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
-    category: "All",
-    price: 99000,
-    oldPrice: 125000,
-    image: "./assets/product-pesta-bola.jpg",
-  },
-  {
-    id: 12,
-    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
-    category: "All",
-    price: 149000,
-    oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
-  },
-  {
-    id: 13,
-    title: "Harian Kompas Akhir Pekan + Kompas.id",
-    category: "All",
-    startingPrice: true,
-    price: 175000,
-    oldPrice: null,
-    image: "./assets/product-harian-kompas.jpeg",
-  },
-  {
-    id: 14,
-    title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026",
-    category: "All",
-    price: 50000,
-    oldPrice: null,
-    image: "./assets/product-pesta-bola.jpg",
-  },
-  {
-    id: 15,
-    title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
-    category: "All",
-    price: 199000,
-    oldPrice: null,
-    image: "./assets/product-kaus-kompas.png",
-  },
-  {
-    id: 16,
-    title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian",
-    category: "All",
-    price: 169000,
-    oldPrice: null,
-    image: "./assets/product-papa-francesco.jpeg",
-  },
+  { id: 1,  type: "bundling", title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id", category: "All", price: 95000, oldPrice: null, image: "./assets/product-demam-bola.jpg" },
+  { id: 2,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 3,  type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 99000, oldPrice: 125000, image: "./assets/product-pesta-bola.jpg" },
+  { id: 4,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 5,  type: "digital",  title: "Harian Kompas Akhir Pekan + Kompas.id", category: "All", startingPrice: true, price: 175000, oldPrice: null, image: "./assets/product-harian-kompas.jpeg" },
+  { id: 6,  type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
+  { id: 7,  type: "physical", title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu", category: "All", price: 199000, oldPrice: null, image: "./assets/product-kaus-kompas.png" },
+  { id: 8,  type: "physical", title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian", category: "All", price: 169000, oldPrice: null, image: "./assets/product-papa-francesco.jpeg" },
+  { id: 9,  type: "bundling", title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id", category: "All", price: 95000, oldPrice: null, image: "./assets/product-demam-bola.jpg" },
+  { id: 10, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 11, type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 99000, oldPrice: 125000, image: "./assets/product-pesta-bola.jpg" },
+  { id: 12, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 13, type: "digital",  title: "Harian Kompas Akhir Pekan + Kompas.id", category: "All", startingPrice: true, price: 175000, oldPrice: null, image: "./assets/product-harian-kompas.jpeg" },
+  { id: 14, type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
+  { id: 15, type: "physical", title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu", category: "All", price: 199000, oldPrice: null, image: "./assets/product-kaus-kompas.png" },
+  { id: 16, type: "physical", title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian", category: "All", price: 169000, oldPrice: null, image: "./assets/product-papa-francesco.jpeg" },
 ];
 
 const state = {
@@ -236,7 +122,7 @@ function productCardTemplate(product) {
       </div>
       <div class="product-body">
         <a class="product-detail-link product-info-link" href="./detail?id=${product.id}">
-          <span class="product-tag">Produk</span>
+          <span class="product-tag product-tag--${product.type || "physical"}">${{ bundling: "Bundling", digital: "Digital", physical: "Produk fisik" }[product.type] || "Produk"}</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating ${rating} dari 5">
             <i class="ph-fill ph-star" aria-hidden="true"></i>

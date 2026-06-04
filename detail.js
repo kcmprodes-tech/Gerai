@@ -1,12 +1,14 @@
 const detailProducts = [
   {
     id: 1,
+    type: "bundling",
     title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id",
     price: 95000,
     image: "./assets/product-demam-bola.jpg",
   },
   {
     id: 2,
+    type: "bundling",
     title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
     price: 175000,
     oldPrice: 229000,
@@ -14,6 +16,7 @@ const detailProducts = [
   },
   {
     id: 3,
+    type: "bundling",
     title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
     price: 99000,
     oldPrice: 125000,
@@ -21,6 +24,7 @@ const detailProducts = [
   },
   {
     id: 4,
+    type: "bundling",
     title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
     price: 149000,
     oldPrice: 229000,
@@ -28,6 +32,7 @@ const detailProducts = [
   },
   {
     id: 5,
+    type: "digital",
     title: "Harian Kompas Akhir Pekan + Kompas.id",
     priceText: "Rp175.000",
     price: 175000,
@@ -35,18 +40,21 @@ const detailProducts = [
   },
   {
     id: 6,
+    type: "physical",
     title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026",
     price: 50000,
     image: "./assets/product-pesta-bola.jpg",
   },
   {
     id: 7,
+    type: "physical",
     title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
     price: 199000,
     image: "./assets/product-kaus-kompas.png",
   },
   {
     id: 8,
+    type: "physical",
     title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian",
     price: 169000,
     image: "./assets/product-papa-francesco.jpeg",
@@ -105,7 +113,10 @@ function relatedCard(product) {
 }
 
 const product = getProduct();
-if (product.id === 3) {
+const productType = product.type || "bundling";
+document.body.classList.add(`product-type-${productType}`);
+// Bundling and physical both use the rich product page layout
+if (productType === "bundling" || productType === "physical") {
   document.body.classList.add("bundling-product-page");
 }
 let quantity = 1;
@@ -143,7 +154,7 @@ document.querySelector("#detailPriceBlock").innerHTML = priceMarkup(product);
 stickyProductImage.src = product.image;
 stickyProductImage.alt = product.title;
 stickyProductTitle.textContent = product.title;
-productVariants.hidden = product.id !== 7;
+productVariants.hidden = productType !== "physical";
 if (product.id === 3) {
   const stockText = document.querySelector(".stock-summary span");
   if (stockText) stockText.textContent = "Stok 23";
@@ -302,6 +313,7 @@ function addCurrentProductToCart() {
   } else {
     cartItems.push({
       id: product.id,
+      type: productType,
       title: product.title,
       variant: productCartVariant(product),
       image: product.image,
@@ -320,6 +332,7 @@ function saveCurrentProductForCheckout() {
     JSON.stringify([
       {
         id: product.id,
+        type: productType,
         title: product.title,
         variant: productCartVariant(product),
         image: product.image,

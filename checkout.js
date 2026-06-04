@@ -59,6 +59,7 @@ const villageSelect = document.querySelector("#villageSelect");
 const postalSelect = document.querySelector("#postalSelect");
 const fallbackCheckoutItems = [
   {
+    type: "bundling",
     title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
     variant: "Digital, Bundle",
     image: "./assets/product-pesta-bola.jpg",
@@ -67,29 +68,17 @@ const fallbackCheckoutItems = [
     oldPrice: 125000,
     quantity: 1,
   },
-  {
-    title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu",
-    variant: "Putih, Reguler",
-    image: "./assets/product-kaus-kompas.png",
-    alt: "Kaus Halaman Depan Kompas",
-    price: 199000,
-    oldPrice: 0,
-    quantity: 1,
-  },
-  {
-    title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
-    variant: "Buku & Digital",
-    image: "./assets/product-bobo-origin.jpg",
-    alt: "Paket Bundling Bobo the Origin",
-    price: 175000,
-    oldPrice: 229000,
-    quantity: 1,
-  },
 ];
 let checkoutItems = getCheckoutItems();
 let baseTotal = getCheckoutBaseTotal();
 let hasShippingAddress = false;
 let currentGrandTotal = baseTotal;
+
+// Determine cart product types
+const cartTypes = new Set(checkoutItems.map((i) => i.type || "bundling"));
+const cartHasPhysical = cartTypes.has("physical") || cartTypes.has("bundling");
+const cartHasDigital  = cartTypes.has("digital")  || cartTypes.has("bundling");
+// Physical-only: no auto-renew, no subscription, no email in address
 const defaultShippingCost = 15000;
 let activePaymentMode = "auto";
 const paymentModeCopy = {
@@ -638,3 +627,40 @@ updateCheckoutState();
 updateCardFormState();
 
 document.querySelector("#shippingMethodCard")?.addEventListener("change", updateCheckoutState);
+
+// ── Adapt checkout UI based on cart product types ──
+function initCartTypeUI() {
+  const paymentModeSection = document.querySelector(".payment-mode");
+  const autoModeBtn = document.querySelector('[data-payment-mode="auto"]');
+  const subscriptionBlock = document.querySelector(".subscription-block");
+  const shippingAddressCard = document.querySelector("#shippingAddressCard");
+  const emailLabel = document.querySelector("#recipientEmail")?.closest("label");
+
+  if (!cartHasDigital) {
+    // Physical-only: hide auto-renew option, force "once" mode
+    if (paymentModeSection) paymentModeSection.style.display = "none";
+    if (autoModeBtn) {
+      activePaymentMode = "once";
+      renderPaymentOptions();
+      renderCheckoutProducts();
+      updateCheckoutState();
+    }
+    if (subscriptionBlock) subscriptionBlock.hidden = true;
+  }
+
+  if (!cartHasPhysical) {
+    // Digital-only: hide shipping address section and shipping cost row
+    if (shippingAddressCard) shippingAddressCard.hidden = true;
+    const shippingRow = document.querySelector("#shippingRow");
+    if (shippingRow) shippingRow.hidden = true;
+    hasShippingAddress = true; // no shipping needed, allow payment
+    updateCheckoutState();
+  }
+
+  if (cartHasPhysical && !cartHasDigital) {
+    // Physical-only: hide email field in address form
+    if (emailLabel) emailLabel.hidden = true;
+  }
+}
+
+initCartTypeUI();

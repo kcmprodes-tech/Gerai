@@ -3,6 +3,11 @@
   background: #ffffff;
 }
 
+/* Ensure hidden attribute always hides elements regardless of other display rules */
+.checkout-page [hidden] {
+  display: none !important;
+}
+
 /* Checkout redesign */
 .checkout-page .category-row {
   display: none;
