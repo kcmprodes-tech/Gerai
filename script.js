@@ -259,8 +259,15 @@ function renderProductSection(grid, productIds) {
 }
 
 function renderCuratedSections() {
-  renderProductSection(els.bundlingGrid, [2, 3, 4, 6, 17]);
-  renderProductSection(els.subscriptionGrid, [5, 13, 1, 11, 17]);
+  const bundlingProductIds = [2, 3, 4, 17, 1].filter((id) => {
+    const product = products.find((item) => item.id === id);
+    return product?.type === "bundling";
+  });
+  const subscriptionProductIds = products
+    .filter((product) => product.type === "digital")
+    .map((product) => product.id);
+  renderProductSection(els.bundlingGrid, bundlingProductIds);
+  renderProductSection(els.subscriptionGrid, subscriptionProductIds);
 }
 
 function showWishlistToast() {

@@ -1152,7 +1152,7 @@ body.modal-open {
 .login-register {
   margin: 14px 0 24px;
   color: #333333;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.25;
   text-align: center;
 }
@@ -1178,7 +1178,7 @@ body.modal-open {
   display: block;
   margin-bottom: 12px;
   color: #000000;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.25;
 }
@@ -1355,11 +1355,19 @@ body.modal-open {
   font-weight: 600;
 }
 
-.social-button > span:last-child {
+.social-button > span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.social-icon {
+  justify-self: center;
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .social-button.google {
@@ -1378,53 +1386,8 @@ body.modal-open {
   color: #666666;
 }
 
-.google-mark {
-  justify-self: center;
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  color: #4285f4;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.apple-mark {
-  justify-self: center;
-  width: 20px;
-  height: 24px;
-  background: #ffffff;
-  border-radius: 48% 48% 44% 44%;
-}
-
-.privy-mark {
-  justify-self: center;
-  position: relative;
-  width: 30px;
-  height: 20px;
-}
-
-.privy-mark::before,
-.privy-mark::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  width: 19px;
-  height: 14px;
-  border-radius: 50% 50% 45% 45%;
-  background: #e52727;
-  transform: rotate(-28deg);
-}
-
-.privy-mark::before {
-  left: 2px;
-}
-
-.privy-mark::after {
-  right: 1px;
-  background: #d91f26;
-  transform: rotate(-34deg);
+.social-button.privy .social-icon {
+  width: 28px;
 }
 
 .hidden {
@@ -1665,7 +1628,7 @@ body.modal-open {
   .login-popup {
     width: 100%;
     max-height: calc(100vh - 24px);
-    padding: 16px;
+    padding: 24px 16px;
   }
 
   .brand-logo {

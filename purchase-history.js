@@ -55,7 +55,7 @@ function renderHistoryCards() {
       return `
         <article class="history-card" data-history-status="shipping">
           <div class="history-card-head">
-            <div class="history-order-meta"><strong>GRI-20260528-${String(index + 1).padStart(3, "0")}</strong><span>|</span><span>28 Mei 2026</span></div>
+            <div class="history-order-meta"><strong>GRI-20260528-${String(index + 1).padStart(3, "0")}</strong><span>|</span><span class="history-date">28 Mei 2026</span></div>
             <span class="status-pill">Diproses</span>
           </div>
           <div class="history-card-body">
@@ -68,7 +68,7 @@ function renderHistoryCards() {
             <div class="history-total"><span>Total Belanja</span><strong>${formatRupiah(lineTotal)}</strong></div>
           </div>
           <div class="history-card-actions">
-            <button class="btn ghost" type="button">Detail Pesanan</button>
+            <button class="btn ghost" type="button">Detail</button>
             <button class="btn primary" type="button">Lacak Pesanan</button>
           </div>
         </article>
