@@ -397,6 +397,21 @@
   background: #fbfcfd;
 }
 
+.history-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  border-top: 1px solid var(--line);
+  padding: 16px 20px;
+  background: #fbfcfd;
+}
+
+.history-card-footer .history-card-actions {
+  padding: 0;
+  background: transparent;
+}
+
 .history-card-actions .btn {
   min-height: 40px;
   padding-inline: 18px;
@@ -641,8 +656,8 @@
     grid-template-columns: 64px minmax(0, 1fr);
     gap: 12px;
     align-items: center;
-    padding: 0 0 12px;
-    border-bottom: 1px solid #e5e7eb;
+    padding: 0;
+    border-bottom: 0;
     min-width: 0;
     width: 100%;
   }
@@ -680,29 +695,30 @@
 
   .history-total {
     grid-column: 1;
-    grid-row: 3;
     align-self: center;
+    min-width: 0;
     text-align: left;
   }
 
   .history-total span {
-    display: block;
+    display: inline;
     color: #667085;
     font-size: 12px;
     line-height: 18px;
+    white-space: nowrap;
   }
 
   .history-total strong {
-    margin-top: 0;
+    display: inline;
+    margin: 0 0 0 8px;
     color: #111827;
     font-size: 16px;
     font-weight: 700;
     line-height: 22px;
+    white-space: nowrap;
   }
 
   .history-card-actions {
-    grid-column: 2;
-    grid-row: 3;
     justify-self: end;
     align-self: center;
     display: block;
@@ -722,5 +738,19 @@
 
   .history-card-actions .btn.primary {
     display: none;
+  }
+
+  .history-card-footer {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    border-top: 1px solid #e5e7eb;
+    padding: 12px 0 0;
+    background: transparent;
   }
 }

@@ -599,7 +599,8 @@ body:not(.home-page) .category-row {
 }
 
 .section {
-  padding-block: 54px 24px;
+  padding-block: 16px 32px;
+  border-top: 1px solid var(--line);
 }
 
 .section-heading {
@@ -1560,7 +1561,8 @@ body.modal-open {
   }
 
   .section {
-    padding-block: 34px 14px;
+    padding-block: 16px 32px;
+    border-top: 1px solid var(--line);
   }
 
   .section-heading {

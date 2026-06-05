@@ -186,6 +186,14 @@ function relatedCard(product) {
 
 const product = getProduct();
 const productType = product.type || "bundling";
+const benefitCopyByProductId = {
+  4: {
+    product:
+      "Bobo the Origin (Fisik): Komik novel grafis 112 halaman (art paper) dengan cover art karton yang menceritakan petualangan Bobo mencari jati diri di usia 7 tahun.",
+    digital:
+      "e-Magazine Bobo Reguler: Akses ke edisi terbaru majalah Bobo yang terbit reguler setiap minggunya, memastikan anak tetap mendapatkan bacaan edukatif yang segar. Kompas.id Premium: Akses penuh ke berita berkualitas dan kredibel untuk kebutuhan informasi orang tua.",
+  },
+};
 document.body.classList.add(`product-type-${productType}`);
 // Bundling and physical both use the rich product page layout
 if (productType === "bundling" || productType === "physical") {
@@ -211,6 +219,21 @@ function updateTotalPrice() {
   stickyTotalPrice.textContent = formatRupiah(total);
 }
 
+function applyBenefitCopyOverrides() {
+  const benefitCopy = benefitCopyByProductId[product.id];
+  if (!benefitCopy) return;
+
+  const productBenefit = document.querySelector(".benefit-box .benefit-list article:first-child p");
+  if (productBenefit && benefitCopy.product) {
+    productBenefit.textContent = benefitCopy.product;
+  }
+
+  const digitalBenefit = document.querySelector(".benefit-box .benefit-list article:nth-child(2) p");
+  if (digitalBenefit && benefitCopy.digital) {
+    digitalBenefit.textContent = benefitCopy.digital;
+  }
+}
+
 document.title = `${product.title} - Gerai Kompas`;
 const breadcrumb = document.querySelector("#detailBreadcrumb");
 if (breadcrumb) {
@@ -232,6 +255,7 @@ if (product.id === 3) {
   if (stockText) stockText.textContent = "Stok 23";
 }
 updateTotalPrice();
+applyBenefitCopyOverrides();
 document.querySelectorAll(".thumb img").forEach((image) => {
   image.src = product.image;
   image.alt = product.title;

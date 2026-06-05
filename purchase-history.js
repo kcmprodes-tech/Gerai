@@ -65,11 +65,13 @@ function renderHistoryCards() {
               <p>${item.variant || "Produk Gerai Kompas"}</p>
               <p>${quantity} Barang x ${formatRupiah(Number(item.price) || 0)}</p>
             </div>
-            <div class="history-total"><span>Total Belanja</span><strong>${formatRupiah(lineTotal)}</strong></div>
           </div>
-          <div class="history-card-actions">
-            <button class="btn ghost" type="button">Detail</button>
-            <button class="btn primary" type="button">Lacak Pesanan</button>
+          <div class="history-card-footer">
+            <div class="history-total"><span>Total Belanja</span><strong>${formatRupiah(lineTotal)}</strong></div>
+            <div class="history-card-actions">
+              <button class="btn ghost" type="button">Detail</button>
+              <button class="btn primary" type="button">Lacak Pesanan</button>
+            </div>
           </div>
         </article>
       `;
