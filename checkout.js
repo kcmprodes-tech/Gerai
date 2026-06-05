@@ -423,6 +423,12 @@ function changeCheckoutQuantity(index, direction) {
 function showSuccessModal() {
   paymentModal.hidden = true;
   successModal.hidden = false;
+  setStoredValue("geraiPaymentMode", activePaymentMode);
+  // Save the subscription email used at checkout for purchase detail page
+  const usedEmail = subscriptionEmail?.textContent?.trim()
+    || document.querySelector("#recipientEmail")?.value?.trim()
+    || getStoredValue("geraiLoginIdentity");
+  if (usedEmail) setStoredValue("geraiSubscriptionEmail", usedEmail);
 }
 
 function resetLocationAfter(level) {

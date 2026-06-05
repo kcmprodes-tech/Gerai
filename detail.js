@@ -12,7 +12,14 @@ const detailProducts = [
     title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
     price: 175000,
     oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
+    image: "./assets/thumb-banner-utama.png",
+    gallery: [
+      "./assets/thumb-banner-utama.png",
+      "./assets/BTO-Versi-e-com-1080-x-180-02.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-03.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-04.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-05.jpg",
+    ],
   },
   {
     id: 3,
@@ -28,7 +35,14 @@ const detailProducts = [
     title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
     price: 149000,
     oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
+    image: "./assets/thumb-banner-utama.png",
+    gallery: [
+      "./assets/thumb-banner-utama.png",
+      "./assets/BTO-Versi-e-com-1080-x-180-02.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-03.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-04.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-05.jpg",
+    ],
   },
   {
     id: 5,
@@ -72,7 +86,14 @@ const detailProducts = [
     title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
     price: 175000,
     oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
+    image: "./assets/thumb-banner-utama.png",
+    gallery: [
+      "./assets/thumb-banner-utama.png",
+      "./assets/BTO-Versi-e-com-1080-x-180-02.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-03.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-04.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-05.jpg",
+    ],
   },
   {
     id: 11,
@@ -88,7 +109,14 @@ const detailProducts = [
     title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler",
     price: 149000,
     oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
+    image: "./assets/thumb-banner-utama.png",
+    gallery: [
+      "./assets/thumb-banner-utama.png",
+      "./assets/BTO-Versi-e-com-1080-x-180-02.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-03.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-04.jpg",
+      "./assets/BTO-Versi-e-com-1080-x-180-05.jpg",
+    ],
   },
   {
     id: 13,
@@ -125,7 +153,7 @@ const detailProducts = [
     title: "Suroboyo10K Ultimate Bundle",
     price: 149000,
     oldPrice: 229000,
-    image: "./assets/product-bobo-origin.jpg",
+    image: "./assets/SKU-Front-Runner-600x600.jpg",
   },
 ];
 
@@ -166,7 +194,7 @@ function relatedCard(product) {
         </button>
       </div>
       <div class="product-body">
-        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+        <a class="product-detail-link product-info-link" href="./detail?id=${product.id}">
           <span class="product-tag product-tag--${product.type || "physical"}">${productTypeLabel(product.type)}</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating 4.9 dari 5">
@@ -256,10 +284,24 @@ if (product.id === 3) {
 }
 updateTotalPrice();
 applyBenefitCopyOverrides();
-document.querySelectorAll(".thumb img").forEach((image) => {
-  image.src = product.image;
-  image.alt = product.title;
-});
+// Render thumbs dynamically from gallery
+(function renderThumbs() {
+  const thumbsContainer = document.querySelector(".thumbs");
+  if (!thumbsContainer) return;
+  thumbsContainer.innerHTML = productGallery
+    .map(
+      (src, index) =>
+        `<button class="thumb${index === 0 ? " active" : ""}" type="button" data-gallery-thumb="${index}"><img src="${src}" alt="${product.title} gambar ${index + 1}"></button>`
+    )
+    .join("");
+  thumbsContainer.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-gallery-thumb]");
+    if (!btn) return;
+    const idx = Number(btn.dataset.galleryThumb);
+    setGalleryImage(idx);
+    thumbsContainer.querySelectorAll(".thumb").forEach((t, i) => t.classList.toggle("active", i === idx));
+  });
+})();
 
 function renderGalleryDots() {
   if (!galleryDots || productGallery.length <= 1) return;

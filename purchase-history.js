@@ -69,7 +69,7 @@ function renderHistoryCards() {
           <div class="history-card-footer">
             <div class="history-total"><span>Total Belanja</span><strong>${formatRupiah(lineTotal)}</strong></div>
             <div class="history-card-actions">
-              <button class="btn ghost" type="button">Detail</button>
+              <a class="btn ghost" href="./purchase-detail.html?item=${index}">Detail</a>
               <button class="btn primary" type="button">Lacak Pesanan</button>
             </div>
           </div>

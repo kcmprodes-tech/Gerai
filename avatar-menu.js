@@ -93,19 +93,25 @@ function syncSharedHeaderAuth() {
 
   document.querySelectorAll(".site-header .account-actions").forEach((accountActions) => {
     let authActions = accountActions.querySelector(".auth-actions");
-    const avatarButton = accountActions.querySelector("[data-avatar-menu-trigger]");
+    const avatarButtons = accountActions.querySelectorAll("[data-avatar-menu-trigger]");
+    const avatarButton = avatarButtons[0];
 
     if (!authActions) {
       authActions = createGuestActions();
-      if (avatarButton) accountActions.insertBefore(authActions, avatarButton);
-      else accountActions.appendChild(authActions);
+      const authReference = avatarButton?.closest(".logged-in-actions") || avatarButton;
+      if (authReference && authReference.parentElement === accountActions) {
+        accountActions.insertBefore(authActions, authReference);
+      } else {
+        accountActions.appendChild(authActions);
+      }
     }
 
     authActions.classList.toggle("hidden", loggedIn);
-    if (avatarButton) {
-      avatarButton.classList.toggle("hidden", !loggedIn);
-      avatarButton.hidden = !loggedIn;
-    }
+    avatarButtons.forEach((button) => {
+      button.textContent = getAvatarInitials();
+      button.classList.toggle("hidden", !loggedIn);
+      button.hidden = !loggedIn;
+    });
 
     accountActions.querySelectorAll("[data-avatar-menu]").forEach((menu) => {
       syncAvatarMenuEmail(menu);
@@ -141,48 +147,107 @@ function clearLoginState() {
 function setupSharedAvatarMenu() {
   syncSharedHeaderAuth();
 
-  const trigger = document.querySelector("[data-avatar-menu-trigger]");
-  if (!trigger || trigger.dataset.avatarMenuReady === "true") return;
+  document.querySelectorAll("[data-avatar-menu-trigger]").forEach((trigger) => {
+    if (trigger.dataset.avatarMenuReady === "true") return;
 
-  const accountActions = trigger.closest(".account-actions") || trigger.parentElement;
-  let menu = accountActions.querySelector("[data-avatar-menu]");
-  if (!menu) {
-    menu = createAvatarMenu();
-    accountActions.appendChild(menu);
-  }
-  syncAvatarMenuEmail(menu);
-
-  trigger.dataset.avatarMenuReady = "true";
-  trigger.setAttribute("aria-expanded", "false");
-
-  const closeMenu = () => {
-    menu.hidden = true;
-    trigger.setAttribute("aria-expanded", "false");
-  };
-
-  trigger.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const willOpen = menu.hidden;
-    syncAvatarMenuEmail(menu);
-    menu.hidden = !willOpen;
-    trigger.setAttribute("aria-expanded", String(willOpen));
-  });
-
-  menu.addEventListener("click", (event) => {
-    const logoutButton = event.target.closest("[data-logout]");
-    if (!logoutButton) {
-      event.stopPropagation();
-      return;
+    const accountActions = trigger.closest(".account-actions") || trigger.parentElement;
+    if (!accountActions) return;
+    let menu = accountActions.querySelector("[data-avatar-menu]");
+    if (!menu) {
+      menu = createAvatarMenu();
+      accountActions.appendChild(menu);
     }
+    syncAvatarMenuEmail(menu);
 
-    clearLoginState();
-    window.location.hash = "";
-    syncSharedHeaderAuth();
-    closeMenu();
+    trigger.dataset.avatarMenuReady = "true";
+    trigger.textContent = getAvatarInitials();
+    trigger.setAttribute("aria-expanded", "false");
+
+    const closeMenu = () => {
+      menu.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+    };
+
+    trigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      document.querySelectorAll("[data-avatar-menu]").forEach((openMenu) => {
+        if (openMenu !== menu) openMenu.hidden = true;
+      });
+      const willOpen = menu.hidden;
+      syncAvatarMenuEmail(menu);
+      menu.hidden = !willOpen;
+      trigger.setAttribute("aria-expanded", String(willOpen));
+    });
+
+    menu.addEventListener("click", (event) => {
+      const logoutButton = event.target.closest("[data-logout]");
+      if (!logoutButton) {
+        event.stopPropagation();
+        return;
+      }
+
+      clearLoginState();
+      window.location.hash = "";
+      syncSharedHeaderAuth();
+      closeMenu();
+    });
+    document.addEventListener("click", closeMenu);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
   });
-  document.addEventListener("click", closeMenu);
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
+}
+
+function setupSharedHeaderSearch() {
+  document.querySelectorAll(".site-header").forEach((header) => {
+    if (header.dataset.sharedSearchReady === "true") return;
+
+    const topbar = header.querySelector(".topbar");
+    const search = header.querySelector(".search");
+    const searchInput = search?.querySelector("input[type='search']");
+    const mobileSearchToggle = header.querySelector(".mobile-search-toggle");
+    const searchSubmit = search?.querySelector(".search-submit");
+    const closeSearchMobile = search?.querySelector(".search-close-mobile");
+    const clearSearch = search?.querySelector("[id^='clearSearch']");
+
+    if (!topbar || !searchInput) return;
+    header.dataset.sharedSearchReady = "true";
+
+    const goToSearchPage = () => {
+      const query = searchInput.value.trim();
+      if (!query) return;
+      window.location.href = `./search.html?q=${encodeURIComponent(query)}`;
+    };
+
+    const openMobileSearch = () => {
+      topbar.classList.add("search-open");
+      mobileSearchToggle?.setAttribute("aria-expanded", "true");
+      window.setTimeout(() => searchInput.focus(), 0);
+    };
+
+    const closeMobileSearch = () => {
+      topbar.classList.remove("search-open");
+      mobileSearchToggle?.setAttribute("aria-expanded", "false");
+    };
+
+    mobileSearchToggle?.addEventListener("click", openMobileSearch);
+    closeSearchMobile?.addEventListener("click", closeMobileSearch);
+    searchSubmit?.addEventListener("click", goToSearchPage);
+    clearSearch?.addEventListener("click", () => {
+      searchInput.value = "";
+      clearSearch.classList.add("hidden");
+      searchInput.focus();
+    });
+    searchInput.addEventListener("input", () => {
+      clearSearch?.classList.toggle("hidden", !searchInput.value.trim());
+    });
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        goToSearchPage();
+      }
+      if (event.key === "Escape") closeMobileSearch();
+    });
   });
 }
 
@@ -252,4 +317,5 @@ window.addEventListener("storage", (event) => {
 
 setupSharedAvatarMenu();
 setupSharedLogoutHandlers();
+setupSharedHeaderSearch();
 setupAutoHideHeader();

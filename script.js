@@ -45,22 +45,22 @@ const categories = [
 
 const products = [
   { id: 1,  type: "bundling", title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id", category: "All", price: 95000, oldPrice: null, image: "./assets/product-demam-bola.jpg" },
-  { id: 2,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 2,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 3,  type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 99000, oldPrice: 125000, image: "./assets/product-pesta-bola.jpg" },
-  { id: 4,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 4,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 5,  type: "digital",  title: "Harian Kompas Akhir Pekan + Kompas.id", category: "All", startingPrice: true, price: 175000, oldPrice: null, image: "./assets/product-harian-kompas.jpeg" },
   { id: 6,  type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
   { id: 7,  type: "physical", title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu", category: "All", price: 199000, oldPrice: null, image: "./assets/product-kaus-kompas.png" },
   { id: 8,  type: "physical", title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian", category: "All", price: 169000, oldPrice: null, image: "./assets/product-papa-francesco.jpeg" },
   { id: 9,  type: "bundling", title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id", category: "All", price: 95000, oldPrice: null, image: "./assets/product-demam-bola.jpg" },
-  { id: 10, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 10, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 11, type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 99000, oldPrice: 125000, image: "./assets/product-pesta-bola.jpg" },
-  { id: 12, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 12, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 13, type: "digital",  title: "Harian Kompas Akhir Pekan + Kompas.id", category: "All", startingPrice: true, price: 175000, oldPrice: null, image: "./assets/product-harian-kompas.jpeg" },
   { id: 14, type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
   { id: 15, type: "physical", title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu", category: "All", price: 199000, oldPrice: null, image: "./assets/product-kaus-kompas.png" },
   { id: 16, type: "physical", title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian", category: "All", price: 169000, oldPrice: null, image: "./assets/product-papa-francesco.jpeg" },
-  { id: 17, type: "bundling", title: "Suroboyo10K Ultimate Bundle", category: "All", price: 149000, oldPrice: 229000, image: "./assets/product-bobo-origin.jpg" },
+  { id: 17, type: "bundling", title: "Suroboyo10K Ultimate Bundle", category: "All", price: 149000, oldPrice: 229000, image: "./assets/SKU-Front-Runner-600x600.jpg" },
 ];
 
 const state = {
@@ -89,7 +89,7 @@ const els = {
   cartItems: document.querySelector("#cartItems"),
   cartTotal: document.querySelector("#cartTotal"),
   cartCount: document.querySelector("#cartCount"),
-  wishlistCount: document.querySelector("#wishlistCount"),
+
   openLoginModal: document.querySelector("#openLoginModal"),
   openMobileLoginModal: document.querySelector("#openMobileLoginModal"),
   homeLoginModal: document.querySelector("#homeLoginModal"),
@@ -119,7 +119,7 @@ function productCardTemplate(product) {
   return `
     <article class="product-card" data-product-detail="${product.id}" tabindex="0" aria-label="Lihat detail ${product.title}">
       <div class="product-media">
-        <a class="product-detail-link media-link" href="./detail.html?id=${product.id}" aria-label="Lihat detail ${product.title}">
+        <a class="product-detail-link media-link" href="./detail?id=${product.id}" aria-label="Lihat detail ${product.title}">
           <img src="${product.image}" alt="${product.title}" loading="lazy">
         </a>
         ${discount ? `<span class="product-discount">${discount}%</span>` : ""}
@@ -127,7 +127,7 @@ function productCardTemplate(product) {
         </button>
       </div>
       <div class="product-body">
-        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
+        <a class="product-detail-link product-info-link" href="./detail?id=${product.id}">
           <span class="product-tag product-tag--${product.type || "physical"}">${{ bundling: "Bundling", digital: "Digital", physical: "Produk fisik" }[product.type] || "Produk"}</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating ${rating} dari 5">
@@ -246,7 +246,7 @@ function renderProducts() {
 
 function renderBestSellers() {
   if (!els.bestSellerGrid) return;
-  renderProductSection(els.bestSellerGrid, [1, 2, 3, 4, 17]);
+  renderProductSection(els.bestSellerGrid, [1, 5, 7, 8, 17]);
 }
 
 function renderProductSection(grid, productIds) {
@@ -316,14 +316,14 @@ function handleProductGridClick(event) {
     const productId = detailLink?.href
       ? new URL(detailLink.href, window.location.href).searchParams.get("id")
       : productCard.dataset.productDetail;
-    window.location.href = `./detail.html?id=${productId}`;
+    window.location.href = `./detail?id=${productId}`;
   }
 }
 
 function handleProductGridKeydown(event) {
   if (event.key !== "Enter") return;
   const productCard = event.target.closest("[data-product-detail]");
-  if (productCard) window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
+  if (productCard) window.location.href = `./detail?id=${productCard.dataset.productDetail}`;
 }
 
 function setCategory(category) {
@@ -338,8 +338,6 @@ function updateBadges() {
   const itemCount = [...state.cart.values()].reduce((sum, item) => sum + item.qty, 0);
   els.cartCount.textContent = itemCount;
   els.cartCount.classList.toggle("hidden", itemCount === 0);
-  els.wishlistCount.textContent = state.wishlist.size;
-  els.wishlistCount.classList.toggle("hidden", state.wishlist.size === 0);
   renderBestSellers();
   renderCuratedSections();
 }
