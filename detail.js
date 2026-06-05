@@ -425,6 +425,15 @@ function setStoredValue(key, value) {
   }
 }
 
+function getAccountKey(base) {
+  let id = null;
+  try { id = localStorage.getItem("geraiLoginIdentity"); } catch {}
+  if (!id) {
+    try { id = JSON.parse(window.name || "{}").geraiLoginIdentity || null; } catch {}
+  }
+  return id ? `${base}_${id}` : base;
+}
+
 function productCartVariant(product) {
   if (product.id === 7) return "Putih, Reguler";
   if ([1, 2, 3, 4, 6].includes(product.id)) return product.id === 2 || product.id === 4 ? "Buku & Digital" : "Digital, Bundle";
@@ -433,14 +442,14 @@ function productCartVariant(product) {
 
 function getStoredCartItems() {
   try {
-    return JSON.parse(getStoredValue("geraiCartItems") || "[]");
+    return JSON.parse(getStoredValue(getAccountKey("geraiCartItems")) || "[]");
   } catch {
     return [];
   }
 }
 
 function saveCartItems(items) {
-  setStoredValue("geraiCartItems", JSON.stringify(items));
+  setStoredValue(getAccountKey("geraiCartItems"), JSON.stringify(items));
 }
 
 function addCurrentProductToCart() {
@@ -466,7 +475,7 @@ function addCurrentProductToCart() {
 
 function saveCurrentProductForCheckout() {
   setStoredValue(
-    "geraiCheckoutItems",
+    getAccountKey("geraiCheckoutItems"),
     JSON.stringify([
       {
         id: product.id,

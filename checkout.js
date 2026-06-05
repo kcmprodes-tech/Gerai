@@ -170,9 +170,18 @@ function setStoredValue(key, value) {
   }
 }
 
+function getAccountKey(base) {
+  let id = null;
+  try { id = localStorage.getItem("geraiLoginIdentity"); } catch {}
+  if (!id) {
+    try { id = JSON.parse(window.name || "{}").geraiLoginIdentity || null; } catch {}
+  }
+  return id ? `${base}_${id}` : base;
+}
+
 function getCheckoutItems() {
   try {
-    const storedItems = JSON.parse(getStoredValue("geraiCheckoutItems") || "[]");
+    const storedItems = JSON.parse(getStoredValue(getAccountKey("geraiCheckoutItems")) || "[]");
     if (Array.isArray(storedItems) && storedItems.length) return storedItems;
   } catch {
     // Use fallback below.
@@ -250,7 +259,7 @@ function renderCheckoutProducts() {
 
   if (checkoutSummaryItems) checkoutSummaryItems.textContent = "Subtotal produk";
   if (checkoutSubtotal) checkoutSubtotal.textContent = formatRupiah(baseTotal);
-  setStoredValue("geraiLastPurchaseItems", JSON.stringify(checkoutItems));
+  setStoredValue(getAccountKey("geraiLastPurchaseItems"), JSON.stringify(checkoutItems));
 }
 
 function fillSelect(select, placeholder, options) {
@@ -417,7 +426,7 @@ function changeCheckoutQuantity(index, direction) {
   recalculateBaseTotal();
   renderCheckoutProducts();
   updateCheckoutState();
-  setStoredValue("geraiCheckoutItems", JSON.stringify(checkoutItems));
+  setStoredValue(getAccountKey("geraiCheckoutItems"), JSON.stringify(checkoutItems));
 }
 
 function showSuccessModal() {

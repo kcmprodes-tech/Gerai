@@ -33,9 +33,18 @@ function getStoredValue(key) {
   }
 }
 
+function getAccountKey(base) {
+  let id = null;
+  try { id = localStorage.getItem("geraiLoginIdentity"); } catch {}
+  if (!id) {
+    try { id = JSON.parse(window.name || "{}").geraiLoginIdentity || null; } catch {}
+  }
+  return id ? `${base}_${id}` : base;
+}
+
 function getHistoryItems() {
   try {
-    const storedItems = JSON.parse(getStoredValue("geraiLastPurchaseItems") || getStoredValue("geraiCheckoutItems") || "[]");
+    const storedItems = JSON.parse(getStoredValue(getAccountKey("geraiLastPurchaseItems")) || getStoredValue(getAccountKey("geraiCheckoutItems")) || "[]");
     if (Array.isArray(storedItems) && storedItems.length) return storedItems;
   } catch {
     // Use fallback below.

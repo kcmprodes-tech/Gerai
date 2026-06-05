@@ -59,16 +59,25 @@ function setStoredValue(key, value) {
   }
 }
 
+function getAccountKey(base) {
+  let id = null;
+  try { id = localStorage.getItem("geraiLoginIdentity"); } catch {}
+  if (!id) {
+    try { id = JSON.parse(window.name || "{}").geraiLoginIdentity || null; } catch {}
+  }
+  return id ? `${base}_${id}` : base;
+}
+
 function getStoredCartItems() {
   try {
-    return JSON.parse(getStoredValue("geraiCartItems") || "[]");
+    return JSON.parse(getStoredValue(getAccountKey("geraiCartItems")) || "[]");
   } catch {
     return [];
   }
 }
 
 function saveCartItems(items) {
-  setStoredValue("geraiCartItems", JSON.stringify(items));
+  setStoredValue(getAccountKey("geraiCartItems"), JSON.stringify(items));
 }
 
 function escapeHtml(value) {
@@ -243,7 +252,7 @@ function getSelectedCartItems() {
 }
 
 function saveCheckoutItems() {
-  setStoredValue("geraiCheckoutItems", JSON.stringify(getSelectedCartItems()));
+  setStoredValue(getAccountKey("geraiCheckoutItems"), JSON.stringify(getSelectedCartItems()));
 }
 
 function updateCartTotals() {
