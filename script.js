@@ -119,7 +119,7 @@ function productCardTemplate(product) {
   return `
     <article class="product-card" data-product-detail="${product.id}" tabindex="0" aria-label="Lihat detail ${product.title}">
       <div class="product-media">
-        <a class="product-detail-link media-link" href="./detail?id=${product.id}" aria-label="Lihat detail ${product.title}">
+        <a class="product-detail-link media-link" href="./detail.html?id=${product.id}" aria-label="Lihat detail ${product.title}">
           <img src="${product.image}" alt="${product.title}" loading="lazy">
         </a>
         ${discount ? `<span class="product-discount">${discount}%</span>` : ""}
@@ -127,7 +127,7 @@ function productCardTemplate(product) {
         </button>
       </div>
       <div class="product-body">
-        <a class="product-detail-link product-info-link" href="./detail?id=${product.id}">
+        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
           <span class="product-tag product-tag--${product.type || "physical"}">${{ bundling: "Bundling", digital: "Digital", physical: "Produk fisik" }[product.type] || "Produk"}</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating ${rating} dari 5">
@@ -316,14 +316,14 @@ function handleProductGridClick(event) {
     const productId = detailLink?.href
       ? new URL(detailLink.href, window.location.href).searchParams.get("id")
       : productCard.dataset.productDetail;
-    window.location.href = `./detail?id=${productId}`;
+    window.location.href = `./detail.html?id=${productId}`;
   }
 }
 
 function handleProductGridKeydown(event) {
   if (event.key !== "Enter") return;
   const productCard = event.target.closest("[data-product-detail]");
-  if (productCard) window.location.href = `./detail?id=${productCard.dataset.productDetail}`;
+  if (productCard) window.location.href = `./detail.html?id=${productCard.dataset.productDetail}`;
 }
 
 function setCategory(category) {

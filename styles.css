@@ -905,6 +905,14 @@ select {
   background: #e8f0fe;
 }
 
+.product-card .product-body .product-tag {
+  display: none !important;
+}
+
+.detail-shell .title-row .product-tag {
+  display: none !important;
+}
+
 .product-title {
   margin: 0;
   font-size: 16px;
@@ -918,13 +926,7 @@ select {
 }
 
 .rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 0;
-  color: var(--blue);
-  font-size: 14px;
-  font-weight: 600;
+  display: none;
 }
 
 .rating span {

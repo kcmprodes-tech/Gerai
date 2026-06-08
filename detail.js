@@ -154,6 +154,7 @@ const detailProducts = [
     price: 149000,
     oldPrice: 229000,
     image: "./assets/SKU-Front-Runner-600x600.jpg",
+    hideLabel: true,
   },
 ];
 
@@ -194,7 +195,7 @@ function relatedCard(product) {
         </button>
       </div>
       <div class="product-body">
-        <a class="product-detail-link product-info-link" href="./detail?id=${product.id}">
+        <a class="product-detail-link product-info-link" href="./detail.html?id=${product.id}">
           <span class="product-tag product-tag--${product.type || "physical"}">${productTypeLabel(product.type)}</span>
           <p class="product-title">${product.title}</p>
           <div class="rating" aria-label="Rating 4.9 dari 5">
@@ -227,6 +228,7 @@ document.body.classList.add(`product-type-${productType}`);
 if (productType === "bundling" || productType === "physical") {
   document.body.classList.add("bundling-product-page");
 }
+if (product.hideLabel) document.body.classList.add("detail-no-label");
 let quantity = 1;
 const productVariants = document.querySelector("#productVariants");
 const stickyProductImage = document.querySelector("#stickyProductImage");

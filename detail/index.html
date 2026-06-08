@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <title>Mengarahkan ke detail produk</title>
+    <meta name="robots" content="noindex">
+    <script>
+      const target = `../detail.html${window.location.search || ""}${window.location.hash || ""}`;
+      window.location.replace(target);
+    </script>
+  </head>
+  <body>
+    <p>
+      Mengarahkan ke
+      <a id="detailFallbackLink" href="../detail.html">halaman detail produk</a>.
+    </p>
+    <script>
+      document.getElementById("detailFallbackLink").href =
+        `../detail.html${window.location.search || ""}${window.location.hash || ""}`;
+    </script>
+  </body>
+</html>

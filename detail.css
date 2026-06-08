@@ -54,6 +54,10 @@
   }
 }
 
+.detail-shell .product-info .detail-rating {
+  display: none !important;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -202,6 +206,7 @@ img {
 
 .breadcrumb strong {
   color: var(--text);
+  font-weight: 400;
 }
 
 .product-hero {
@@ -1977,6 +1982,15 @@ body.modal-open {
     background: #f0f4ff;
   }
 
+  /* Hide label badge on all product detail pages */
+  .bundling-product-page .title-row::before,
+  .product-type-bundling .title-row::before,
+  .product-type-digital .title-row::before,
+  .product-type-physical .title-row::before {
+    content: none;
+    display: none;
+  }
+
   .bundling-product-page h1 {
     margin-top: 0;
     font-size: 18px;
@@ -1993,7 +2007,7 @@ body.modal-open {
     line-height: 16px;
   }
 
-  .bundling-product-page .price-block {
+.bundling-product-page .price-block {
     margin-top: 12px;
     padding-bottom: 0;
     border-bottom: 0;
