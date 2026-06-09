@@ -6,7 +6,7 @@
     <title>Puma ACG Air Zoom - Gerai Kompas</title>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="./styles.css?v=20260608-detail-label">
-    <link rel="stylesheet" href="./detail.css?v=20260608-hide-detail-rating">
+    <link rel="stylesheet" href="./detail.css?v=20260609-mobile-redesign">
   </head>
   <body>
     <header class="site-header">
@@ -83,11 +83,19 @@
               <h1 id="detailProductTitle">Puma ACG Air Zoom</h1>
             </div>
           </div>
-          <div class="rating detail-rating"><i class="ph-fill ph-star" aria-hidden="true"></i><strong>4.8</strong><em>(91)</em></div>
           <div class="price-block" id="detailPriceBlock">
             <strong>₹887</strong>
             <span>MRP ₹3699</span>
             <b>(76% Off)</b>
+          </div>
+
+          <div class="mobile-product-meta">
+            <p class="product-type-row">Jenis produk : <span id="detailProductTypeLabel">Bundling</span></p>
+            <div class="product-type-pills" id="productTypePills">
+              <button class="type-pill selected" type="button">Produk</button>
+              <button class="type-pill" type="button">Bundling A</button>
+              <button class="type-pill" type="button">Bundling B</button>
+            </div>
           </div>
 
           <div class="product-summary">
@@ -119,22 +127,34 @@
               </div>
             </div>
           </div>
+        </article>
 
+        <!-- Right: Purchase panel -->
+        <aside class="purchase-panel">
+          <div class="purchase-qty-header">
+            <span class="purchase-qty-label">Jumlah</span>
+            <p class="stock-summary"><span>Sisa 3 barang</span></p>
+          </div>
           <div class="buy-row">
             <div class="qty">
               <button type="button">-</button>
               <span>1</span>
               <button type="button">+</button>
             </div>
-            <p class="total-summary"><span>Total harga</span><strong id="detailTotalPrice">120.000</strong></p>
-            <p class="stock-summary"><strong>Stock</strong> <span>Sisa 3 barang</span></p>
           </div>
-
+          <div class="purchase-subtotal">
+            <span>Subtotal</span>
+            <strong id="detailTotalPrice">Rp0</strong>
+          </div>
           <div class="cta-row">
             <button class="cart" type="button">Beli Sekarang</button>
-            <button class="buy" type="button">Tambah ke keranjang</button>
+            <button class="buy" type="button"><i class="ph ph-shopping-cart-simple" aria-hidden="true"></i>Tambah ke Keranjang</button>
           </div>
-        </article>
+          <div class="purchase-trust">
+            <p><i class="ph ph-truck" aria-hidden="true"></i><span>Dikirim dari Kompas Palmerah</span></p>
+            <p><i class="ph ph-shield-check" aria-hidden="true"></i><span>Produk resmi Gerai Kompas.id</span></p>
+          </div>
+        </aside>
       </section>
 
       <section class="description" id="description">
@@ -142,7 +162,7 @@
           <button class="active" type="button" data-detail-tab="description">Deskripsi</button>
           <button type="button" data-detail-tab="reviews">Ulasan</button>
         </div>
-        <div class="detail-tab-panel active" data-detail-panel="description">
+        <div class="detail-tab-panel desc-body active" data-detail-panel="description">
           <div class="benefit-box" aria-label="Yang kamu dapat">
             <h2>Yang kamu dapat</h2>
             <div class="benefit-list">
@@ -157,36 +177,69 @@
             </div>
           </div>
 
-          <h2 id="product-description">Deskripsi Produk</h2>
-          <p>Biar nobar tidak nanya mulu, baca dulu ulasan di Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026.</p>
-          <p>Dapatkan sepaket Bundling Premium: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + akses Kompas.id dengan harga spesial Rp99.000 dari harga normal Rp125.000.</p>
-          <p>Bundling ini menghadirkan Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 setebal 40 halaman. Isinya mencakup analisis dan prediksi pertandingan, info eksklusif tim dan pemain, hingga cerita historis yang tercatat oleh Kompas.</p>
-          <p>Selama periode turnamen, kamu juga bisa mengikuti update tepercaya dari Kompas.id dan koran Kompas. Koran akan dikirim langsung ke rumah supaya bisa langsung dibaca di pagi hari setelah nobar.</p>
+          <div class="desc-expandable">
+            <h2 id="product-description">Deskripsi Produk</h2>
+            <p>Biar nobar tidak nanya mulu, baca dulu ulasan di Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026.</p>
+            <p>Dapatkan sepaket Bundling Premium: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + akses Kompas.id dengan harga spesial Rp99.000 dari harga normal Rp125.000.</p>
 
-          <h3>Isi Bundling</h3>
-          <ul>
-            <li>Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026, edisi collectible yang diproduksi terbatas setebal 40 halaman.</li>
-            <li>Review tim dan pemain, analisis peluang juara, serta infografis menarik.</li>
-            <li>Match-Day Time Zone Architect untuk sinkronisasi jadwal pertandingan ke kalender.</li>
-            <li>Kartu Koleksi Legend 11, berisi 3 kartu random legenda sepak bola di tiap paket.</li>
-            <li>Akses Kompas.id untuk membaca berita Pesta Bola 2026 secara digital.</li>
-            <li>Fitur Match Event Prediction untuk mengisi waktu dan menguji prediksi sebelum pertandingan.</li>
-          </ul>
+            <button class="desc-expand-btn" type="button">Selengkapnya <i class="ph ph-caret-down"></i></button>
 
-          <h3>Detail Produk</h3>
-          <ul>
-            <li>Produk: Bundling Pesta Bola</li>
-            <li>Tabloid: Bola by Kompas Edisi Pesta Bola Amerika 2026</li>
-            <li>Jumlah halaman: 40 halaman</li>
-            <li>Termasuk akses Kompas Digital Premium</li>
-          </ul>
+            <div class="desc-extra" hidden>
+              <p>Bundling ini menghadirkan Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 setebal 40 halaman. Isinya mencakup analisis dan prediksi pertandingan, info eksklusif tim dan pemain, hingga cerita historis yang tercatat oleh Kompas.</p>
+              <p>Selama periode turnamen, kamu juga bisa mengikuti update tepercaya dari Kompas.id dan koran Kompas. Koran akan dikirim langsung ke rumah supaya bisa langsung dibaca di pagi hari setelah nobar.</p>
 
-          <h3>Informasi Tambahan</h3>
-          <ul>
-            <li>Akses Kompas.id dan Time Zone Architect bisa langsung digunakan setelah pembelian.</li>
-            <li>Tabloid dan bonus fisik dikirim sesuai jadwal pengiriman produk.</li>
-            <li>Checkout sebelum stok bundling habis.</li>
-          </ul>
+              <h3>Isi Bundling</h3>
+              <ul>
+                <li>Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026, edisi collectible yang diproduksi terbatas setebal 40 halaman.</li>
+                <li>Review tim dan pemain, analisis peluang juara, serta infografis menarik.</li>
+                <li>Match-Day Time Zone Architect untuk sinkronisasi jadwal pertandingan ke kalender.</li>
+                <li>Kartu Koleksi Legend 11, berisi 3 kartu random legenda sepak bola di tiap paket.</li>
+                <li>Akses Kompas.id untuk membaca berita Pesta Bola 2026 secara digital.</li>
+                <li>Fitur Match Event Prediction untuk mengisi waktu dan menguji prediksi sebelum pertandingan.</li>
+              </ul>
+
+              <h3>Detail Produk</h3>
+              <ul>
+                <li>Produk: Bundling Pesta Bola</li>
+                <li>Tabloid: Bola by Kompas Edisi Pesta Bola Amerika 2026</li>
+                <li>Jumlah halaman: 40 halaman</li>
+                <li>Termasuk akses Kompas Digital Premium</li>
+              </ul>
+
+              <h3>Informasi Tambahan</h3>
+              <ul>
+                <li>Akses Kompas.id dan Time Zone Architect bisa langsung digunakan setelah pembelian.</li>
+                <li>Tabloid dan bonus fisik dikirim sesuai jadwal pengiriman produk.</li>
+                <li>Checkout sebelum stok bundling habis.</li>
+              </ul>
+              <button class="desc-collapse-btn" type="button">Lebih sedikit <i class="ph ph-caret-up"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="desc-accordion">
+          <button class="desc-accordion-trigger" type="button" aria-expanded="false">
+            <span>Detail Produk</span>
+            <i class="ph ph-caret-right" aria-hidden="true"></i>
+          </button>
+          <div class="desc-accordion-body" hidden>
+            <ul>
+              <li>Produk: Bundling Pesta Bola</li>
+              <li>Tabloid: Bola by Kompas Edisi Pesta Bola Amerika 2026</li>
+              <li>Jumlah halaman: 40 halaman</li>
+              <li>Termasuk akses Kompas Digital Premium</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="desc-accordion">
+          <button class="desc-accordion-trigger" type="button" aria-expanded="false">
+            <span>Pengiriman &amp; retur</span>
+            <i class="ph ph-caret-right" aria-hidden="true"></i>
+          </button>
+          <div class="desc-accordion-body" hidden>
+            <p>Pengiriman menggunakan layanan ekspedisi pilihan. Estimasi tiba 3-7 hari kerja. Retur dapat dilakukan dalam 7 hari setelah produk diterima.</p>
+          </div>
         </div>
 
         <div class="detail-tab-panel" data-detail-panel="reviews" hidden>
@@ -395,7 +448,7 @@
         </div>
       </div>
     </div>
-    <script src="./detail.js?v=20260605-bobo-benefit-digital"></script>
+    <script src="./detail.js?v=20260609-expand-fix"></script>
     <script src="./avatar-menu.js"></script>
   </body>
 </html>

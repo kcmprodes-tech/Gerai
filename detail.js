@@ -599,3 +599,37 @@ document.addEventListener("keydown", (event) => {
     closeLoginModal();
   }
 });
+
+// Set product type label on mobile
+const detailProductTypeLabel = document.querySelector("#detailProductTypeLabel");
+if (detailProductTypeLabel) {
+  detailProductTypeLabel.textContent = { bundling: "Bundling", digital: "Digital", physical: "Produk fisik" }[productType] || "Produk";
+}
+
+// Accordion toggle
+document.querySelectorAll(".desc-accordion-trigger").forEach((trigger) => {
+  trigger.addEventListener("click", () => {
+    const body = trigger.nextElementSibling;
+    const isOpen = !body.hidden;
+    body.hidden = isOpen;
+    trigger.setAttribute("aria-expanded", String(!isOpen));
+  });
+});
+
+// Desc expand button
+const descExpandBtn = document.querySelector(".desc-expand-btn");
+const descCollapseBtn = document.querySelector(".desc-collapse-btn");
+if (descExpandBtn) {
+  descExpandBtn.addEventListener("click", () => {
+    const extra = descExpandBtn.nextElementSibling;
+    if (extra) extra.hidden = false;
+    descExpandBtn.style.display = "none";
+  });
+}
+if (descCollapseBtn) {
+  descCollapseBtn.addEventListener("click", () => {
+    const extra = descCollapseBtn.closest(".desc-extra");
+    if (extra) extra.hidden = true;
+    if (descExpandBtn) descExpandBtn.style.display = "";
+  });
+}

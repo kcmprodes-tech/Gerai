@@ -246,7 +246,7 @@ function renderProducts() {
 
 function renderBestSellers() {
   if (!els.bestSellerGrid) return;
-  renderProductSection(els.bestSellerGrid, [1, 5, 7, 8, 17]);
+  renderProductSection(els.bestSellerGrid, [1, 5, 7, 8]);
 }
 
 function renderProductSection(grid, productIds) {
@@ -259,7 +259,7 @@ function renderProductSection(grid, productIds) {
 }
 
 function renderCuratedSections() {
-  const bundlingProductIds = [2, 3, 4, 17, 1].filter((id) => {
+  const bundlingProductIds = [2, 3, 4, 17].filter((id) => {
     const product = products.find((item) => item.id === id);
     return product?.type === "bundling";
   });
