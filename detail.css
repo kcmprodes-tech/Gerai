@@ -80,15 +80,10 @@
     box-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
   }
 
-  .detail-page .heart,
-  .bundling-product-page .heart {
+  .detail-page .fullscreen,
+  .bundling-product-page .fullscreen {
     top: 20px;
     right: 20px;
-  }
-
-  .detail-page .zoom,
-  .bundling-product-page .zoom {
-    display: none;
   }
 
   .detail-page .thumbs,

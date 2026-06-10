@@ -25,9 +25,23 @@ const detailProducts = [
     id: 3,
     type: "bundling",
     title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
-    price: 99000,
-    oldPrice: 125000,
-    image: "./assets/product-pesta-bola.jpg",
+    startingPrice: true,
+    price: 50000,
+    image: "./assets/pesta-bola-general.png",
+    typeLabel: "Tabloid",
+    typePills: ["Basic", "Bundling A", "Bundling B"],
+    pillGallery: [
+      null,
+      "./assets/pestabola_basic.png",
+      "./assets/pestabola_bundling-A.png",
+      "./assets/pestabola_bundling-B.png",
+    ],
+    gallery: [
+      "./assets/pesta-bola-general.png",
+      "./assets/pestabola_basic.png",
+      "./assets/pestabola_bundling-A.png",
+      "./assets/pestabola_bundling-B.png",
+    ],
   },
   {
     id: 4,
@@ -171,6 +185,14 @@ const detailProducts = [
     startingPrice: true,
     price: 1500000,
     image: "./assets/kompas-pro.png",
+  },
+  {
+    id: 20,
+    type: "bundling",
+    title: "Bundling TTS Pilihan Kompas",
+    price: 139000,
+    oldPrice: 260000,
+    image: "./assets/Bundling-TTS-Pilihan-Kompas.jpg",
   },
 ];
 
@@ -346,6 +368,47 @@ galleryDots?.addEventListener("click", (event) => {
 });
 
 renderGalleryDots();
+
+// ── Swipe gesture support for gallery ──
+(function initGallerySwipe() {
+  const mainImg = document.querySelector(".main-image");
+  if (!mainImg || productGallery.length <= 1) return;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  mainImg.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  mainImg.addEventListener("touchend", (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      const next = dx < 0
+        ? (activeGalleryIndex + 1) % productGallery.length
+        : (activeGalleryIndex - 1 + productGallery.length) % productGallery.length;
+      setGalleryImage(next);
+      // Sync pill selection if product has pillGallery
+      if (product.pillGallery) {
+        const pillButtons = document.querySelectorAll("#productTypePills .type-pill");
+        pillButtons.forEach((btn, i) => btn.classList.toggle("selected", i === next - 1));
+      }
+    }
+  }, { passive: true });
+})();
+
+// ── Fullscreen gallery ──
+(function initGalleryFullscreen() {
+  const btn = document.querySelector("#galleryFullscreen");
+  const mainImgEl = document.querySelector("#detailProductImage");
+  if (!btn || !mainImgEl) return;
+  btn.addEventListener("click", () => {
+    if (mainImgEl.requestFullscreen) {
+      mainImgEl.requestFullscreen();
+    } else if (mainImgEl.webkitRequestFullscreen) {
+      mainImgEl.webkitRequestFullscreen();
+    }
+  });
+})();
 
 const relatedSource = detailProducts.filter((item) => item.id !== product.id);
 const relatedProducts = Array.from({ length: 8 }, (_, index) => relatedSource[index % relatedSource.length]);
@@ -627,7 +690,35 @@ document.addEventListener("keydown", (event) => {
 // Set product type label on mobile
 const detailProductTypeLabel = document.querySelector("#detailProductTypeLabel");
 if (detailProductTypeLabel) {
-  detailProductTypeLabel.textContent = { bundling: "Bundling", digital: "Digital", physical: "Produk fisik" }[productType] || "Produk";
+  detailProductTypeLabel.textContent = product.typeLabel || ({ bundling: "Bundling", digital: "Digital", physical: "Produk fisik" }[productType] || "Produk");
+}
+
+// Update type pills if product has custom pill labels
+if (product.typePills) {
+  const pillsContainer = document.querySelector("#productTypePills");
+  if (pillsContainer) {
+    const buttons = pillsContainer.querySelectorAll(".type-pill");
+    product.typePills.forEach((label, i) => {
+      if (buttons[i]) buttons[i].textContent = label;
+    });
+
+    // No pill selected on load — remove 'selected' from all
+    buttons.forEach(btn => btn.classList.remove("selected"));
+
+    // If product has pillGallery, clicking pill switches gallery image
+    if (product.pillGallery) {
+      buttons.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+          buttons.forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          const imgSrc = product.pillGallery[i + 1]; // index 0 = default (general)
+          if (imgSrc) {
+            setGalleryImage(i + 1); // gallery[0] = general, [1..3] = pill images
+          }
+        });
+      });
+    }
+  }
 }
 
 // Accordion toggle

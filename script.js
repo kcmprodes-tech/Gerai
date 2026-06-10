@@ -46,7 +46,7 @@ const categories = [
 const products = [
   { id: 1,  type: "bundling", title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id", category: "All", price: 95000, oldPrice: null, image: "./assets/product-demam-bola.jpg" },
   { id: 2,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
-  { id: 3,  type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 99000, oldPrice: 125000, image: "./assets/product-pesta-bola.jpg" },
+  { id: 3,  type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", startingPrice: true, price: 50000, oldPrice: null, image: "./assets/pesta-bola-general.png" },
   { id: 4,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 5,  type: "digital",  title: "Kompas Digital Premium", category: "All", startingPrice: true, price: 20000, oldPrice: null, image: "./assets/Kompas-id-langganan.png" },
   { id: 6,  type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
@@ -63,6 +63,7 @@ const products = [
   { id: 17, type: "bundling", title: "Suroboyo10K Ultimate Bundle", category: "All", price: 149000, oldPrice: 229000, image: "./assets/SKU-Front-Runner-600x600.jpg" },
   { id: 18, type: "digital",  title: "Kompas Digital Premium + Koran", category: "All", startingPrice: true, price: 250000, oldPrice: null, image: "./assets/kompas-premium-koran.png" },
   { id: 19, type: "digital",  title: "Kompas Professional Mining", category: "All", startingPrice: true, price: 1500000, oldPrice: null, image: "./assets/kompas-pro.png" },
+  { id: 20, type: "bundling", title: "Bundling TTS Pilihan Kompas", category: "All", price: 139000, oldPrice: 260000, image: "./assets/Bundling-TTS-Pilihan-Kompas.jpg" },
 ];
 
 const state = {
@@ -261,7 +262,7 @@ function renderProductSection(grid, productIds) {
 }
 
 function renderCuratedSections() {
-  const bundlingProductIds = [2, 3, 4, 17].filter((id) => {
+  const bundlingProductIds = [20, 3, 4, 17].filter((id) => {
     const product = products.find((item) => item.id === id);
     return product?.type === "bundling";
   });

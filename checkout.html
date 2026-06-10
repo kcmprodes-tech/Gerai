@@ -6,7 +6,7 @@
     <title>Checkout - Gerai Kompas</title>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="./styles.css?v=20260608-detail-label">
-    <link rel="stylesheet" href="./checkout.css?v=20260609-hide-sub">
+    <link rel="stylesheet" href="./checkout.css?v=20260610-addr-sheet">
   </head>
   <body class="checkout-page">
     <header class="site-header">
@@ -151,85 +151,101 @@
       </div>
       <button class="btn primary checkout-bottom-pay" type="button" disabled>Bayar Sekarang</button>
     </div>
+    <input type="hidden" id="recipientEmail" value="ikhwanardhi@gmail.com" autocomplete="email">
     <div class="address-modal-overlay" id="addressModal" hidden>
+      <div class="address-modal-backdrop"></div>
       <section class="address-modal" role="dialog" aria-modal="true" aria-labelledby="addressModalTitle">
-        <h2 id="addressModalTitle">Atur alamat pengiriman</h2>
-        <form id="addressForm" class="address-form">
-          <div class="address-step" data-address-step="contact">
-            <label>
-              <span>Nama penerima</span>
-              <div class="address-field">
-                <input id="recipientName" type="text" placeholder="Masukkan nama lengkap" autocomplete="name" data-contact-required>
-                <button type="button" aria-label="Hapus nama penerima" data-clear-field="recipientName">×</button>
-              </div>
-            </label>
-
-            <label>
-              <span>No telp / WA yang bisa dihubungi</span>
-              <div class="address-field">
-                <input id="recipientPhone" type="tel" placeholder="Masukkan nomor handphone/whatsapp" autocomplete="tel" data-contact-required>
-                <button type="button" aria-label="Hapus nomor telepon" data-clear-field="recipientPhone">×</button>
-              </div>
-            </label>
-
-            <label>
-              <span>Email</span>
-              <div class="address-field">
-                <input id="recipientEmail" type="email" value="ikhwanardhi@gmail.com" autocomplete="email" data-contact-required>
-                <button type="button" aria-label="Hapus email" data-clear-field="recipientEmail">×</button>
-              </div>
-              <small>Email ini akan digunakan untuk Login akun Kompas Digital Premium anda.</small>
-            </label>
-
-            <button class="btn primary address-next" type="button" disabled>Selanjutnya</button>
+        <div class="address-modal-handle"></div>
+        <div class="address-modal-head">
+          <div>
+            <h2 id="addressModalTitle">Tambah Alamat</h2>
+            <p class="address-modal-subtitle">Kelola alamat pengiriman untuk pesanan Gerai Kompas.</p>
           </div>
+          <button class="address-modal-close" id="addressModalClose" type="button" aria-label="Tutup">
+            <i class="ph ph-x" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="address-modal-body">
+          <form id="addressForm" class="address-form">
+            <label>
+              <span>Label Alamat</span>
+              <div class="address-field">
+                <input id="addressLabel" type="text" placeholder="Contoh: Rumah, Kantor, Apartemen" data-addr-required>
+                <button type="button" aria-label="Hapus label" data-clear-field="addressLabel">×</button>
+              </div>
+              <span class="address-field-error" hidden>Field ini wajib diisi</span>
+            </label>
 
-          <div class="address-step address-detail-step" data-address-step="detail" hidden>
+            <label>
+              <span>Nama Penerima</span>
+              <div class="address-field">
+                <input id="recipientName" type="text" placeholder="Nama penerima" autocomplete="name" data-addr-required>
+                <button type="button" aria-label="Hapus nama" data-clear-field="recipientName">×</button>
+              </div>
+              <span class="address-field-error" hidden>Field ini wajib diisi</span>
+            </label>
+
+            <label>
+              <span>Nomor Ponsel</span>
+              <div class="address-field">
+                <input id="recipientPhone" type="tel" placeholder="08xx" autocomplete="tel" data-addr-required>
+                <button type="button" aria-label="Hapus nomor" data-clear-field="recipientPhone">×</button>
+              </div>
+              <span class="address-field-error" hidden>Field ini wajib diisi</span>
+            </label>
+
             <label class="address-full">
-              <span>Alamat lengkap</span>
-              <textarea id="fullAddress" placeholder="Masukkan alamat lengkap" data-detail-required></textarea>
+              <span>Alamat Lengkap</span>
+              <textarea id="fullAddress" placeholder="Nama jalan, nomor rumah, RT/RW" data-addr-required></textarea>
+              <span class="address-field-error" hidden>Field ini wajib diisi</span>
             </label>
 
             <div class="address-grid">
               <label>
                 <span>Provinsi</span>
-                <select id="provinceSelect" data-detail-required>
+                <select id="provinceSelect" data-addr-required>
                   <option value="">Pilih provinsi</option>
                   <option value="DKI Jakarta">DKI Jakarta</option>
                   <option value="Jawa Barat">Jawa Barat</option>
                 </select>
+                <span class="address-field-error" hidden>Field ini wajib diisi</span>
               </label>
 
               <label>
                 <span>Kecamatan</span>
-                <select id="districtSelect" data-detail-required disabled>
+                <select id="districtSelect" data-addr-required disabled>
                   <option value="">Pilih kecamatan</option>
                 </select>
+                <span class="address-field-error" hidden>Field ini wajib diisi</span>
               </label>
 
               <label>
                 <span>Kelurahan</span>
-                <select id="villageSelect" data-detail-required disabled>
+                <select id="villageSelect" data-addr-required disabled>
                   <option value="">Pilih kelurahan</option>
                 </select>
+                <span class="address-field-error" hidden>Field ini wajib diisi</span>
               </label>
 
               <label>
-                <span>Kode pos</span>
-                <select id="postalSelect" data-detail-required disabled>
+                <span>Kode Pos</span>
+                <select id="postalSelect" data-addr-required disabled>
                   <option value="">Pilih kode pos</option>
                 </select>
+                <span class="address-field-error" hidden>Field ini wajib diisi</span>
               </label>
             </div>
 
             <label class="address-full">
-              <span>Catatan (opsional)</span>
-              <input id="addressNote" type="text" placeholder="Tulis catatan">
+              <span>Catatan untuk kurir <em>(Opsional)</em></span>
+              <textarea id="addressNote" placeholder="Tulis catatan"></textarea>
             </label>
-
-            <button class="btn primary address-submit" type="submit" disabled>Selanjutnya</button>
-          </div>
-        </form>
+          </form>
+        </div>
+        <div class="address-modal-footer">
+          <button class="btn ghost address-cancel-btn" id="addressCancel" type="button">Batal</button>
+          <button class="btn primary address-save-btn" id="addressSave" type="button">Simpan Alamat</button>
+        </div>
       </section>
     </div>
     <div class="payment-modal-overlay" id="paymentModal" hidden>

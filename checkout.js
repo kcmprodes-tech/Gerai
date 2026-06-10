@@ -22,12 +22,8 @@ const addressData = {
 };
 
 const addressModal = document.querySelector("#addressModal");
-const openAddressModal = document.querySelector("#openAddressModal");
+const openAddressModalBtn = document.querySelector("#openAddressModal");
 const addressForm = document.querySelector("#addressForm");
-const contactStep = document.querySelector('[data-address-step="contact"]');
-const detailStep = document.querySelector('[data-address-step="detail"]');
-const addressNext = document.querySelector(".address-next");
-const addressSubmit = document.querySelector(".address-submit");
 const shippingAddressText = document.querySelector("#shippingAddressText");
 const shippingAddressCard = document.querySelector("#shippingAddressCard");
 const shippingMethodCard = document.querySelector("#shippingMethodCard");
@@ -51,8 +47,6 @@ const paymentModeButtons = Array.from(document.querySelectorAll("[data-payment-m
 const paymentModeDescription = document.querySelector("#paymentModeDescription");
 const paymentOptions = document.querySelector("#paymentOptions");
 const cardRequiredFields = Array.from(document.querySelectorAll("[data-card-required]"));
-const contactInputs = Array.from(addressForm.querySelectorAll("[data-contact-required]"));
-const detailRequiredFields = Array.from(addressForm.querySelectorAll("[data-detail-required]"));
 const provinceSelect = document.querySelector("#provinceSelect");
 const districtSelect = document.querySelector("#districtSelect");
 const villageSelect = document.querySelector("#villageSelect");
@@ -274,12 +268,11 @@ function updateClearButtons() {
 }
 
 function updateContactState() {
-  addressNext.disabled = !contactInputs.every((input) => input.value.trim());
   updateClearButtons();
 }
 
 function updateDetailState() {
-  addressSubmit.disabled = !detailRequiredFields.every((field) => field.value.trim());
+  // no-op: validation now done on save
 }
 
 function updateCheckoutState() {
@@ -309,15 +302,16 @@ function updateCheckoutState() {
 
 function getShippingAddressData() {
   return {
+    label: document.querySelector("#addressLabel")?.value?.trim() || "",
     name: document.querySelector("#recipientName").value.trim(),
     phone: document.querySelector("#recipientPhone").value.trim(),
-    email: document.querySelector("#recipientEmail").value.trim(),
+    email: document.querySelector("#recipientEmail")?.value?.trim() || "",
     fullAddress: document.querySelector("#fullAddress").value.trim(),
     province: provinceSelect.value,
     district: districtSelect.value,
     village: villageSelect.value,
     postal: postalSelect.value,
-    note: document.querySelector("#addressNote")?.value.trim() || "",
+    note: document.querySelector("#addressNote")?.value?.trim() || "",
   };
 }
 
@@ -334,7 +328,7 @@ function applyShippingAddress(addressDataItem) {
 
   shippingAddressText.innerHTML = `<span class="filled-address"><strong>${addressDataItem.name}</strong><p>${getAddressLine(addressDataItem)}</p><p>Telp ${addressDataItem.phone}</p>${noteHtml}</span>`;
   shippingAddressCard.classList.add("is-filled");
-  openAddressModal.textContent = "Ubah alamat pengiriman";
+  if (openAddressModalBtn) openAddressModalBtn.textContent = "Ubah alamat pengiriman";
   shippingMethodCard.hidden = false;
   hasShippingAddress = true;
 }
@@ -342,9 +336,10 @@ function applyShippingAddress(addressDataItem) {
 function fillAddressForm(addressDataItem) {
   if (!addressDataItem) return;
 
+  if (document.querySelector("#addressLabel")) document.querySelector("#addressLabel").value = addressDataItem.label || "";
   document.querySelector("#recipientName").value = addressDataItem.name || "";
   document.querySelector("#recipientPhone").value = addressDataItem.phone || "";
-  document.querySelector("#recipientEmail").value = addressDataItem.email || "";
+  if (document.querySelector("#recipientEmail")) document.querySelector("#recipientEmail").value = addressDataItem.email || "";
   document.querySelector("#fullAddress").value = addressDataItem.fullAddress || "";
   if (document.querySelector("#addressNote")) document.querySelector("#addressNote").value = addressDataItem.note || "";
 
@@ -463,52 +458,50 @@ function resetLocationAfter(level) {
   }
 }
 
-function showContactStep() {
-  contactStep.hidden = false;
-  detailStep.hidden = true;
-}
-
-function showDetailStep() {
-  contactStep.hidden = true;
-  detailStep.hidden = false;
-  document.querySelector("#fullAddress").focus();
-  updateDetailState();
-}
-
-function openModal() {
-  addressModal.hidden = false;
+function openAddressModal() {
+  const modal = document.querySelector("#addressModal");
+  if (!modal) return;
+  modal.hidden = false;
   document.body.classList.add("modal-open");
   try {
     fillAddressForm(JSON.parse(getStoredValue("geraiShippingAddress") || "null"));
   } catch {
     // Keep the current form state.
   }
-  showContactStep();
-  updateContactState();
-  document.querySelector("#recipientName").focus();
+  updateClearButtons();
+  requestAnimationFrame(() => modal.classList.add("addr-open"));
 }
 
-function closeModal() {
-  addressModal.hidden = true;
-  document.body.classList.remove("modal-open");
-  openAddressModal.focus();
+function resetAddressModalErrors() {
+  document.querySelectorAll("#addressForm [data-addr-required]").forEach(field => {
+    field.classList.remove("has-error");
+  });
+  document.querySelectorAll("#addressForm .address-field-error").forEach(el => {
+    el.hidden = true;
+  });
 }
 
-openAddressModal.addEventListener("click", openModal);
+function closeAddressModal() {
+  const modal = document.querySelector("#addressModal");
+  if (!modal) return;
+  modal.classList.remove("addr-open");
+  resetAddressModalErrors();
+  setTimeout(() => {
+    modal.hidden = true;
+    document.body.classList.remove("modal-open");
+    if (openAddressModalBtn) openAddressModalBtn.focus();
+  }, 320);
+}
 
-addressModal.addEventListener("click", (event) => {
-  if (event.target === addressModal) {
-    closeModal();
-  }
-});
+openAddressModalBtn?.addEventListener("click", openAddressModal);
+
+document.querySelector("#addressModalClose")?.addEventListener("click", closeAddressModal);
+document.querySelector("#addressCancel")?.addEventListener("click", closeAddressModal);
+document.querySelector("#addressModal .address-modal-backdrop")?.addEventListener("click", closeAddressModal);
 
 addressForm.addEventListener("input", () => {
   updateContactState();
   updateDetailState();
-});
-
-addressNext.addEventListener("click", () => {
-  if (!addressNext.disabled) showDetailStep();
 });
 
 addressForm.addEventListener("click", (event) => {
@@ -516,9 +509,48 @@ addressForm.addEventListener("click", (event) => {
   if (!clearButton) return;
 
   const field = document.querySelector(`#${clearButton.dataset.clearField}`);
+  if (!field) return;
   field.value = "";
   field.focus();
   updateContactState();
+});
+
+// Validation and save on Simpan Alamat
+document.querySelector("#addressSave")?.addEventListener("click", () => {
+  const requiredFields = document.querySelectorAll("[data-addr-required]");
+  let hasError = false;
+  requiredFields.forEach(field => {
+    const val = field.value?.trim();
+    const label = field.closest("label") || field.parentElement?.closest("label");
+    const errorEl = label?.querySelector(".address-field-error");
+    if (!val) {
+      field.classList.add("has-error");
+      if (errorEl) errorEl.hidden = false;
+      hasError = true;
+    } else {
+      field.classList.remove("has-error");
+      if (errorEl) errorEl.hidden = true;
+    }
+  });
+  if (!hasError) {
+    const savedAddress = getShippingAddressData();
+    setStoredValue("geraiShippingAddress", JSON.stringify(savedAddress));
+    applyShippingAddress(savedAddress);
+    updateCheckoutState();
+    closeAddressModal();
+  }
+});
+
+// Real-time error clear on input
+document.querySelectorAll("[data-addr-required]").forEach(field => {
+  field.addEventListener("input", () => {
+    if (field.value?.trim()) {
+      field.classList.remove("has-error");
+      const label = field.closest("label") || field.parentElement?.closest("label");
+      const errorEl = label?.querySelector(".address-field-error");
+      if (errorEl) errorEl.hidden = true;
+    }
+  });
 });
 
 provinceSelect.addEventListener("change", () => {
@@ -555,15 +587,6 @@ postalSelect.addEventListener("change", updateDetailState);
 
 addressForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (addressSubmit.disabled) return;
-
-  const name = document.querySelector("#recipientName").value.trim();
-  const savedAddress = getShippingAddressData();
-  savedAddress.name = name;
-  setStoredValue("geraiShippingAddress", JSON.stringify(savedAddress));
-  applyShippingAddress(savedAddress);
-  updateCheckoutState();
-  closeModal();
 });
 
 document.querySelector(".checkout-left").addEventListener("change", (event) => {
@@ -623,7 +646,7 @@ creditCardForm.addEventListener("submit", (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
-  if (!addressModal.hidden) closeModal();
+  if (!addressModal.hidden) closeAddressModal();
   if (!paymentModal.hidden) closePaymentModal();
   if (!successModal.hidden) {
     successModal.hidden = true;
@@ -649,7 +672,7 @@ function initCartTypeUI() {
   const autoModeBtn = document.querySelector('[data-payment-mode="auto"]');
   const subscriptionBlock = document.querySelector(".subscription-block");
   const shippingAddressCard = document.querySelector("#shippingAddressCard");
-  const emailLabel = document.querySelector("#recipientEmail")?.closest("label");
+  const emailLabel = null; // email field is now a hidden input, no visible label to hide
 
   if (!cartHasDigital) {
     // Physical-only: hide auto-renew option, force "once" mode
