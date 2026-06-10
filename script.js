@@ -13,13 +13,13 @@ const categories = [
   },
   {
     name: "Langganan",
-    subtitle: "Digital",
+    subtitle: "Produk-produk Kompas.id",
     image: "./assets/category-langganan.png",
     tone: "green",
   },
   {
     name: "Bundling",
-    subtitle: "Pake Hemat",
+    subtitle: "Paket hemat",
     image: "./assets/category-bundling.png",
     tone: "mint",
   },
@@ -31,12 +31,12 @@ const categories = [
   },
   {
     name: "Merchandise",
-    subtitle: "80+ item",
+    subtitle: "80+ barang",
     image: "./assets/category-merch.png",
     tone: "yellow",
   },
   {
-    name: "Tiket & kelas",
+    name: "Tiket & Kelas",
     subtitle: "Event pilihan",
     image: "./assets/category-eventclass.png",
     tone: "peach",
@@ -48,7 +48,7 @@ const products = [
   { id: 2,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 3,  type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 99000, oldPrice: 125000, image: "./assets/product-pesta-bola.jpg" },
   { id: 4,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
-  { id: 5,  type: "digital",  title: "Harian Kompas Akhir Pekan + Kompas.id", category: "All", startingPrice: true, price: 175000, oldPrice: null, image: "./assets/product-harian-kompas.jpeg" },
+  { id: 5,  type: "digital",  title: "Kompas Digital Premium", category: "All", startingPrice: true, price: 20000, oldPrice: null, image: "./assets/Kompas-id-langganan.png" },
   { id: 6,  type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
   { id: 7,  type: "physical", title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu", category: "All", price: 199000, oldPrice: null, image: "./assets/product-kaus-kompas.png" },
   { id: 8,  type: "physical", title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian", category: "All", price: 169000, oldPrice: null, image: "./assets/product-papa-francesco.jpeg" },
@@ -56,11 +56,13 @@ const products = [
   { id: 10, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 11, type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 99000, oldPrice: 125000, image: "./assets/product-pesta-bola.jpg" },
   { id: 12, type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
-  { id: 13, type: "digital",  title: "Harian Kompas Akhir Pekan + Kompas.id", category: "All", startingPrice: true, price: 175000, oldPrice: null, image: "./assets/product-harian-kompas.jpeg" },
+  { id: 13, type: "digital",  title: "Kompas One Premium", category: "All", startingPrice: true, price: 49000, oldPrice: null, image: "./assets/kompas-one.png" },
   { id: 14, type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
   { id: 15, type: "physical", title: "Kaus Halaman Depan Kompas - Pilih Tanggal Koran Sesukamu", category: "All", price: 199000, oldPrice: null, image: "./assets/product-kaus-kompas.png" },
   { id: 16, type: "physical", title: "Benvenuto Papa Francesco Sang Reformer Pesan dan Kesaksian", category: "All", price: 169000, oldPrice: null, image: "./assets/product-papa-francesco.jpeg" },
   { id: 17, type: "bundling", title: "Suroboyo10K Ultimate Bundle", category: "All", price: 149000, oldPrice: 229000, image: "./assets/SKU-Front-Runner-600x600.jpg" },
+  { id: 18, type: "digital",  title: "Kompas Digital Premium + Koran", category: "All", startingPrice: true, price: 250000, oldPrice: null, image: "./assets/kompas-premium-koran.png" },
+  { id: 19, type: "digital",  title: "Kompas Professional Mining", category: "All", startingPrice: true, price: 1500000, oldPrice: null, image: "./assets/kompas-pro.png" },
 ];
 
 const state = {

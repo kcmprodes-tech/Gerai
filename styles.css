@@ -181,6 +181,10 @@ body:not(.home-page) .site-header {
   height: 26px;
 }
 
+.search-close-mobile {
+  display: none;
+}
+
 .account-actions {
   position: relative;
   display: inline-flex;
@@ -815,7 +819,14 @@ select {
   transform: scale(1.04);
 }
 
+.product-card .wishlist,
+.similar .wishlist,
+.cart-rec-heart {
+  display: none !important;
+}
+
 .product-card .wishlist {
+  display: none !important;
   position: absolute;
   right: 8px;
   top: 8px;

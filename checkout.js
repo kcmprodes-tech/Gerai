@@ -668,7 +668,7 @@ function initCartTypeUI() {
     if (shippingAddressCard) shippingAddressCard.hidden = true;
     const shippingRow = document.querySelector("#shippingRow");
     if (shippingRow) shippingRow.hidden = true;
-    hasShippingAddress = true; // no shipping needed, allow payment
+    hasShippingAddress = true;
     updateCheckoutState();
   }
 

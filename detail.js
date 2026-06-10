@@ -47,10 +47,10 @@ const detailProducts = [
   {
     id: 5,
     type: "digital",
-    title: "Harian Kompas Akhir Pekan + Kompas.id",
+    title: "Kompas Digital Premium",
     startingPrice: true,
-    price: 175000,
-    image: "./assets/product-harian-kompas.jpeg",
+    price: 20000,
+    image: "./assets/Kompas-id-langganan.png",
   },
   {
     id: 6,
@@ -121,10 +121,10 @@ const detailProducts = [
   {
     id: 13,
     type: "digital",
-    title: "Harian Kompas Akhir Pekan + Kompas.id",
+    title: "Kompas One Premium",
     startingPrice: true,
-    price: 175000,
-    image: "./assets/product-harian-kompas.jpeg",
+    price: 49000,
+    image: "./assets/kompas-one.png",
   },
   {
     id: 14,
@@ -155,6 +155,22 @@ const detailProducts = [
     oldPrice: 229000,
     image: "./assets/SKU-Front-Runner-600x600.jpg",
     hideLabel: true,
+  },
+  {
+    id: 18,
+    type: "digital",
+    title: "Kompas Digital Premium + Koran",
+    startingPrice: true,
+    price: 250000,
+    image: "./assets/kompas-premium-koran.png",
+  },
+  {
+    id: 19,
+    type: "digital",
+    title: "Kompas Professional Mining",
+    startingPrice: true,
+    price: 1500000,
+    image: "./assets/kompas-pro.png",
   },
 ];
 
@@ -552,18 +568,26 @@ function continueToCheckout() {
 
 setLoggedIn(getStoredValue("geraiLoggedIn") === "true");
 
-buyNowButton.addEventListener("click", continueToCheckout);
-stickyBuyNow.addEventListener("click", continueToCheckout);
+buyNowButton.addEventListener("click", () => {
+  if (window.innerWidth <= 720) { openBottomSheet("buyNow"); return; }
+  continueToCheckout();
+});
+stickyBuyNow.addEventListener("click", () => {
+  if (window.innerWidth <= 720) { openBottomSheet("buyNow"); return; }
+  continueToCheckout();
+});
 detailHeaderLogin.addEventListener("click", () => openLoginModal("header"));
 detailMobileHeaderLogin?.addEventListener("click", () => openLoginModal("header"));
 if (window.location.hash === "#login" && getStoredValue("geraiLoggedIn") !== "true") {
   openLoginModal("header");
 }
 addCartButton.addEventListener("click", () => {
+  if (window.innerWidth <= 720) { openBottomSheet(); return; }
   addCurrentProductToCart();
   window.location.href = "./cart.html";
 });
 stickyAddBag.addEventListener("click", () => {
+  if (window.innerWidth <= 720) { openBottomSheet(); return; }
   addCurrentProductToCart();
   window.location.href = "./cart.html";
 });
@@ -633,3 +657,164 @@ if (descCollapseBtn) {
     if (descExpandBtn) descExpandBtn.style.display = "";
   });
 }
+
+// ── Bottom Sheet ──
+const addToCartSheet = document.querySelector("#addToCartSheet");
+const bsClose = document.querySelector("#bsClose");
+const bsQtyMinus = document.querySelector("#bsQtyMinus");
+const bsQtyPlus = document.querySelector("#bsQtyPlus");
+const bsQtyValue = document.querySelector("#bsQtyValue");
+const bsSubtotal = document.querySelector("#bsSubtotal");
+const bsAddToCart = document.querySelector("#bsAddToCart");
+const cartToast = document.querySelector("#cartToast");
+const detailCartBadge = document.querySelector("#detailCartBadge");
+
+let sheetQuantity = 1;
+
+function updateCartBadge() {
+  try {
+    const items = JSON.parse(getStoredValue(getAccountKey("geraiCartItems")) || "[]");
+    const count = items.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+    if (detailCartBadge) {
+      detailCartBadge.textContent = count;
+      detailCartBadge.classList.toggle("hidden", count === 0);
+    }
+  } catch {}
+}
+
+function updateSheetSubtotal() {
+  const total = unitPrice(product) * sheetQuantity;
+  if (bsQtyValue) bsQtyValue.textContent = sheetQuantity;
+  if (bsSubtotal) bsSubtotal.textContent = formatRupiah(total);
+}
+
+let sheetMode = "cart"; // "cart" | "buyNow"
+
+function openBottomSheet(mode = "cart") {
+  if (!addToCartSheet) return;
+  sheetMode = mode;
+  sheetQuantity = 1;
+
+  // Populate sheet
+  const img = document.querySelector("#bsProductImage");
+  const title = document.querySelector("#bsProductTitle");
+  const price = document.querySelector("#bsPrice");
+  const oldPrice = document.querySelector("#bsOldPrice");
+  const typeText = document.querySelector("#bsProductTypeText");
+  const typePill = document.querySelector("#bsTypePill");
+
+  if (img) { img.src = product.image; img.alt = product.title; }
+  if (title) title.textContent = product.title;
+  if (price) price.textContent = formatRupiah(product.price);
+  if (oldPrice) oldPrice.textContent = product.oldPrice ? formatRupiah(product.oldPrice) : "";
+  if (typeText) typeText.textContent = productTypeLabel(productType);
+  if (typePill) typePill.textContent = productTypeLabel(productType);
+  const stockEl = document.querySelector("#bsStock");
+  if (stockEl) {
+    const stockText = document.querySelector(".stock-summary span");
+    const raw = stockText ? stockText.textContent.trim() : "";
+    // Normalize to "Stok sisa X barang" format
+    const num = raw.match(/\d+/)?.[0];
+    stockEl.textContent = num ? `Stok sisa ${num} barang` : raw;
+  }
+
+  // Update CTA label based on mode
+  if (bsAddToCart) {
+    bsAddToCart.innerHTML = mode === "buyNow"
+      ? '<i class="ph ph-shopping-bag" aria-hidden="true"></i> Beli Sekarang'
+      : '<i class="ph ph-shopping-cart-simple" aria-hidden="true"></i> Tambah ke Keranjang';
+  }
+
+  updateSheetSubtotal();
+  addToCartSheet.hidden = false;
+  document.body.classList.add("modal-open");
+  requestAnimationFrame(() => addToCartSheet.classList.add("bs-open"));
+}
+
+function closeBottomSheet() {
+  addToCartSheet.classList.remove("bs-open");
+  setTimeout(() => {
+    addToCartSheet.hidden = true;
+    document.body.classList.remove("modal-open");
+  }, 320);
+}
+
+function showCartToast() {
+  cartToast.classList.add("show");
+  setTimeout(() => cartToast.classList.remove("show"), 3000);
+}
+
+if (bsClose) bsClose.addEventListener("click", closeBottomSheet);
+
+if (addToCartSheet) {
+  addToCartSheet.addEventListener("click", (e) => {
+    if (e.target === addToCartSheet) closeBottomSheet();
+  });
+}
+
+if (bsQtyMinus) {
+  bsQtyMinus.addEventListener("click", () => {
+    if (sheetQuantity > 1) { sheetQuantity--; updateSheetSubtotal(); }
+  });
+}
+
+if (bsQtyPlus) {
+  bsQtyPlus.addEventListener("click", () => {
+    sheetQuantity++;
+    updateSheetSubtotal();
+  });
+}
+
+if (bsAddToCart) {
+  bsAddToCart.addEventListener("click", () => {
+    if (sheetMode === "buyNow") {
+      // Save product for checkout with sheet quantity
+      setStoredValue(
+        getAccountKey("geraiCheckoutItems"),
+        JSON.stringify([{
+          id: product.id,
+          type: productType,
+          title: product.title,
+          variant: productCartVariant(product),
+          image: product.image,
+          alt: product.title,
+          price: product.price || 0,
+          oldPrice: product.oldPrice || 0,
+          quantity: sheetQuantity,
+        }])
+      );
+      closeBottomSheet();
+      setTimeout(() => {
+        if (getStoredValue("geraiLoggedIn") === "true") {
+          window.location.href = "./checkout.html";
+        } else {
+          openLoginModal("checkout");
+        }
+      }, 330);
+    } else {
+      // Add to cart mode
+      const cartItems = getStoredCartItems();
+      const existing = cartItems.find((item) => Number(item.id) === Number(product.id));
+      if (existing) {
+        existing.quantity = (Number(existing.quantity) || 1) + sheetQuantity;
+      } else {
+        cartItems.push({
+          id: product.id,
+          type: productType,
+          title: product.title,
+          variant: productCartVariant(product),
+          image: product.image,
+          alt: product.title,
+          price: product.price || 0,
+          oldPrice: product.oldPrice || 0,
+          quantity: sheetQuantity,
+        });
+      }
+      saveCartItems(cartItems);
+      closeBottomSheet();
+      setTimeout(() => { showCartToast(); updateCartBadge(); }, 330);
+    }
+  });
+}
+
+updateCartBadge();

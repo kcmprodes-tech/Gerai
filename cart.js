@@ -293,7 +293,7 @@ function updateCartTotals() {
 
   cartBuyButtons.forEach((btn) => {
     if (btn.classList.contains("cart-bottom-btn")) {
-      btn.textContent = `Beli (${selectedItems})`;
+      btn.textContent = "Bayar Sekarang";
     } else {
       btn.textContent = selectedItems > 0 ? `Beli (${selectedItems})` : "Beli";
     }
