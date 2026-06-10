@@ -6,36 +6,42 @@ function money(value) {
 
 const categories = [
   {
+    key: "promo-spesial",
     name: "Promo Spesial",
     subtitle: "Penawaran terbatas",
     image: "./assets/category-diskon.png",
     tone: "pink",
   },
   {
+    key: "langganan",
     name: "Langganan",
     subtitle: "Produk-produk Kompas.id",
     image: "./assets/category-langganan.png",
     tone: "green",
   },
   {
+    key: "bundling",
     name: "Bundling",
     subtitle: "Paket hemat",
     image: "./assets/category-bundling.png",
     tone: "mint",
   },
   {
+    key: "buku",
     name: "Buku",
     subtitle: "400+ produk",
     image: "./assets/category-buku.png",
     tone: "blue",
   },
   {
+    key: "merchandise",
     name: "Merchandise",
     subtitle: "80+ barang",
     image: "./assets/category-merch.png",
     tone: "yellow",
   },
   {
+    key: "tiket-kelas",
     name: "Tiket & Kelas",
     subtitle: "Event pilihan",
     image: "./assets/category-eventclass.png",
@@ -86,6 +92,13 @@ const els = {
   bestSellerGrid: document.querySelector("#bestSellerGrid"),
   bundlingGrid: document.querySelector("#bundlingGrid"),
   subscriptionGrid: document.querySelector("#subscriptionGrid"),
+  categoryIndex: document.querySelector("#categoryIndex"),
+  categoryIndexHero: document.querySelector("#categoryIndexHero"),
+  categoryIndexImage: document.querySelector("#categoryIndexImage"),
+  categoryIndexTitle: document.querySelector("#categoryIndexTitle"),
+  categoryIndexSubtitle: document.querySelector("#categoryIndexSubtitle"),
+  categoryIndexGrid: document.querySelector("#categoryIndexGrid"),
+  categoryIndexEmpty: document.querySelector("#categoryIndexEmpty"),
   cartToggle: document.querySelector("#cartToggle"),
   closeCart: document.querySelector("#closeCart"),
   cartDrawer: document.querySelector("#cartDrawer"),
@@ -196,11 +209,31 @@ function compactNumber(value) {
   return String(value);
 }
 
+const categoryProductIds = {
+  "promo-spesial": [1, 2, 9, 10],
+  langganan: [5, 13, 18, 19],
+  bundling: [1, 2, 3, 17, 20, 4, 11, 12],
+  buku: [6, 8, 14, 16],
+  merchandise: [7, 15],
+  "tiket-kelas": [],
+};
+
+function getCategoryByKey(key) {
+  return categories.find((category) => category.key === key);
+}
+
+function getCategoryProducts(categoryKey) {
+  const ids = categoryProductIds[categoryKey] || [];
+  return ids
+    .map((id) => products.find((product) => product.id === id))
+    .filter(Boolean);
+}
+
 function renderCategories() {
   els.popularCategories.innerHTML = categories
     .map(
       (category) => `
-        <button class="category-card" data-category="${category.name}" type="button">
+        <button class="category-card" data-category="${category.name}" data-category-key="${category.key}" type="button">
           <figure class="category-tile ${category.tone ? `category-tile-${category.tone}` : ""}">
             <span class="image-wrap"><img src="${category.image}" alt="${category.name}"></span>
             <figcaption><strong>${category.name}</strong><span>${category.subtitle}</span></figcaption>
@@ -209,6 +242,32 @@ function renderCategories() {
       `,
     )
     .join("");
+}
+
+function renderCategoryIndexFromUrl() {
+  if (!els.categoryIndex) return false;
+  const params = new URLSearchParams(window.location.search);
+  const category = getCategoryByKey(params.get("category"));
+
+  if (!category) {
+    document.body.classList.remove("category-index-mode");
+    return false;
+  }
+
+  const categoryProducts = getCategoryProducts(category.key);
+  document.body.classList.add("category-index-mode");
+  els.categoryIndex.classList.remove("hidden");
+  els.categoryIndexHero.className = `category-index-hero category-index-hero-${category.tone || "pink"}`;
+  els.categoryIndexImage.src = category.image;
+  els.categoryIndexImage.alt = category.name;
+  els.categoryIndexTitle.textContent = category.name;
+  els.categoryIndexSubtitle.textContent = category.subtitle;
+  els.categoryIndexGrid.innerHTML = categoryProducts
+    .map((product) => productCardTemplate(product))
+    .join("");
+  els.categoryIndexEmpty.classList.toggle("hidden", categoryProducts.length > 0);
+  document.title = `${category.name} - Gerai Kompas`;
+  return true;
 }
 
 function getFilteredProducts() {
@@ -511,6 +570,7 @@ function resetHeroCarousel() {
 }
 
 renderCategories();
+renderCategoryIndexFromUrl();
 renderProducts();
 renderBestSellers();
 renderCuratedSections();
@@ -526,14 +586,15 @@ document.querySelectorAll(".category-tab[data-category]").forEach((tab) => {
 });
 
 els.popularCategories.addEventListener("click", (event) => {
-  const card = event.target.closest("[data-category]");
+  const card = event.target.closest("[data-category-key]");
   if (!card) return;
-  setCategory(card.dataset.category);
-  document.querySelector("#deals").scrollIntoView({ behavior: "smooth", block: "start" });
+  window.location.href = `./index.html?category=${encodeURIComponent(card.dataset.categoryKey)}`;
 });
 
 els.productGrid.addEventListener("click", handleProductGridClick);
 els.productGrid.addEventListener("keydown", handleProductGridKeydown);
+els.categoryIndexGrid?.addEventListener("click", handleProductGridClick);
+els.categoryIndexGrid?.addEventListener("keydown", handleProductGridKeydown);
 els.bestSellerGrid?.addEventListener("click", handleProductGridClick);
 els.bestSellerGrid?.addEventListener("keydown", handleProductGridKeydown);
 els.bundlingGrid?.addEventListener("click", handleProductGridClick);

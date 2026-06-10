@@ -728,6 +728,65 @@ body:not(.home-page) .category-row {
 .category-tile-yellow { background: #fff2cf; }
 .category-tile-peach { background: #fde4d7; }
 
+.category-index {
+  display: none;
+  padding-top: 48px;
+  padding-bottom: 80px;
+}
+
+body.category-index-mode .hero,
+body.category-index-mode main > .section {
+  display: none;
+}
+
+body.category-index-mode .category-index {
+  display: block !important;
+}
+
+.category-index-hero {
+  min-height: 76px;
+  margin-bottom: 32px;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.category-index-hero img {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.category-index-hero h1 {
+  margin: 0;
+  color: #333333;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.category-index-hero p {
+  margin: 2px 0 0;
+  color: #6b6b6b;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.category-index-hero-pink { background: #fde4ef; }
+.category-index-hero-green { background: #f1f8d3; }
+.category-index-hero-mint { background: #dff7f3; }
+.category-index-hero-blue { background: #dfe8fb; }
+.category-index-hero-yellow { background: #fff2cf; }
+.category-index-hero-peach { background: #fde4d7; }
+
+.category-index-grid {
+  row-gap: 32px;
+}
+
 .controls-heading {
   align-items: start;
 }
@@ -1580,6 +1639,40 @@ body.modal-open {
     border-radius: 18px;
   }
 
+  .category-index {
+    width: calc(100% - 32px);
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+
+  .category-index-hero {
+    min-height: 64px;
+    margin-bottom: 24px;
+    border-radius: 6px;
+    padding: 10px 16px;
+    gap: 12px;
+  }
+
+  .category-index-hero img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .category-index-hero h1 {
+    font-size: 18px;
+    line-height: 1.15;
+  }
+
+  .category-index-hero p {
+    font-size: 12px;
+  }
+
+  .category-index-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+    row-gap: 24px;
+  }
+
   .section {
     padding-block: 16px 32px;
     border-top: 1px solid var(--line);
@@ -1715,6 +1808,7 @@ body.modal-open {
   body.home-page #bestSellerGrid.product-grid,
   body.home-page #bundlingGrid.product-grid,
   body.home-page #subscriptionGrid.product-grid,
+  body.home-page #categoryIndexGrid.product-grid,
   body.home-page #productGrid.product-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }

@@ -6,7 +6,7 @@
     <meta name="description" content="Gerai Kompas, ecommerce pilihan produk harian, fashion, elektronik, kecantikan, dan kebutuhan rumah.">
     <title>Gerai Kompas</title>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="./styles.css?v=20260609-home-grid-4">
+    <link rel="stylesheet" href="./styles.css?v=20260610-category-index">
   </head>
   <body class="home-page">
     <header class="site-header">
@@ -104,6 +104,18 @@
           <button data-hero-dot="3" type="button" aria-label="Banner Bobo the Origin"></button>
           <button data-hero-dot="4" type="button" aria-label="Banner Pesta Bola"></button>
         </div>
+      </section>
+
+      <section class="category-index shell hidden" id="categoryIndex" aria-labelledby="categoryIndexTitle">
+        <div class="category-index-hero" id="categoryIndexHero">
+          <img id="categoryIndexImage" src="./assets/category-diskon.png" alt="">
+          <div>
+            <h1 id="categoryIndexTitle">Promo Spesial</h1>
+            <p id="categoryIndexSubtitle">Penawaran terbatas</p>
+          </div>
+        </div>
+        <div id="categoryIndexGrid" class="product-grid category-index-grid" aria-live="polite"></div>
+        <p id="categoryIndexEmpty" class="empty-state hidden">Produk belum tersedia untuk kategori ini.</p>
       </section>
 
       <section class="section shell" aria-labelledby="popularTitle">
@@ -240,7 +252,7 @@
       </div>
     </div>
 
-    <script src="./script.js?v=20260609-home-card-count"></script>
+    <script src="./script.js?v=20260610-category-index"></script>
     <script src="./avatar-menu.js"></script>
   </body>
 </html>
