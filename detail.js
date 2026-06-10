@@ -25,11 +25,15 @@ const detailProducts = [
     id: 3,
     type: "bundling",
     title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
-    startingPrice: true,
     price: 50000,
     image: "./assets/pesta-bola-general.png",
     typeLabel: "Tabloid",
-    typePills: ["Basic", "Bundling A", "Bundling B"],
+    typePills: ["Basic", "Bundling Plus", "Bundling Premium"],
+    pillVariants: [
+      { label: "Basic",        price: 50000,  oldPrice: null,   typeLabel: "Tabloid",       type: "physical", startingPrice: true },
+      { label: "Bundling Plus", price: 99000,  oldPrice: 125000, typeLabel: "Bundling Plus", type: "bundling" },
+      { label: "Bundling Premium", price: 475000, oldPrice: 750000, typeLabel: "Bundling Premium", type: "bundling" },
+    ],
     pillGallery: [
       null,
       "./assets/pestabola_basic.png",
@@ -277,8 +281,19 @@ const galleryDots = document.querySelector("#galleryDots");
 const productGallery = product.gallery || Array.from({ length: 4 }, () => product.image);
 let activeGalleryIndex = 0;
 
+// Active variant selected via pill (null = use base product price)
+let activeVariant = null;
+
 function unitPrice(product) {
-  return product.price || 0;
+  return (activeVariant?.price) || product.price || 0;
+}
+
+function getActiveOldPrice() {
+  return activeVariant?.oldPrice || product.oldPrice || 0;
+}
+
+function getActiveVariantLabel() {
+  return activeVariant?.label || null;
 }
 
 function updateTotalPrice() {
@@ -543,11 +558,11 @@ function addCurrentProductToCart() {
       id: product.id,
       type: productType,
       title: product.title,
-      variant: productCartVariant(product),
+      variant: getActiveVariantLabel() || productCartVariant(product),
       image: product.image,
       alt: product.title,
-      price: product.price || 0,
-      oldPrice: product.oldPrice || 0,
+      price: unitPrice(product),
+      oldPrice: getActiveOldPrice(),
       quantity,
     });
   }
@@ -705,19 +720,40 @@ if (product.typePills) {
     // No pill selected on load — remove 'selected' from all
     buttons.forEach(btn => btn.classList.remove("selected"));
 
-    // If product has pillGallery, clicking pill switches gallery image
-    if (product.pillGallery) {
-      buttons.forEach((btn, i) => {
-        btn.addEventListener("click", () => {
-          buttons.forEach(b => b.classList.remove("selected"));
-          btn.classList.add("selected");
-          const imgSrc = product.pillGallery[i + 1]; // index 0 = default (general)
-          if (imgSrc) {
-            setGalleryImage(i + 1); // gallery[0] = general, [1..3] = pill images
+    // Pill click: switch gallery + update price/type if pillVariants defined
+    buttons.forEach((btn, i) => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+
+        // Switch gallery image
+        if (product.pillGallery && product.pillGallery[i + 1]) {
+          setGalleryImage(i + 1);
+        }
+
+        // Update price block and type label if pillVariants defined
+        if (product.pillVariants && product.pillVariants[i]) {
+          const variant = product.pillVariants[i];
+          const priceBlock = document.querySelector("#detailPriceBlock");
+          if (priceBlock) {
+            const price = formatRupiah(variant.price);
+            const oldPrice = variant.oldPrice ? `<span>${formatRupiah(variant.oldPrice)}</span>` : "";
+            const discount = variant.oldPrice ? `<b>${Math.round((1 - variant.price / variant.oldPrice) * 100)}%</b>` : "";
+            const prefix = variant.startingPrice ? `<span class="price-prefix">Harga mulai</span>` : "";
+            priceBlock.innerHTML = `${prefix}<strong>${price}</strong>${oldPrice}${discount}`;
           }
-        });
+          // Update type label
+          const typeEl = document.querySelector("#detailProductTypeLabel");
+          if (typeEl) typeEl.textContent = variant.typeLabel || variant.label;
+          // Update total price display
+          const total = variant.price;
+          const totalEl = document.querySelector("#detailTotalPrice");
+          if (totalEl) totalEl.textContent = formatRupiah(total).replace(/^Rp/, "");
+          // Store active variant for cart/checkout
+          activeVariant = variant;
+        }
       });
-    }
+    });
   }
 }
 
@@ -781,42 +817,96 @@ function updateSheetSubtotal() {
 
 let sheetMode = "cart"; // "cart" | "buyNow"
 
+function syncSheetWithVariant(variant) {
+  // Sync price, image, type label in the sheet based on selected variant
+  const price = document.querySelector("#bsPrice");
+  const oldPrice = document.querySelector("#bsOldPrice");
+  const typeText = document.querySelector("#bsProductTypeText");
+  const img = document.querySelector("#bsProductImage");
+
+  const v = variant || { price: product.price, oldPrice: product.oldPrice };
+  if (price) price.textContent = formatRupiah(v.price);
+  if (oldPrice) oldPrice.textContent = v.oldPrice ? formatRupiah(v.oldPrice) : "";
+  if (typeText) typeText.textContent = (variant?.typeLabel) || productTypeLabel(productType);
+
+  // Update image: use pillGallery if variant matches a pill
+  if (variant && product.pillVariants && product.pillGallery) {
+    const vi = product.pillVariants.indexOf(variant);
+    const galleryImg = vi >= 0 ? product.pillGallery[vi + 1] : null;
+    if (galleryImg && img) { img.src = galleryImg; img.alt = product.title; }
+  }
+
+  // Update subtotal
+  const total = (variant?.price || product.price) * sheetQuantity;
+  if (bsSubtotal) bsSubtotal.textContent = formatRupiah(total);
+}
+
 function openBottomSheet(mode = "cart") {
   if (!addToCartSheet) return;
   sheetMode = mode;
   sheetQuantity = 1;
 
-  // Populate sheet
+  // Base product info
   const img = document.querySelector("#bsProductImage");
   const title = document.querySelector("#bsProductTitle");
-  const price = document.querySelector("#bsPrice");
-  const oldPrice = document.querySelector("#bsOldPrice");
-  const typeText = document.querySelector("#bsProductTypeText");
-  const typePill = document.querySelector("#bsTypePill");
 
   if (img) { img.src = product.image; img.alt = product.title; }
   if (title) title.textContent = product.title;
-  if (price) price.textContent = formatRupiah(product.price);
-  if (oldPrice) oldPrice.textContent = product.oldPrice ? formatRupiah(product.oldPrice) : "";
-  if (typeText) typeText.textContent = productTypeLabel(productType);
-  if (typePill) typePill.textContent = productTypeLabel(productType);
+
+  // Stock
   const stockEl = document.querySelector("#bsStock");
   if (stockEl) {
     const stockText = document.querySelector(".stock-summary span");
     const raw = stockText ? stockText.textContent.trim() : "";
-    // Normalize to "Stok sisa X barang" format
     const num = raw.match(/\d+/)?.[0];
     stockEl.textContent = num ? `Stok sisa ${num} barang` : raw;
   }
 
-  // Update CTA label based on mode
+  // Build pills from product.typePills if available
+  const pillsContainer = document.querySelector("#bsTypePillsContainer");
+  if (pillsContainer && product.typePills) {
+    // Replace pills
+    pillsContainer.innerHTML = product.typePills.map((label, i) =>
+      `<button class="type-pill${activeVariant === product.pillVariants?.[i] ? " selected" : ""}" type="button" data-bs-pill="${i}">${label}</button>`
+    ).join("");
+
+    // Add click handlers
+    pillsContainer.querySelectorAll("[data-bs-pill]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        pillsContainer.querySelectorAll(".type-pill").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        const i = Number(btn.dataset.bsPill);
+        const variant = product.pillVariants?.[i] || null;
+        activeVariant = variant;
+        syncSheetWithVariant(variant);
+
+        // Also sync detail page pill selection
+        const detailPills = document.querySelectorAll("#productTypePills .type-pill");
+        detailPills.forEach((b, di) => b.classList.toggle("selected", di === i));
+      });
+    });
+
+    // Update pill label for bsTypePill (keep for legacy reference)
+    const bsTypeTextEl = document.querySelector("#bsProductTypeText");
+    if (bsTypeTextEl) bsTypeTextEl.textContent = (activeVariant?.typeLabel) || productTypeLabel(productType);
+  } else {
+    // Fallback: single pill
+    const typePill = document.querySelector("#bsTypePill");
+    const typeText = document.querySelector("#bsProductTypeText");
+    if (typeText) typeText.textContent = productTypeLabel(productType);
+    if (typePill) typePill.textContent = productTypeLabel(productType);
+  }
+
+  // Sync price/image with current activeVariant
+  syncSheetWithVariant(activeVariant);
+
+  // CTA label
   if (bsAddToCart) {
     bsAddToCart.innerHTML = mode === "buyNow"
       ? '<i class="ph ph-shopping-bag" aria-hidden="true"></i> Beli Sekarang'
       : '<i class="ph ph-shopping-cart-simple" aria-hidden="true"></i> Tambah ke Keranjang';
   }
 
-  updateSheetSubtotal();
   addToCartSheet.hidden = false;
   document.body.classList.add("modal-open");
   requestAnimationFrame(() => addToCartSheet.classList.add("bs-open"));

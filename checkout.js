@@ -278,7 +278,7 @@ function updateDetailState() {
 function updateCheckoutState() {
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
   const selectedShipping = document.querySelector('input[name="shipping"]:checked');
-  const shippingCost = selectedShipping ? Number(selectedShipping.value) : (hasShippingAddress ? defaultShippingCost : 0);
+  const shippingCost = selectedShipping ? Number(selectedShipping.value) : 0;
 
   // Auto mode: apply voucher discount; once mode: full price, no voucher
   const isAuto = activePaymentMode === "auto";

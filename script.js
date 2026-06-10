@@ -46,7 +46,7 @@ const categories = [
 const products = [
   { id: 1,  type: "bundling", title: "Bundling #DemamBola Tabloid Soccer dan Kompas.id", category: "All", price: 95000, oldPrice: null, image: "./assets/product-demam-bola.jpg" },
   { id: 2,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 175000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
-  { id: 3,  type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", startingPrice: true, price: 50000, oldPrice: null, image: "./assets/pesta-bola-general.png" },
+  { id: 3,  type: "bundling", title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium", category: "All", price: 50000, oldPrice: null, image: "./assets/pesta-bola-general.png" },
   { id: 4,  type: "bundling", title: "Paket Bundling Eksklusif: Bobo the Origin x Kompas.id & e-Magazine Bobo Reguler", category: "All", price: 149000, oldPrice: 229000, image: "./assets/thumb-banner-utama.png" },
   { id: 5,  type: "digital",  title: "Kompas Digital Premium", category: "All", startingPrice: true, price: 20000, oldPrice: null, image: "./assets/Kompas-id-langganan.png" },
   { id: 6,  type: "physical", title: "Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026", category: "All", price: 50000, oldPrice: null, image: "./assets/product-pesta-bola.jpg" },
