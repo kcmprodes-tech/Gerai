@@ -27,10 +27,10 @@ const detailProducts = [
     title: "Bundling Pesta Bola: Tabloid Bola by Kompas Edisi Pesta Bola Amerika 2026 + Akses Kompas Digital Premium",
     price: 50000,
     image: "./assets/pesta-bola-general.png",
-    typeLabel: "Tabloid",
+    typeLabel: "Basic",
     typePills: ["Basic", "Bundling Plus", "Bundling Premium"],
     pillVariants: [
-      { label: "Basic",        price: 50000,  oldPrice: null,   typeLabel: "Tabloid",       type: "physical", startingPrice: true },
+      { label: "Basic",        price: 50000,  oldPrice: null,   typeLabel: "Basic",       type: "physical", startingPrice: true },
       { label: "Bundling Plus", price: 99000,  oldPrice: 125000, typeLabel: "Bundling Plus", type: "bundling" },
       { label: "Bundling Premium", price: 475000, oldPrice: 750000, typeLabel: "Bundling Premium", type: "bundling" },
     ],
@@ -570,18 +570,31 @@ function addCurrentProductToCart() {
 }
 
 function saveCurrentProductForCheckout() {
+  // Get active variant data (if a pill was selected)
+  const variantPrice = unitPrice(product);
+  const variantOldPrice = getActiveOldPrice();
+  const variantLabel = getActiveVariantLabel() || productCartVariant(product);
+  const variantType = activeVariant?.type || productType;
+
+  // Get correct gallery image for selected variant
+  let variantImage = product.image;
+  if (activeVariant && product.pillVariants && product.pillGallery) {
+    const vi = product.pillVariants.indexOf(activeVariant);
+    if (vi >= 0 && product.pillGallery[vi + 1]) variantImage = product.pillGallery[vi + 1];
+  }
+
   setStoredValue(
     getAccountKey("geraiCheckoutItems"),
     JSON.stringify([
       {
         id: product.id,
-        type: productType,
+        type: variantType,
         title: product.title,
-        variant: productCartVariant(product),
-        image: product.image,
+        variant: variantLabel,
+        image: variantImage,
         alt: product.title,
-        price: product.price || 0,
-        oldPrice: product.oldPrice || 0,
+        price: variantPrice,
+        oldPrice: variantOldPrice,
         quantity,
       },
     ])
@@ -739,7 +752,7 @@ if (product.typePills) {
             const price = formatRupiah(variant.price);
             const oldPrice = variant.oldPrice ? `<span>${formatRupiah(variant.oldPrice)}</span>` : "";
             const discount = variant.oldPrice ? `<b>${Math.round((1 - variant.price / variant.oldPrice) * 100)}%</b>` : "";
-            const prefix = variant.startingPrice ? `<span class="price-prefix">Harga mulai</span>` : "";
+            const prefix = "";
             priceBlock.innerHTML = `${prefix}<strong>${price}</strong>${oldPrice}${discount}`;
           }
           // Update type label
@@ -949,18 +962,27 @@ if (bsQtyPlus) {
 if (bsAddToCart) {
   bsAddToCart.addEventListener("click", () => {
     if (sheetMode === "buyNow") {
-      // Save product for checkout with sheet quantity
+      // Resolve variant-aware data
+      const bsType = activeVariant?.type || productType;
+      const bsVariant = getActiveVariantLabel() || productCartVariant(product);
+      const bsPrice = unitPrice(product);
+      const bsOldPrice = getActiveOldPrice();
+      let bsImage = product.image;
+      if (activeVariant && product.pillVariants && product.pillGallery) {
+        const vi = product.pillVariants.indexOf(activeVariant);
+        if (vi >= 0 && product.pillGallery[vi + 1]) bsImage = product.pillGallery[vi + 1];
+      }
       setStoredValue(
         getAccountKey("geraiCheckoutItems"),
         JSON.stringify([{
           id: product.id,
-          type: productType,
+          type: bsType,
           title: product.title,
-          variant: productCartVariant(product),
-          image: product.image,
+          variant: bsVariant,
+          image: bsImage,
           alt: product.title,
-          price: product.price || 0,
-          oldPrice: product.oldPrice || 0,
+          price: bsPrice,
+          oldPrice: bsOldPrice,
           quantity: sheetQuantity,
         }])
       );

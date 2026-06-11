@@ -3028,8 +3028,8 @@ body.modal-open {
   }
 
   .bundling-product-page .price-block::before {
-    content: "Harga mulai";
-    display: block;
+    content: "Harga";
+    display: none;
     margin-bottom: 0;
     color: #667085;
     font-size: 12px;
@@ -3770,6 +3770,24 @@ body.modal-open {
     color: #344054;
   }
 
+  /* Price info paragraphs after list (harga spesial...) */
+  .desc-extra ul + p {
+    padding-top: 16px;
+    margin: 0;
+  }
+
+  /* Section headings (Basic) get 16px top spacing */
+  .desc-expandable > p:has(strong) {
+    padding-top: 16px;
+    margin: 0;
+  }
+
+  /* Section headings (Bundling Plus, Bundling Premium) get 24px top spacing */
+  .desc-extra > p:has(strong) {
+    padding-top: 24px;
+    margin: 0;
+  }
+
   /* Remove bottom margin from last visible paragraph before expand button */
   .desc-expandable > p:last-of-type {
     margin-bottom: 0;
@@ -3780,6 +3798,7 @@ body.modal-open {
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    padding-bottom: 32px;
     border: 0;
     background: transparent;
     color: var(--blue);

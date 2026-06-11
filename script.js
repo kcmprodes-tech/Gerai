@@ -151,7 +151,7 @@ function productCardTemplate(product) {
             <span>${rating.toFixed(1)} (${compactNumber(reviews)})</span>
           </div>
           <div class="price-row">
-            ${product.startingPrice ? `<span class="price-prefix">Harga mulai</span>` : ""}
+            
             <strong class="price">${money(product.price)}</strong>
             ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
           </div>

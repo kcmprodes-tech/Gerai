@@ -387,16 +387,9 @@ function updateCardFormState() {
 function openPaymentModal() {
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
   if (payButton.disabled || !selectedPayment) return;
-  if (selectedPayment.value !== "credit-card") {
-    showSuccessModal();
-    return;
-  }
-  try {
-    sessionStorage.setItem("geraiPaymentTotal", String(currentGrandTotal));
-  } catch (error) {
-    window.name = JSON.stringify({ geraiPaymentTotal: String(currentGrandTotal) });
-  }
-  window.location.href = `./payment-cc.html?total=${currentGrandTotal}`;
+  // All payment methods go directly to order-success page
+  showSuccessModal();
+  window.location.href = "./order-success.html";
 }
 
 function syncSubscriptionEmail() {
